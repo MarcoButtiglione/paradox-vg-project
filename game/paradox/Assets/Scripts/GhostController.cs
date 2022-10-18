@@ -24,7 +24,7 @@ public class GhostController : MonoBehaviour
 
                 if (Vector2.Distance(new Vector2(transform.position.x, transform.position.y), new Vector2(father.getPositions()[index].x, father.getPositions()[index].y)) > 0.5)
                 {
-                    stopCycle();
+                    stopCycle(index);
                 }
 
                 controller.Move(father.getInputs()[index].getHorizontal() * Time.fixedDeltaTime, father.getInputs()[index].getCrouch(), father.getInputs()[index].getJump());
@@ -32,16 +32,16 @@ public class GhostController : MonoBehaviour
             }
             else
             {
-                stopCycle();
+                stopCycle(index);
             }
         }
 
     }
     private void OnTriggerEnter2D(Collider2D col){
         if(col.CompareTag("Old")){
-            this.gameObject.SetActive(false);
+            //this.gameObject.SetActive(false);
             Debug.Log("Detected");
-            stopCycle();
+            stopCycle(index);
         }
     }
 
@@ -61,9 +61,9 @@ public class GhostController : MonoBehaviour
 
     }
     
-    public void stopCycle()
+    public void stopCycle(int index)
     {
-        father.StopRewind();
+        father.StopRewind(index);
         index = 0;
         rewind = false;
         OnPlayerDeath?.Invoke();

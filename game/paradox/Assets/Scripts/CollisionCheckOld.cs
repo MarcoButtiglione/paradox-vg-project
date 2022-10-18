@@ -14,7 +14,7 @@ private void Awake()
     }
    private void OnTriggerEnter2D(Collider2D col){
         if(col.CompareTag("Ghost")){
-            this.gameObject.SetActive(false);
+            //this.gameObject.SetActive(false);
             Debug.Log("Detected");
             OnPlayerDeath?.Invoke();
         }
