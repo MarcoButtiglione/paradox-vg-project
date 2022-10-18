@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,7 +6,7 @@ using UnityEngine;
 public class GhostController : MonoBehaviour
 {
 
-
+    public static event Action OnPlayerDeath;
     public CharacterController2D controller;
     private int index = 0;
     private TimeBody father;
@@ -36,7 +37,13 @@ public class GhostController : MonoBehaviour
         }
 
     }
-
+    private void OnTriggerEnter2D(Collider2D col){
+        if(col.CompareTag("Old")){
+            this.gameObject.SetActive(false);
+            Debug.Log("Detected");
+            stopCycle();
+        }
+    }
 
     public void setFather(TimeBody father)
     {
@@ -53,11 +60,13 @@ public class GhostController : MonoBehaviour
         rewind = true;
 
     }
+    
     public void stopCycle()
     {
         father.StopRewind();
         index = 0;
         rewind = false;
+        OnPlayerDeath?.Invoke();
     }
 
 }

@@ -1,11 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class CollisionCheckOld : MonoBehaviour
 {
-
-private Rigidbody2D _rigidbody;
+    public static event Action OnPlayerDeath;
+    private Rigidbody2D _rigidbody;
 
 private void Awake()
     {  
@@ -15,6 +16,7 @@ private void Awake()
         if(col.CompareTag("Ghost")){
             this.gameObject.SetActive(false);
             Debug.Log("Detected");
+            OnPlayerDeath?.Invoke();
         }
     }
 }
