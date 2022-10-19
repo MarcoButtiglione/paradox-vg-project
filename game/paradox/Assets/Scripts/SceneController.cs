@@ -32,9 +32,11 @@ public class SceneController : MonoBehaviour
     //public static event Action OnPlayerDeath; ATTENTION Let's see when tu use
 
     private bool jump = false;
-    private bool first_part_ended = false;
+    private bool firstPartEnded = false;
     private bool isRewinding = false;
+    private bool firstIteration = true;
     private int index = 0;
+    
 
 
 
@@ -63,25 +65,15 @@ public class SceneController : MonoBehaviour
 
     void FixedUpdate()
     {
-        /*
-        
-        
-        
-        */
-
-
-
-
         //START OF THE SECOND PART OF LEVEL
         if (isRewinding)
         {
-            first_part_ended = true;
             positions_old_p.Insert(positions_old_p.Count, Old_Player.transform.position);
             MoveGhost();
         }
         else
         {   //FIRST PART OF THE LEVEL WITH YOUNG PLAYER
-            if (!first_part_ended)
+            if (!firstPartEnded)
             {
                 Record();
             }
@@ -90,12 +82,14 @@ public class SceneController : MonoBehaviour
                 //PART IN WHICH WE REWIND AND THEN RESTART
                 if (index >= 0)
                 {
+                    if(firstIteration){
+                    Old_Player.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+                    }
                     RestartOldAndGhost();
                 }
                 else
                 { //HERE WE SHOULD RESTART THE LOOP IF POSSIBLE, IN ANY CASE RELOOP IS DONE 
                     //OnPlayerDeath?.Invoke(); 
-                    index = 0;
                     RepeatRewind();
                 }
             }
@@ -127,7 +121,7 @@ public class SceneController : MonoBehaviour
     public void RestartRewind()
     {
         isRewinding = false;
-        Debug.Log("RestartRwind");
+        firstPartEnded = true;
     }
 
     void setInputs()
@@ -141,8 +135,9 @@ public class SceneController : MonoBehaviour
     public void RestartOldAndGhost()
     {
         index--;
-        GhostPrefab.transform.position = positions_young_p[index];
         Old_Player.transform.position = positions_old_p[index];
+        GhostPrefab.SetActive(false);
+        Debug.Log(index);
     }
     public void MoveGhost()
     {
@@ -158,6 +153,7 @@ public class SceneController : MonoBehaviour
 
             GhostPrefab.GetComponent<CharacterController2D>().Move(inputs[index].getHorizontal() * Time.fixedDeltaTime, inputs[index].getCrouch(), inputs[index].getJump());
             index++;
+            Debug.Log(index);
         }
         else
         {
@@ -167,10 +163,11 @@ public class SceneController : MonoBehaviour
     }
     public void RepeatRewind()
     {
-        
-        GhostPrefab.SetActive(false);
+        index = 0;
         positions_old_p = new List<Vector3>();
         isRewinding = true;
+        firstIteration = true;
+        Old_Player.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
         GhostPrefab.transform.position = positions_young_p[0];
         GhostPrefab.SetActive(true);
 
