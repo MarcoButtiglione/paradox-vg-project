@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //The script that should manage the level
-//It records the movement of the player and make the objectsa
+//It records the movement of the player and make the objects appear and
 //Disappear when needed
 
 public class SceneController : MonoBehaviour
 {
 
-    private bool isRewinding = false;
+
     public GameObject GhostPrefab;
     public GameObject Old_Player;
     public GameObject Young_Player;
@@ -33,7 +33,8 @@ public class SceneController : MonoBehaviour
 
     private bool jump = false;
     private bool first_part_ended = false;
-    private int index;
+    private bool isRewinding = false;
+    private int index = 0;
 
 
 
@@ -46,7 +47,6 @@ public class SceneController : MonoBehaviour
         GhostPrefab.GetComponent<GhostController>().setFather(this);
         Old_Player.SetActive(false);
         toTrack = Young_Player.GetComponent<PlayerMovement>();
-        index = 0;
 
     }
 
@@ -63,9 +63,19 @@ public class SceneController : MonoBehaviour
 
     void FixedUpdate()
     {
+        /*
+        
+        
+        
+        */
+
+
+
+
         //START OF THE SECOND PART OF LEVEL
         if (isRewinding)
         {
+            first_part_ended = true;
             positions_old_p.Insert(positions_old_p.Count, Old_Player.transform.position);
             MoveGhost();
         }
@@ -78,18 +88,15 @@ public class SceneController : MonoBehaviour
             else
             {
                 //PART IN WHICH WE REWIND AND THEN RESTART
-                if (index > 0)
+                if (index >= 0)
                 {
                     RestartOldAndGhost();
                 }
                 else
                 { //HERE WE SHOULD RESTART THE LOOP IF POSSIBLE, IN ANY CASE RELOOP IS DONE 
                     //OnPlayerDeath?.Invoke(); 
-
-                    positions_old_p = new List<Vector3>();
-                    isRewinding = true;
-                    GhostPrefab.transform.position = positions_young_p[0];
-                    
+                    index = 0;
+                    RepeatRewind();
                 }
             }
         }
@@ -117,11 +124,10 @@ public class SceneController : MonoBehaviour
 
     //When the loop has finished, we can reset the values and make the object reappear or disappear
     //according to the needs
-    public void RepeatRewind()
+    public void RestartRewind()
     {
         isRewinding = false;
-        first_part_ended = true;
-
+        Debug.Log("RestartRwind");
     }
 
     void setInputs()
@@ -131,14 +137,7 @@ public class SceneController : MonoBehaviour
         inputs.Insert(inputs.Count, structInputs);
     }
 
-    public List<Vector3> getPositions()
-    {
-        return positions_young_p;
-    }
-    public List<TypeOfInputs> getInputs()
-    {
-        return inputs; ;
-    }
+
     public void RestartOldAndGhost()
     {
         index--;
@@ -152,16 +151,29 @@ public class SceneController : MonoBehaviour
 
             if (Vector2.Distance(new Vector2(GhostPrefab.transform.position.x, GhostPrefab.transform.position.y), new Vector2(positions_young_p[index].x, positions_young_p[index].y)) > 0.5)
             {
-                RepeatRewind();
+                //PARADOX
+                RestartRewind();
             }
+
 
             GhostPrefab.GetComponent<CharacterController2D>().Move(inputs[index].getHorizontal() * Time.fixedDeltaTime, inputs[index].getCrouch(), inputs[index].getJump());
             index++;
         }
         else
         {
-            RepeatRewind(); //In future will be level wone probably
+
+            RestartRewind(); //In future will be level wone probably
         }
+    }
+    public void RepeatRewind()
+    {
+        
+        GhostPrefab.SetActive(false);
+        positions_old_p = new List<Vector3>();
+        isRewinding = true;
+        GhostPrefab.transform.position = positions_young_p[0];
+        GhostPrefab.SetActive(true);
+
     }
 
 

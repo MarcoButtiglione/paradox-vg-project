@@ -11,7 +11,7 @@ public class GhostController : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D col){
         if(col.CompareTag("Old")){
-            father.RepeatRewind();
+            father.RestartRewind();
         }
     }
 
