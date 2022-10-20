@@ -15,6 +15,7 @@ public class SceneController : MonoBehaviour
     public GameObject Old_Player;
     public GameObject Young_Player;
     public GameObject Disappearing_Platform;
+    public GameObject ReplayButton;
 
 
     //ATTENTION!!! 
@@ -47,15 +48,17 @@ public class SceneController : MonoBehaviour
         GhostPrefab.SetActive(false);
         GhostPrefab = Instantiate(GhostPrefab, transform.position, Quaternion.identity);
         GhostPrefab.GetComponent<GhostController>().setFather(this);
+        Young_Player.GetComponent<CollisionCheckYoung>().setFather(this);
         Old_Player.SetActive(false);
+        ReplayButton.SetActive(false);
         toTrack = Young_Player.GetComponent<PlayerMovement>();
 
     }
 
     void Update()
     {
-        if (Input.GetKey(KeyCode.Return))
-            StartRewind();
+        //if (Input.GetKey(KeyCode.Return))
+            //StartRewind();
 
         jump = toTrack.getJump();
 
@@ -137,7 +140,8 @@ public class SceneController : MonoBehaviour
         index--;
         Old_Player.transform.position = positions_old_p[index];
         GhostPrefab.SetActive(false);
-        Debug.Log(index);
+        ReplayButton.SetActive(!ReplayButton.activeSelf);
+        
     }
     public void MoveGhost()
     {
@@ -153,7 +157,6 @@ public class SceneController : MonoBehaviour
 
             GhostPrefab.GetComponent<CharacterController2D>().Move(inputs[index].getHorizontal() * Time.fixedDeltaTime, inputs[index].getCrouch(), inputs[index].getJump());
             index++;
-            Debug.Log(index);
         }
         else
         {
@@ -170,6 +173,7 @@ public class SceneController : MonoBehaviour
         Old_Player.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
         GhostPrefab.transform.position = positions_young_p[0];
         GhostPrefab.SetActive(true);
+        ReplayButton.SetActive(false);
 
     }
 
