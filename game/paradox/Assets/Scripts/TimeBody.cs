@@ -15,7 +15,7 @@ public class TimeBody : MonoBehaviour
     public GameObject GhostPrefab;
     public GameObject Old_Player;
     public GameObject Young_Player;
-    public GameObject Disappearing_Platform;
+    public GameObject ActivatingPlatform;
 
 
     //ATTENTION!!! 
@@ -41,6 +41,7 @@ public class TimeBody : MonoBehaviour
         GhostPrefab.GetComponent<GhostController>().setFather(this);
         Old_Player.SetActive(false);
         toTrack = Young_Player.GetComponent<PlayerMovement>();
+        ActivatingPlatform = GameObject.Find("ActivatingPlatform");
     }
 
     void Update()
@@ -81,7 +82,7 @@ public class TimeBody : MonoBehaviour
         isRewinding = true;
         Old_Player.SetActive(true);
         Young_Player.SetActive(false);
-        Disappearing_Platform.SetActive(false);
+        ActivatingPlatform.SetActive(false);
     }
 
     //When the loop has finished, we can reset the values and make the object reappear or disappear
@@ -90,7 +91,7 @@ public class TimeBody : MonoBehaviour
     {
         isRewinding = false;
         GhostPrefab.SetActive(false);
-        Disappearing_Platform.SetActive(true);
+        ActivatingPlatform.SetActive(true);
     }
 
     void setInputs()
