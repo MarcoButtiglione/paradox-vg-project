@@ -90,7 +90,7 @@ public class SceneController : MonoBehaviour
                     if (firstIteration)
                     {
                         Old_Player.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
-                        Camera.GetComponent<CameraShakeScript>().changeShake();
+                        Camera.GetComponent<CameraShakeScript>().setShakeTrue();
 
                     }
                     RestartOldAndGhost();
@@ -178,7 +178,7 @@ public class SceneController : MonoBehaviour
         GhostPrefab.transform.position = positions_young_p[0];
         GhostPrefab.SetActive(true);
         ReplayButton.SetActive(false);
-        Camera.GetComponent<CameraShakeScript>().changeShake();
+        Camera.GetComponent<CameraShakeScript>().setShakeFalse();
 
     }
 

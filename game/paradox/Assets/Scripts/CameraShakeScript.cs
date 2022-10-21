@@ -32,9 +32,6 @@ public class CameraShakeScript : MonoBehaviour
 
     private void CameraShake()
     {
-        //This moves the camera position to the random point chosen within the circle around the camera.
-        //NB:Our Random.insideUnitSphere selects a random position every frame because of GetKey
-        //which is called every frame, and that causes the shaking.
         cameraTransform.position = _orignalPosOfCam + Random.insideUnitSphere * shakeFrequency;
     }
 
@@ -43,7 +40,12 @@ public class CameraShakeScript : MonoBehaviour
         //Return the camera to it's original position.
         cameraTransform.position = _orignalPosOfCam;
     }
-    public void changeShake(){
-        shake = !shake;
+    
+    public void setShakeTrue(){
+        shake = true;
     }
+    public void setShakeFalse(){
+        shake = false;
+    }
+
 }
