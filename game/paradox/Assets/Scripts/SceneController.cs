@@ -16,6 +16,8 @@ public class SceneController : MonoBehaviour
     public GameObject Young_Player;
     public GameObject Disappearing_Platform;
     public GameObject ReplayButton;
+    public GameObject Camera;
+    public GameObject EndLevel;
 
 
     //ATTENTION!!! 
@@ -37,7 +39,7 @@ public class SceneController : MonoBehaviour
     private bool isRewinding = false;
     private bool firstIteration = true;
     private int index = 0;
-    
+
 
 
 
@@ -48,7 +50,7 @@ public class SceneController : MonoBehaviour
         GhostPrefab.SetActive(false);
         GhostPrefab = Instantiate(GhostPrefab, transform.position, Quaternion.identity);
         GhostPrefab.GetComponent<GhostController>().setFather(this);
-        Young_Player.GetComponent<CollisionCheckYoung>().setFather(this);
+        EndLevel.GetComponent<CollisionCheckEndLevel>().setFather(this);
         Old_Player.SetActive(false);
         ReplayButton.SetActive(false);
         toTrack = Young_Player.GetComponent<PlayerMovement>();
@@ -58,7 +60,7 @@ public class SceneController : MonoBehaviour
     void Update()
     {
         //if (Input.GetKey(KeyCode.Return))
-            //StartRewind();
+        //StartRewind();
 
         jump = toTrack.getJump();
 
@@ -83,10 +85,13 @@ public class SceneController : MonoBehaviour
             else
             {
                 //PART IN WHICH WE REWIND AND THEN RESTART
-                if (index >= 0)
+                if (index > 0)
                 {
-                    if(firstIteration){
-                    Old_Player.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+                    if (firstIteration)
+                    {
+                        Old_Player.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+                        Camera.GetComponent<CameraShakeScript>().changeShake();
+
                     }
                     RestartOldAndGhost();
                 }
@@ -141,7 +146,6 @@ public class SceneController : MonoBehaviour
         Old_Player.transform.position = positions_old_p[index];
         GhostPrefab.SetActive(false);
         ReplayButton.SetActive(!ReplayButton.activeSelf);
-        
     }
     public void MoveGhost()
     {
@@ -174,6 +178,7 @@ public class SceneController : MonoBehaviour
         GhostPrefab.transform.position = positions_young_p[0];
         GhostPrefab.SetActive(true);
         ReplayButton.SetActive(false);
+        Camera.GetComponent<CameraShakeScript>().changeShake();
 
     }
 
