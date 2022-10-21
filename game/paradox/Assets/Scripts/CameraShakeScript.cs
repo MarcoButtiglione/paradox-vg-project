@@ -43,7 +43,12 @@ public class CameraShakeScript : MonoBehaviour
         //Return the camera to it's original position.
         cameraTransform.position = _orignalPosOfCam;
     }
-    public void changeShake(){
-        shake = !shake;
+    
+    public void setShakeTrue(){
+        shake = true;
     }
+    public void setShakeFalse(){
+        shake = false;
+    }
+
 }
