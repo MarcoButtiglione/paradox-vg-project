@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CollisionCheckEndLevel : MonoBehaviour
 {
@@ -17,7 +18,7 @@ private void Awake()
             father.StartRewind();
         }
         if(col.CompareTag("Ghost")){
-            //TODO
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }
     public void setFather(SceneController father){
