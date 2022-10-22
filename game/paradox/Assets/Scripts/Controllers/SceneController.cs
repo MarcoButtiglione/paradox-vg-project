@@ -38,7 +38,9 @@ public class SceneController : MonoBehaviour
     private bool firstPartEnded = false;
     private bool isRewinding = false;
     private bool firstIteration = true;
-    private int index = 0;
+    private int index;
+    private int _reloadSpeed;
+    public int parameterToSetReloadSpeed = 40;
 
 
     //FOR TRAP TRIGGER
@@ -58,7 +60,8 @@ public class SceneController : MonoBehaviour
         Old_Player.SetActive(false);
         ReplayButton.SetActive(false);
         toTrack = Young_Player.GetComponent<PlayerMovement>();
-
+        parameterToSetReloadSpeed = 40;
+        index = 0;
     }
 
     void Update()
@@ -93,6 +96,7 @@ public class SceneController : MonoBehaviour
                 {
                     if (firstIteration)
                     {
+                        _reloadSpeed = index / parameterToSetReloadSpeed;
                         Old_Player.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
                         Camera.GetComponent<CameraShakeScript>().setShakeTrue();
 
@@ -146,7 +150,18 @@ public class SceneController : MonoBehaviour
 
     public void RestartOldAndGhost()
     {
-        index--;
+        if (_reloadSpeed > 0 && index - _reloadSpeed > 0)
+        {
+            index = index - _reloadSpeed;
+        }
+        else if (index - 1 > 0)
+        {
+            index--;
+        }
+        else
+        {
+            index = 0;
+        }
         Old_Player.transform.position = positions_old_p[index];
         GhostPrefab.SetActive(false);
         ReplayButton.SetActive(!ReplayButton.activeSelf);
