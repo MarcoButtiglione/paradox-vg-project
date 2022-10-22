@@ -10,14 +10,14 @@ public class GameOver : MonoBehaviour
 
     private void OnEnable()
     {
-        GhostController.OnPlayerDeath += EnableGameOverMenu;
-        CollisionCheckOld.OnPlayerDeath += EnableGameOverMenu;
+        //SceneController.OnPlayerDeath += EnableGameOverMenu;
+        //CollisionCheckOld.OnPlayerDeath += EnableGameOverMenu;
     }
 
     private void OnDisable()
     {
-        CollisionCheckOld.OnPlayerDeath -= EnableGameOverMenu;
-        GhostController.OnPlayerDeath -= EnableGameOverMenu;
+        //CollisionCheckOld.OnPlayerDeath -= EnableGameOverMenu;
+        //SceneController.OnPlayerDeath -= EnableGameOverMenu;
     }
 
     public void EnableGameOverMenu()
