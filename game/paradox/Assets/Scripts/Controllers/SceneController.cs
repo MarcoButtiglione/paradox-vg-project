@@ -18,6 +18,7 @@ public class SceneController : MonoBehaviour
     public GameObject ReplayButton;
     public GameObject Camera;
     public GameObject EndLevel;
+    public GameObject DeathLine;
 
 
     //ATTENTION!!! 
@@ -61,7 +62,12 @@ public class SceneController : MonoBehaviour
         ReplayButton.SetActive(false);
         toTrack = Young_Player.GetComponent<PlayerMovement>();
         parameterToSetReloadSpeed = 40;
-        index = 0;
+        index = 0; 
+        foreach (CollisionCheckDeathLine line in DeathLine.GetComponentsInChildren<CollisionCheckDeathLine>())
+        {
+            line.setFather(this);
+        } 
+
     }
 
     void Update()
