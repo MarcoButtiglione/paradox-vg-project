@@ -41,7 +41,11 @@ public class SceneController : MonoBehaviour
     private int index = 0;
 
 
-
+    //FOR TRAP TRIGGER
+    private void OnEnable()
+    {
+        CollisionCheckTrap.OnPlayerDeath += RestartRewind;
+    }
 
     void Start()
     {
@@ -119,7 +123,7 @@ public class SceneController : MonoBehaviour
         isRewinding = true;
         Old_Player.SetActive(true);
         Young_Player.SetActive(false);
-        //Disappearing_Platform.SetActive(false);
+        Disappearing_Platform.SetActive(false);
         GhostPrefab.transform.position = positions_young_p[0];
         GhostPrefab.SetActive(true);
     }

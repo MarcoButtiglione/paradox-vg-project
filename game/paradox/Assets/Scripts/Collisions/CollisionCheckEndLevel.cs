@@ -17,7 +17,11 @@ private void Awake()
         if(col.CompareTag("Young")){
             father.StartRewind();
         }
-        if(col.CompareTag("Ghost")){
+        else if(col.CompareTag("Ghost") && SceneManager.GetActiveScene().buildIndex == SceneManager.sceneCountInBuildSettings - 1)
+        {
+            SceneManager.LoadScene("Menu");
+        }
+        else if(col.CompareTag("Ghost")){
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }
