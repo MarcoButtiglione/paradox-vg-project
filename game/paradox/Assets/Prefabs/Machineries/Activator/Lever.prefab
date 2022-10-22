@@ -94,7 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 952683269409537303}
   - component: {fileID: 952683269409537302}
-  - component: {fileID: 952683269409537305}
+  - component: {fileID: 7475241327451661131}
   m_Layer: 0
   m_Name: Lever
   m_TagString: Untagged
@@ -146,7 +146,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 0.4}
   m_EdgeRadius: 0
---- !u!114 &952683269409537305
+--- !u!114 &7475241327451661131
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -155,11 +155,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 952683269007618703}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79babe2a4d715f94c90e298574e6489e, type: 3}
+  m_Script: {fileID: 11500000, guid: ffcb42ee9c6ac0b4ca01e41671813603, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _isActive: 0
   stick: {fileID: 952683268836986442}
+  _objToActivate: []
 --- !u!1 &952683270196751196
 GameObject:
   m_ObjectHideFlags: 0
@@ -251,6 +252,38 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 952683269409537303}
     m_Modifications:
+    - target: {fileID: -2768044581302331315, guid: 66d39aabedfdf2443b9677671b9682b3, type: 3}
+      propertyPath: interactKey
+      value: 101
+      objectReference: {fileID: 0}
+    - target: {fileID: -2768044581302331315, guid: 66d39aabedfdf2443b9677671b9682b3, type: 3}
+      propertyPath: interactAction.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -2768044581302331315, guid: 66d39aabedfdf2443b9677671b9682b3, type: 3}
+      propertyPath: interactAction.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -2768044581302331315, guid: 66d39aabedfdf2443b9677671b9682b3, type: 3}
+      propertyPath: interactAction.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 7475241327451661131}
+    - target: {fileID: -2768044581302331315, guid: 66d39aabedfdf2443b9677671b9682b3, type: 3}
+      propertyPath: interactAction.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -2768044581302331315, guid: 66d39aabedfdf2443b9677671b9682b3, type: 3}
+      propertyPath: interactAction.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: TriggerLever
+      objectReference: {fileID: 0}
+    - target: {fileID: -2768044581302331315, guid: 66d39aabedfdf2443b9677671b9682b3, type: 3}
+      propertyPath: interactAction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LeverController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: -2768044581302331315, guid: 66d39aabedfdf2443b9677671b9682b3, type: 3}
+      propertyPath: interactAction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 1192535556945387864, guid: 66d39aabedfdf2443b9677671b9682b3, type: 3}
       propertyPath: m_Name
       value: InteractableBox
@@ -322,7 +355,7 @@ PrefabInstance:
     - target: {fileID: 4761975939700585410, guid: 66d39aabedfdf2443b9677671b9682b3, type: 3}
       propertyPath: interactAction.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 952683269409537305}
+      objectReference: {fileID: 0}
     - target: {fileID: 4761975939700585410, guid: 66d39aabedfdf2443b9677671b9682b3, type: 3}
       propertyPath: interactAction.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 

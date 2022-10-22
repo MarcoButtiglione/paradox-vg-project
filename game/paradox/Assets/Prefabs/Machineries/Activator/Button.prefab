@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2209172702644385111}
   - component: {fileID: 2209172702644385108}
-  - component: {fileID: 2209172702644385110}
+  - component: {fileID: 4516440480028642758}
   m_Layer: 0
   m_Name: Button
   m_TagString: Untagged
@@ -86,7 +86,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2209172702644385110
+--- !u!114 &4516440480028642758
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -95,12 +95,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2209172702644385109}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0ddb5ecd1a2dfd40a32c7cd206de159, type: 3}
+  m_Script: {fileID: 11500000, guid: b06cdd27f601a7442b39a229f640905f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _isActive: 0
-  _timer: 6
-  _objToActivate: {fileID: 0}
+  _timer: 1
+  _objToActivate: []
 --- !u!1001 &2209172701454036373
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -108,6 +108,38 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2209172702644385111}
     m_Modifications:
+    - target: {fileID: 67171599022403263, guid: 52a222b94196a2c4fb961f8f7d11e28c, type: 3}
+      propertyPath: interactKey
+      value: 101
+      objectReference: {fileID: 0}
+    - target: {fileID: 67171599022403263, guid: 52a222b94196a2c4fb961f8f7d11e28c, type: 3}
+      propertyPath: interactAction.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 67171599022403263, guid: 52a222b94196a2c4fb961f8f7d11e28c, type: 3}
+      propertyPath: interactAction.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 67171599022403263, guid: 52a222b94196a2c4fb961f8f7d11e28c, type: 3}
+      propertyPath: interactAction.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 4516440480028642758}
+    - target: {fileID: 67171599022403263, guid: 52a222b94196a2c4fb961f8f7d11e28c, type: 3}
+      propertyPath: interactAction.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 67171599022403263, guid: 52a222b94196a2c4fb961f8f7d11e28c, type: 3}
+      propertyPath: interactAction.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: TriggerButtom
+      objectReference: {fileID: 0}
+    - target: {fileID: 67171599022403263, guid: 52a222b94196a2c4fb961f8f7d11e28c, type: 3}
+      propertyPath: interactAction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: ButtonController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 67171599022403263, guid: 52a222b94196a2c4fb961f8f7d11e28c, type: 3}
+      propertyPath: interactAction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 2638832308226983158, guid: 52a222b94196a2c4fb961f8f7d11e28c, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -183,7 +215,7 @@ PrefabInstance:
     - target: {fileID: 7269302107469423590, guid: 52a222b94196a2c4fb961f8f7d11e28c, type: 3}
       propertyPath: interactAction.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 2209172702644385110}
+      objectReference: {fileID: 0}
     - target: {fileID: 7269302107469423590, guid: 52a222b94196a2c4fb961f8f7d11e28c, type: 3}
       propertyPath: interactAction.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2

@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1192535556945387867}
-  - component: {fileID: 4761975939700585410}
   - component: {fileID: 6923737540350414827}
+  - component: {fileID: -2768044581302331315}
   m_Layer: 0
   m_Name: InteractableBox
   m_TagString: Untagged
@@ -33,23 +33,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4761975939700585410
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1192535556945387864}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a2d4861905e75849b187393df7b497e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _isInRange: 0
-  interactKey: 0
-  interactAction:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!61 &6923737540350414827
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -76,3 +59,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &-2768044581302331315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1192535556945387864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7635962e917c3f841b5e3e47eeb94a1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactKey: 0
+  interactAction:
+    m_PersistentCalls:
+      m_Calls: []
