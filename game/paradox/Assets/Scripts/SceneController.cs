@@ -39,6 +39,8 @@ public class SceneController : MonoBehaviour
     private bool isRewinding = false;
     private bool firstIteration = true;
     private int index = 0;
+    private int _reloadSpeed;
+    public int parameterToSetReloadSpeed = 40;
 
 
 
@@ -54,7 +56,6 @@ public class SceneController : MonoBehaviour
         Old_Player.SetActive(false);
         ReplayButton.SetActive(false);
         toTrack = Young_Player.GetComponent<PlayerMovement>();
-
     }
 
     void Update()
@@ -89,6 +90,7 @@ public class SceneController : MonoBehaviour
                 {
                     if (firstIteration)
                     {
+                        _reloadSpeed = index/parameterToSetReloadSpeed;
                         Old_Player.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
                         Camera.GetComponent<CameraShakeScript>().setShakeTrue();
 
@@ -142,7 +144,11 @@ public class SceneController : MonoBehaviour
 
     public void RestartOldAndGhost()
     {
-        index--;
+        if(_reloadSpeed > 0){
+            index = index - _reloadSpeed;
+        } else {
+            index--;
+        }
         Old_Player.transform.position = positions_old_p[index];
         GhostPrefab.SetActive(false);
         ReplayButton.SetActive(!ReplayButton.activeSelf);
@@ -179,7 +185,7 @@ public class SceneController : MonoBehaviour
         GhostPrefab.SetActive(true);
         ReplayButton.SetActive(false);
         Camera.GetComponent<CameraShakeScript>().setShakeFalse();
-
+        
     }
 
 
