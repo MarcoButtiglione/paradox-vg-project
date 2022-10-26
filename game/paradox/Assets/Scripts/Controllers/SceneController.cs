@@ -19,6 +19,7 @@ public class SceneController : MonoBehaviour
     public GameObject Camera;
     public GameObject EndLevel;
     public GameObject DeathLine;
+    public GameObject Timer;
 
 
     //ATTENTION!!! 
@@ -55,6 +56,7 @@ public class SceneController : MonoBehaviour
         positions_young_p = new List<Vector3>();
         inputs = new List<TypeOfInputs>();
         GhostPrefab.SetActive(false);
+        Timer.SetActive(true);
         GhostPrefab = Instantiate(GhostPrefab, transform.position, Quaternion.identity);
         GhostPrefab.GetComponent<GhostController>().setFather(this);
         EndLevel.GetComponent<CollisionCheckEndLevel>().setFather(this);
@@ -127,7 +129,7 @@ public class SceneController : MonoBehaviour
 
     //Protocol to execute when we pass the level with the young player
 
-    public void StartRewind()
+    public void StartSecondPart()
     {
         positions_old_p = new List<Vector3>();
         isRewinding = true;
@@ -136,6 +138,7 @@ public class SceneController : MonoBehaviour
         Disappearing_Platform.SetActive(false);
         GhostPrefab.transform.position = positions_young_p[0];
         GhostPrefab.SetActive(true);
+        Timer.SetActive(false);
     }
 
     //When the loop has finished, we can reset the values and make the object reappear or disappear

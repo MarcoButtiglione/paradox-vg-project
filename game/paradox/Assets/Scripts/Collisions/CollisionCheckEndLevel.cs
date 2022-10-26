@@ -15,7 +15,7 @@ private void Awake()
     }
    private void OnTriggerEnter2D(Collider2D col){
         if(col.CompareTag("Young")){
-            father.StartRewind();
+            father.StartSecondPart();
         }
         else if(col.CompareTag("Ghost") && SceneManager.GetActiveScene().buildIndex == SceneManager.sceneCountInBuildSettings - 1)
         {
