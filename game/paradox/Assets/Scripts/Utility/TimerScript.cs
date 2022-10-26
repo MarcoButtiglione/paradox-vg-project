@@ -8,10 +8,11 @@ public class TimerScript : MonoBehaviour
     private TMP_Text _timerText;
     private SceneController father;
     [SerializeField] private float TimeLeft = 60.0f;
-    
-    
-    
-    private void Awake(){
+
+
+
+    private void Awake()
+    {
         _timerText = GetComponent<TMP_Text>();
     }
     void Update()
@@ -26,7 +27,7 @@ public class TimerScript : MonoBehaviour
             TimeLeft = 0;
             //GAME OVER
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-            
+
         }
 
     }
@@ -36,5 +37,9 @@ public class TimerScript : MonoBehaviour
         TimeSpan timeSpan = TimeSpan.FromSeconds(currentTime);
         _timerText.text = timeSpan.ToString(@"mm\:ss\:ff");
     }
-    
+    public void setTimeLeft(float TimeLeft)
+    {
+        this.TimeLeft = TimeLeft;
+    }
+
 }

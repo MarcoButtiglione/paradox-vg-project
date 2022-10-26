@@ -42,7 +42,8 @@ public class SceneController : MonoBehaviour
     private bool firstIteration = true;
     private int index;
     private int _reloadSpeed;
-    public int parameterToSetReloadSpeed = 40;
+    public int parameterReload = 40;
+    public float timerTime = 10.0f;
 
 
     //FOR TRAP TRIGGER
@@ -53,9 +54,9 @@ public class SceneController : MonoBehaviour
 
     void Start()
     {
-        parameterToSetReloadSpeed = 40;
+        parameterReload = 40;
         index = 0; 
-        
+
         positions_young_p = new List<Vector3>();
         inputs = new List<TypeOfInputs>();
 
@@ -70,6 +71,7 @@ public class SceneController : MonoBehaviour
         GhostPrefab.GetComponent<GhostController>().setFather(this);
         EndLevel.GetComponent<CollisionCheckEndLevel>().setFather(this);
         toTrack = Young_Player.GetComponent<PlayerMovement>();
+        Timer.GetComponentInChildren<TimerScript>().setTimeLeft(timerTime);
 
         
         foreach (CollisionCheckDeathLine line in DeathLine.GetComponentsInChildren<CollisionCheckDeathLine>())
@@ -111,7 +113,7 @@ public class SceneController : MonoBehaviour
                 {
                     if (firstIteration)
                     {
-                        _reloadSpeed = index / parameterToSetReloadSpeed;
+                        _reloadSpeed = index / parameterReload;
                         Old_Player.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
                         Camera.GetComponent<CameraShakeScript>().setShakeTrue();
 
