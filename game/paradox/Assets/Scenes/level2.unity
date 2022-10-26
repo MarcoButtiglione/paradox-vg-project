@@ -1318,7 +1318,9 @@ MonoBehaviour:
   EndLevel: {fileID: 137466068}
   DeathLine: {fileID: 1952440042}
   Timer: {fileID: 1652890661}
-  parameterToSetReloadSpeed: 40
+  parameterReload: 40
+  timerTime: 10
+  delayBetweenParts: 3
 --- !u!4 &661181001
 Transform:
   m_ObjectHideFlags: 0
@@ -3580,11 +3582,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1201601727476579004, guid: cbc92e7e638faa04fa260a12d532587e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.3
+      value: 0.29
       objectReference: {fileID: 0}
     - target: {fileID: 1201601727476579004, guid: cbc92e7e638faa04fa260a12d532587e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.32
+      value: 0.23
       objectReference: {fileID: 0}
     - target: {fileID: 1201601727476579004, guid: cbc92e7e638faa04fa260a12d532587e, type: 3}
       propertyPath: m_LocalPosition.z

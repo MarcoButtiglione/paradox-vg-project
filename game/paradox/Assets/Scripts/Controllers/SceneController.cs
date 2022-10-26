@@ -42,8 +42,12 @@ public class SceneController : MonoBehaviour
     private bool firstIteration = true;
     private int index;
     private int _reloadSpeed;
-    public int parameterReload = 40;
-    public float timerTime = 10.0f;
+    [SerializeField]
+    private int parameterReload = 40;
+    [SerializeField]
+    private float timerTime = 10.0f;
+    [SerializeField]
+    private float delayBetweenParts = 3.0f;
 
 
     //FOR TRAP TRIGGER
@@ -55,16 +59,16 @@ public class SceneController : MonoBehaviour
     void Start()
     {
         parameterReload = 40;
-        index = 0; 
+        index = 0;
 
         positions_young_p = new List<Vector3>();
         inputs = new List<TypeOfInputs>();
 
         GhostPrefab.SetActive(false);
         Old_Player.SetActive(false);
-        
 
-        GhostPrefab = Instantiate(GhostPrefab, transform.position, Quaternion.identity);
+
+        GhostPrefab = Instantiate(GhostPrefab, GhostPrefab.transform.position, Quaternion.identity);
         ReplayButtonPrefab = Instantiate(ReplayButtonPrefab, ReplayButtonPrefab.transform.position, ReplayButtonPrefab.transform.rotation);
 
         GhostPrefab.GetComponent<GhostController>().setFather(this);
@@ -72,11 +76,11 @@ public class SceneController : MonoBehaviour
         toTrack = Young_Player.GetComponent<PlayerMovement>();
         Timer.GetComponentInChildren<TimerScript>().setTimeLeft(timerTime);
 
-        
+
         foreach (CollisionCheckDeathLine line in DeathLine.GetComponentsInChildren<CollisionCheckDeathLine>())
         {
             line.setFather(this);
-        } 
+        }
 
     }
 
@@ -139,12 +143,16 @@ public class SceneController : MonoBehaviour
 
     public void StartSecondPart()
     {
-        positions_old_p = new List<Vector3>();
+        StartCoroutine("StartDelay");
+
         isRewinding = true;
+        GhostPrefab.transform.position = positions_young_p[0];
+
+        positions_old_p = new List<Vector3>();
+
         Old_Player.SetActive(true);
         Young_Player.SetActive(false);
         Disappearing_Platform.SetActive(false);
-        GhostPrefab.transform.position = positions_young_p[0];
         GhostPrefab.SetActive(true);
         Timer.SetActive(false);
     }
@@ -215,6 +223,19 @@ public class SceneController : MonoBehaviour
         GhostPrefab.SetActive(true);
         ReplayButtonPrefab.SetActive(false);
         Camera.GetComponent<CameraShakeScript>().setShakeFalse();
+
+    }
+
+
+    //COROUTINE TO ADD A DELAY BETWEEN FIRST AND SECOND PART
+    IEnumerator StartDelay()
+    {
+        Time.timeScale = 0;
+        float pauseTime = Time.realtimeSinceStartup + delayBetweenParts;
+        while (Time.realtimeSinceStartup < pauseTime)
+            yield return 0;
+        Time.timeScale = 1;
+
 
     }
 
