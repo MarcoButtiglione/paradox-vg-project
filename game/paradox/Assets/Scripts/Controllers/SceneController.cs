@@ -61,7 +61,6 @@ public class SceneController : MonoBehaviour
         inputs = new List<TypeOfInputs>();
 
         GhostPrefab.SetActive(false);
-        Timer.SetActive(true);
         Old_Player.SetActive(false);
         
 
