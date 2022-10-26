@@ -15,7 +15,7 @@ public class SceneController : MonoBehaviour
     public GameObject Old_Player;
     public GameObject Young_Player;
     public GameObject Disappearing_Platform;
-    public GameObject ReplayButton;
+    public GameObject ReplayButtonPrefab;
     public GameObject Camera;
     public GameObject EndLevel;
     public GameObject DeathLine;
@@ -53,18 +53,25 @@ public class SceneController : MonoBehaviour
 
     void Start()
     {
-        positions_young_p = new List<Vector3>();
-        inputs = new List<TypeOfInputs>();
-        GhostPrefab.SetActive(false);
-        Timer.SetActive(true);
-        GhostPrefab = Instantiate(GhostPrefab, transform.position, Quaternion.identity);
-        GhostPrefab.GetComponent<GhostController>().setFather(this);
-        EndLevel.GetComponent<CollisionCheckEndLevel>().setFather(this);
-        Old_Player.SetActive(false);
-        ReplayButton.SetActive(false);
-        toTrack = Young_Player.GetComponent<PlayerMovement>();
         parameterToSetReloadSpeed = 40;
         index = 0; 
+        
+        positions_young_p = new List<Vector3>();
+        inputs = new List<TypeOfInputs>();
+
+        GhostPrefab.SetActive(false);
+        Timer.SetActive(true);
+        Old_Player.SetActive(false);
+        
+
+        GhostPrefab = Instantiate(GhostPrefab, transform.position, Quaternion.identity);
+        ReplayButtonPrefab = Instantiate(ReplayButtonPrefab, ReplayButtonPrefab.transform.position, ReplayButtonPrefab.transform.rotation);
+
+        GhostPrefab.GetComponent<GhostController>().setFather(this);
+        EndLevel.GetComponent<CollisionCheckEndLevel>().setFather(this);
+        toTrack = Young_Player.GetComponent<PlayerMovement>();
+
+        
         foreach (CollisionCheckDeathLine line in DeathLine.GetComponentsInChildren<CollisionCheckDeathLine>())
         {
             line.setFather(this);
@@ -173,7 +180,7 @@ public class SceneController : MonoBehaviour
         }
         Old_Player.transform.position = positions_old_p[index];
         GhostPrefab.SetActive(false);
-        ReplayButton.SetActive(!ReplayButton.activeSelf);
+        ReplayButtonPrefab.SetActive(!ReplayButtonPrefab.activeSelf);
     }
     public void MoveGhost()
     {
@@ -205,7 +212,7 @@ public class SceneController : MonoBehaviour
         Old_Player.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
         GhostPrefab.transform.position = positions_young_p[0];
         GhostPrefab.SetActive(true);
-        ReplayButton.SetActive(false);
+        ReplayButtonPrefab.SetActive(false);
         Camera.GetComponent<CameraShakeScript>().setShakeFalse();
 
     }
