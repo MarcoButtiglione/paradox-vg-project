@@ -1,7 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Rendering.PostProcessing;
 using UnityEngine;
+
+
 
 //The script that should manage the level
 //It records the movement of the player and make the objects appear and
@@ -20,6 +23,7 @@ public class SceneController : MonoBehaviour
     public GameObject EndLevel;
     public GameObject DeathLine;
     public GameObject Timer;
+
 
 
     //ATTENTION!!! 
@@ -230,10 +234,35 @@ public class SceneController : MonoBehaviour
     //COROUTINE TO ADD A DELAY BETWEEN FIRST AND SECOND PART
     IEnumerator StartDelay()
     {
+        Vignette _vignette;
+        bool upDone = false;
+
         Time.timeScale = 0;
-        float pauseTime = Time.realtimeSinceStartup + delayBetweenParts;
-        while (Time.realtimeSinceStartup < pauseTime)
+
+        Camera.GetComponent<PostProcessVolume>().profile.TryGetSettings(out _vignette);
+
+        //Wanted to center the camera on the old player but doesn't work in this way
+        //_vignette.center.value = new Vector2(Old_Player.transform.position.x, Old_Player.transform.position.y);
+
+        while (_vignette.intensity.value >= 0f)
+        {
+
+            if (_vignette.intensity.value <= 1.5f && !upDone)
+            {
+                _vignette.intensity.value = Mathf.Lerp(_vignette.intensity.value, 2f, 0.8f*Time.unscaledDeltaTime);
+            }
+            else
+            {
+                upDone = true;
+                _vignette.intensity.value = Mathf.Lerp(_vignette.intensity.value, -1.5f, Time.unscaledDeltaTime);
+            }
+
+
             yield return 0;
+        }
+
+        upDone = false;
+        _vignette.intensity.value = 0f;
         Time.timeScale = 1;
 
 
