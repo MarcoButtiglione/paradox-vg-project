@@ -1,7 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Rendering.PostProcessing;
 using UnityEngine;
+
+
 
 //The script that should manage the level
 //It records the movement of the player and make the objects appear and
@@ -15,11 +18,12 @@ public class SceneController : MonoBehaviour
     public GameObject Old_Player;
     public GameObject Young_Player;
     public GameObject Disappearing_Platform;
-    public GameObject ReplayButton;
+    public GameObject ReplayButtonPrefab;
     public GameObject Camera;
     public GameObject EndLevel;
     public GameObject DeathLine;
     public GameObject Timer;
+
 
 
     //ATTENTION!!! 
@@ -42,7 +46,16 @@ public class SceneController : MonoBehaviour
     private bool firstIteration = true;
     private int index;
     private int _reloadSpeed;
-    public int parameterToSetReloadSpeed = 40;
+    private Vignette _vignette;
+    private Vector2 normalizedOldPlayerPos;
+    private bool upIntensityDone = false;
+    [SerializeField]
+    private int parameterReload = 40;
+    [SerializeField]
+    private float timerTime = 10.0f;
+    [SerializeField]
+    private float delayBetweenParts = 3.0f;
+
 
 
     //FOR TRAP TRIGGER
@@ -53,22 +66,34 @@ public class SceneController : MonoBehaviour
 
     void Start()
     {
+        parameterReload = 40;
+        index = 0;
+        normalizedOldPlayerPos = NormPosFromZeroToOne(new Vector2(Old_Player.transform.position.x, Old_Player.transform.position.y));
+
         positions_young_p = new List<Vector3>();
         inputs = new List<TypeOfInputs>();
+
         GhostPrefab.SetActive(false);
-        Timer.SetActive(true);
-        GhostPrefab = Instantiate(GhostPrefab, transform.position, Quaternion.identity);
+        Old_Player.SetActive(false);
+
+
+        GhostPrefab = Instantiate(GhostPrefab, GhostPrefab.transform.position, Quaternion.identity);
+        ReplayButtonPrefab = Instantiate(ReplayButtonPrefab, ReplayButtonPrefab.transform.position, ReplayButtonPrefab.transform.rotation);
+
         GhostPrefab.GetComponent<GhostController>().setFather(this);
         EndLevel.GetComponent<CollisionCheckEndLevel>().setFather(this);
-        Old_Player.SetActive(false);
-        ReplayButton.SetActive(false);
         toTrack = Young_Player.GetComponent<PlayerMovement>();
-        parameterToSetReloadSpeed = 40;
-        index = 0; 
+        Timer.GetComponentInChildren<TimerScript>().setTimeLeft(timerTime);
+        Camera.GetComponent<PostProcessVolume>().profile.TryGetSettings(out _vignette);
+
+        //Wanted to center the camera on the old player but doesn't work in this way
+        _vignette.center.value = normalizedOldPlayerPos;
+
+
         foreach (CollisionCheckDeathLine line in DeathLine.GetComponentsInChildren<CollisionCheckDeathLine>())
         {
             line.setFather(this);
-        } 
+        }
 
     }
 
@@ -104,7 +129,7 @@ public class SceneController : MonoBehaviour
                 {
                     if (firstIteration)
                     {
-                        _reloadSpeed = index / parameterToSetReloadSpeed;
+                        _reloadSpeed = index / parameterReload;
                         Old_Player.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
                         Camera.GetComponent<CameraShakeScript>().setShakeTrue();
 
@@ -131,12 +156,16 @@ public class SceneController : MonoBehaviour
 
     public void StartSecondPart()
     {
-        positions_old_p = new List<Vector3>();
+        StartCoroutine("StartDelay");
+
         isRewinding = true;
+        GhostPrefab.transform.position = positions_young_p[0];
+
+        positions_old_p = new List<Vector3>();
+
         Old_Player.SetActive(true);
         Young_Player.SetActive(false);
         Disappearing_Platform.SetActive(false);
-        GhostPrefab.transform.position = positions_young_p[0];
         GhostPrefab.SetActive(true);
         Timer.SetActive(false);
     }
@@ -173,7 +202,7 @@ public class SceneController : MonoBehaviour
         }
         Old_Player.transform.position = positions_old_p[index];
         GhostPrefab.SetActive(false);
-        ReplayButton.SetActive(!ReplayButton.activeSelf);
+        ReplayButtonPrefab.SetActive(!ReplayButtonPrefab.activeSelf);
     }
     public void MoveGhost()
     {
@@ -205,9 +234,48 @@ public class SceneController : MonoBehaviour
         Old_Player.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
         GhostPrefab.transform.position = positions_young_p[0];
         GhostPrefab.SetActive(true);
-        ReplayButton.SetActive(false);
+        ReplayButtonPrefab.SetActive(false);
         Camera.GetComponent<CameraShakeScript>().setShakeFalse();
 
+    }
+
+
+    //COROUTINE TO ADD A TRANSACTION BETWEEN FIRST AND SECOND PART
+    IEnumerator StartDelay()
+    {
+        Time.timeScale = 0;
+
+        while (_vignette.intensity.value >= 0f)
+        {
+
+            if (_vignette.intensity.value <= 1.5f && !upIntensityDone)
+            {
+                _vignette.intensity.value += 0.8f * Time.unscaledDeltaTime;
+            }
+            else
+            {
+                upIntensityDone = true;
+                _vignette.intensity.value -= 1.2f*Time.unscaledDeltaTime;
+            }
+
+
+            yield return 0;
+        }
+
+        upIntensityDone = false;
+        _vignette.intensity.value = 0f;
+        Time.timeScale = 1;
+
+
+    }
+
+    public Vector2 NormPosFromZeroToOne(Vector2 input)
+    {
+
+        input.x = Mathf.InverseLerp(-8.6f, 8.6f, input.x);
+        input.y = Mathf.InverseLerp(-4.4f, 4.4f, input.y);
+
+        return input;
     }
 
 
