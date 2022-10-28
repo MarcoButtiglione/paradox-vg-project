@@ -21,6 +21,7 @@ public class ButtonController : MonoBehaviour
     {
         if (!_isActive)
         {
+            FindObjectOfType<AudioManager>().Play("Click");
             _isActive = true;
             for (int i = 0; i < _objToActivate.Length; i++) 
             {
@@ -32,6 +33,7 @@ public class ButtonController : MonoBehaviour
             {
                 _objToActivate[i].SetActive(!_objToActivate[i].activeSelf);
             }
+            
         }
         
     }
