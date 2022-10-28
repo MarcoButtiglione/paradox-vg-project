@@ -46,12 +46,16 @@ public class SceneController : MonoBehaviour
     private bool firstIteration = true;
     private int index;
     private int _reloadSpeed;
+    private Vignette _vignette;
+    private Vector2 normalizedOldPlayerPos;
+    private bool upIntensityDone = false;
     [SerializeField]
     private int parameterReload = 40;
     [SerializeField]
     private float timerTime = 10.0f;
     [SerializeField]
     private float delayBetweenParts = 3.0f;
+
 
 
     //FOR TRAP TRIGGER
@@ -64,6 +68,7 @@ public class SceneController : MonoBehaviour
     {
         parameterReload = 40;
         index = 0;
+        normalizedOldPlayerPos = NormPosFromZeroToOne(new Vector2(Old_Player.transform.position.x, Old_Player.transform.position.y));
 
         positions_young_p = new List<Vector3>();
         inputs = new List<TypeOfInputs>();
@@ -79,6 +84,10 @@ public class SceneController : MonoBehaviour
         EndLevel.GetComponent<CollisionCheckEndLevel>().setFather(this);
         toTrack = Young_Player.GetComponent<PlayerMovement>();
         Timer.GetComponentInChildren<TimerScript>().setTimeLeft(timerTime);
+        Camera.GetComponent<PostProcessVolume>().profile.TryGetSettings(out _vignette);
+
+        //Wanted to center the camera on the old player but doesn't work in this way
+        _vignette.center.value = normalizedOldPlayerPos;
 
 
         foreach (CollisionCheckDeathLine line in DeathLine.GetComponentsInChildren<CollisionCheckDeathLine>())
@@ -231,41 +240,42 @@ public class SceneController : MonoBehaviour
     }
 
 
-    //COROUTINE TO ADD A DELAY BETWEEN FIRST AND SECOND PART
+    //COROUTINE TO ADD A TRANSACTION BETWEEN FIRST AND SECOND PART
     IEnumerator StartDelay()
     {
-        Vignette _vignette;
-        bool upDone = false;
-
         Time.timeScale = 0;
-
-        Camera.GetComponent<PostProcessVolume>().profile.TryGetSettings(out _vignette);
-
-        //Wanted to center the camera on the old player but doesn't work in this way
-        //_vignette.center.value = new Vector2(Old_Player.transform.position.x, Old_Player.transform.position.y);
 
         while (_vignette.intensity.value >= 0f)
         {
 
-            if (_vignette.intensity.value <= 1.5f && !upDone)
+            if (_vignette.intensity.value <= 1.5f && !upIntensityDone)
             {
-                _vignette.intensity.value = Mathf.Lerp(_vignette.intensity.value, 2f, 0.8f*Time.unscaledDeltaTime);
+                _vignette.intensity.value += 0.8f * Time.unscaledDeltaTime;
             }
             else
             {
-                upDone = true;
-                _vignette.intensity.value = Mathf.Lerp(_vignette.intensity.value, -1.5f, Time.unscaledDeltaTime);
+                upIntensityDone = true;
+                _vignette.intensity.value -= 1.2f*Time.unscaledDeltaTime;
             }
 
 
             yield return 0;
         }
 
-        upDone = false;
+        upIntensityDone = false;
         _vignette.intensity.value = 0f;
         Time.timeScale = 1;
 
 
+    }
+
+    public Vector2 NormPosFromZeroToOne(Vector2 input)
+    {
+
+        input.x = Mathf.InverseLerp(-8.6f, 8.6f, input.x);
+        input.y = Mathf.InverseLerp(-4.4f, 4.4f, input.y);
+
+        return input;
     }
 
 
