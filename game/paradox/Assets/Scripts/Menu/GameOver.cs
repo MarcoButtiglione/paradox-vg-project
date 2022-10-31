@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+//NOT MORE USED
 public class GameOver : MonoBehaviour
 {
     public GameObject gameOverMenu;

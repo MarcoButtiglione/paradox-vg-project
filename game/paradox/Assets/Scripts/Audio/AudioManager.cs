@@ -39,7 +39,9 @@ public class AudioManager : MonoBehaviour
     /*
      * To play a sound in an other script use:
      *
-     * FindObjectOfType<AudioManager>().Play("name");
+     * AudioManager a = FindObjectOfType<AudioManager>();
+     *      if(a)
+     *          a.Play("name");
      */
     public void Play(string name)
     {
