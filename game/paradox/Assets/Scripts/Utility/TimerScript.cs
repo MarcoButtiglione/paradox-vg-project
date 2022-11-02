@@ -6,15 +6,34 @@ using UnityEngine.SceneManagement;
 public class TimerScript : MonoBehaviour
 {
     private TMP_Text _timerText;
-    private SceneController father;
-    [SerializeField] private float TimeLeft = 60.0f;
+    [SerializeField] private TimerLevelsParameters _timerLevelsParameters;
+    private float TimeLeft;
 
-
-
+    //Event managment 
     private void Awake()
     {
         _timerText = GetComponent<TMP_Text>();
+        
+        //It is subscribing to the event
+        GameManager.OnGameStateChanged += GameManagerOnGameStateChanged;
     }
+    private void OnDestroy()
+    {
+        //It is unsubscribing to the event
+        GameManager.OnGameStateChanged -= GameManagerOnGameStateChanged;
+    }
+    private void GameManagerOnGameStateChanged(GameState state)
+    {
+        if (state == GameState.YoungPlayerTurn)
+        {
+            TimeLeft = _timerLevelsParameters.timerLevel;
+        }
+        else if (state == GameState.SwitchingPlayerTurn)
+        {
+            gameObject.SetActive(false);
+        }
+    }
+    
     void Update()
     {
         if (TimeLeft > 0)
@@ -26,7 +45,7 @@ public class TimerScript : MonoBehaviour
         {
             TimeLeft = 0;
             //GAME OVER
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            GameManager.Instance.UpdateGameState(GameState.YoungPlayerTurn);
 
         }
 
@@ -37,9 +56,6 @@ public class TimerScript : MonoBehaviour
         TimeSpan timeSpan = TimeSpan.FromSeconds(currentTime);
         _timerText.text = timeSpan.ToString(@"mm\:ss\:ff");
     }
-    public void setTimeLeft(float TimeLeft)
-    {
-        this.TimeLeft = TimeLeft;
-    }
+    
 
 }

@@ -32,9 +32,6 @@ public class LevelManager : MonoBehaviour
     }
 
     
-    /*
-     * LevelManager.Instance.LoadScene(sceneName)
-     */
     private async void LoadScene(string sceneName)
     {
         /*
@@ -79,22 +76,21 @@ public class LevelManager : MonoBehaviour
     }
     private void PlayLevel(int level)
     {
+        _currentLevel = level;
+        
         switch (level)
         {
             case 1:
                 LoadScene("level0");
                 break;
             case 2:
-                LoadScene("level1");
-                break;
-            case 3:
-                LoadScene("level2");
+                PlayMainMenu();
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
 
-        _currentLevel = level;
+        
     }
 
     public void PlayMainMenu()

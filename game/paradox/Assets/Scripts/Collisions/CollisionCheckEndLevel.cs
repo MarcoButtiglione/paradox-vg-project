@@ -5,27 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class CollisionCheckEndLevel : MonoBehaviour
 {
-    //public static event Action OnPlayerDeath;
-    private Rigidbody2D _rigidbody;
-    private SceneController father;
-
-private void Awake()
-    {  
-         _rigidbody = GetComponent<Rigidbody2D>();
-    }
-   private void OnTriggerEnter2D(Collider2D col){
+    private void OnTriggerEnter2D(Collider2D col){
         if(col.CompareTag("Young")){
-            father.StartSecondPart();
+            GameManager.Instance.UpdateGameState(GameState.SwitchingPlayerTurn);
         }
-        else if(col.CompareTag("Ghost") && SceneManager.GetActiveScene().buildIndex == SceneManager.sceneCountInBuildSettings - 1)
-        {
-            SceneManager.LoadScene("Menu");
-        }
-        else if(col.CompareTag("Ghost")){
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        else if(col.CompareTag("Ghost")&&GameManager.Instance.State!=GameState.NextLevel){
+            GameManager.Instance.UpdateGameState(GameState.LevelCompleted);
         }
     }
-    public void setFather(SceneController father){
-        this.father = father;
-    }
+
 }

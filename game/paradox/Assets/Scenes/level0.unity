@@ -305,11 +305,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 37176209}
   m_CullTransparentMesh: 1
---- !u!1 &40701679 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6864276204105173947, guid: df5860420f539c348b5cfba516011e18, type: 3}
-  m_PrefabInstance: {fileID: 267912622}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &40701680 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6864276204105173946, guid: df5860420f539c348b5cfba516011e18, type: 3}
@@ -1030,7 +1025,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6864276204105173946, guid: df5860420f539c348b5cfba516011e18, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6864276204105173946, guid: df5860420f539c348b5cfba516011e18, type: 3}
       propertyPath: m_AnchorMax.x
@@ -1108,6 +1103,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Timer
       objectReference: {fileID: 0}
+    - target: {fileID: 6864276204105173947, guid: df5860420f539c348b5cfba516011e18, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6864276204748274453, guid: df5860420f539c348b5cfba516011e18, type: 3}
+      propertyPath: TimeLeft
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6864276204748274453, guid: df5860420f539c348b5cfba516011e18, type: 3}
+      propertyPath: _timerLevelsParameters
+      value: 
+      objectReference: {fileID: 11400000, guid: 1db79e2aba5761244976ee91286e4b4f, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df5860420f539c348b5cfba516011e18, type: 3}
 --- !u!1 &399547381
@@ -1551,7 +1558,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1802441632}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &561389368
 MonoBehaviour:
@@ -1567,62 +1574,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pauseMenu: {fileID: 437157832}
   gameOverMenu: {fileID: 37176209}
---- !u!1 &661180999
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 661181001}
-  - component: {fileID: 661181000}
-  m_Layer: 0
-  m_Name: LevelManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &661181000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 661180999}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f251240bf5ab17e47afb8812a34eaca8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GhostPrefab: {fileID: 4628769056619335621, guid: da7396064f68dca4c90deb2820e6add5, type: 3}
-  Old_Player: {fileID: 1242459719}
-  Young_Player: {fileID: 234587613}
-  Disappearing_Platform: {fileID: 778666416}
-  ReplayButtonPrefab: {fileID: 8515766610766586685, guid: cef1309e089d2af45bc35c79882346fe, type: 3}
-  Camera: {fileID: 519420028}
-  EndLevel: {fileID: 137466068}
-  DeathLine: {fileID: 1681607793}
-  Timer: {fileID: 40701679}
-  parameterReload: 40
-  timerTime: 10
-  delayBetweenParts: 2
---- !u!4 &661181001
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 661180999}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4.1897583, y: -0.051574707, z: -0.025352955}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1802441632}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &756035824 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2803048492781652515, guid: 24194319d3407734fa037c349afe2d83, type: 3}
@@ -2269,11 +2220,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5272850346743314246, guid: f34eca33ec949c3479158d81a14000ff, type: 3}
   m_PrefabInstance: {fileID: 1940799951}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1681607793 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 954957498157515396, guid: 24194319d3407734fa037c349afe2d83, type: 3}
-  m_PrefabInstance: {fileID: 1952440041}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1744842264
 GameObject:
   m_ObjectHideFlags: 0
@@ -2571,8 +2517,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1808386101}
-  - {fileID: 661181001}
   - {fileID: 561389367}
+  - {fileID: 1895285986}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3137,6 +3083,54 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1877713826}
   m_CullTransparentMesh: 1
+--- !u!1 &1895285985
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1895285986}
+  - component: {fileID: 1895285987}
+  m_Layer: 0
+  m_Name: RewindManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1895285986
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1895285985}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1802441632}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1895285987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1895285985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16a936afb1fe57142a7b2b0889dce1f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GhostPrefab: {fileID: 4628769056619335621, guid: da7396064f68dca4c90deb2820e6add5, type: 3}
+  Old_Player: {fileID: 1242459719}
+  Young_Player: {fileID: 234587613}
+  parameterReload: 40
 --- !u!1001 &1940799951
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -68,7 +68,7 @@ public class MenuManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("LevelManager not found!");
+            GameManager.Instance.UpdateGameState(GameState.YoungPlayerTurn);
         }
     }
 

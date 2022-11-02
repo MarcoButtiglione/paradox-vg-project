@@ -10,10 +10,6 @@ public class TimerLevelsParameters : ScriptableObject
      * [SerializeField] private TimerLevelsParameters _timerLevelsParameters;
      */
     [Header("Timer (sec)")] 
-    public float timerLevel0 = 5f;
-    public float timerLevel1 = 5f;
-    public float timerLevel2 = 5f;
-    public float timerLevel3 = 5f;
-    public float timerLevel4 = 5f;
-    public float timerLevel5 = 5f;
+    public float timerLevel = 5f;
+    
 }

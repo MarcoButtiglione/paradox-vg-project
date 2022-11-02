@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour
      */
     public void UpdateGameState(GameState newState)
     {
+        Time.timeScale = 1f;
         PreviousGameState = State;
         State = newState;
 
@@ -43,6 +44,7 @@ public class GameManager : MonoBehaviour
             case GameState.YoungPlayerTurn:
                 break;
             case GameState.SwitchingPlayerTurn:
+                UpdateGameState(GameState.OldPlayerTurn);
                 break;
             case GameState.OldPlayerTurn:
                 break;
@@ -53,6 +55,10 @@ public class GameManager : MonoBehaviour
             case GameState.GameOverMenu:
                 break;
             case GameState.LevelCompleted:
+                LevelManager.Instance.PlayNextLevel();
+                UpdateGameState(GameState.NextLevel);
+                break;
+            case GameState.NextLevel:
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
@@ -87,4 +93,5 @@ public enum GameState
     PauseMenu,
     GameOverMenu,
     LevelCompleted,
+    NextLevel
 }
