@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
             case GameState.YoungPlayerTurn:
                 break;
             case GameState.StartingOldTurn:
-                UpdateGameState(GameState.OldPlayerTurn);
+                //UpdateGameState(GameState.OldPlayerTurn);
                 break;
             case GameState.OldPlayerTurn:
                 break;
