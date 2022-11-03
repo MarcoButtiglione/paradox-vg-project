@@ -68,7 +68,7 @@ public class MenuManager : MonoBehaviour
         }
         else
         {
-            GameManager.Instance.UpdateGameState(GameState.YoungPlayerTurn);
+            GameManager.Instance.UpdateGameState(GameState.StartingYoungTurn);
         }
     }
 

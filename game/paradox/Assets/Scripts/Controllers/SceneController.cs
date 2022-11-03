@@ -51,10 +51,10 @@ public class SceneController : MonoBehaviour
     private bool upIntensityDone = false;
     [SerializeField]
     private int parameterReload = 40;
-    [SerializeField]
-    private float timerTime = 10.0f;
-    [SerializeField]
-    private float delayBetweenParts = 3.0f;
+    //[SerializeField]
+    //private float timerTime = 10.0f;
+    //[SerializeField]
+    //private float delayBetweenParts = 3.0f;
 
 
 

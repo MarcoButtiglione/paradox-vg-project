@@ -7,7 +7,7 @@ public class CollisionCheckTrap : MonoBehaviour
     {
         if (col.gameObject.CompareTag("Young"))
         {
-            GameManager.Instance.UpdateGameState(GameState.YoungPlayerTurn);
+            GameManager.Instance.UpdateGameState(GameState.StartingYoungTurn);
         }
         else if(col.gameObject.CompareTag("Old") || col.gameObject.CompareTag("Ghost"))
         {

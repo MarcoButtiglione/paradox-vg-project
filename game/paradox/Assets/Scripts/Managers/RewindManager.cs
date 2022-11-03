@@ -45,28 +45,21 @@ public class RewindManager : MonoBehaviour
     }
     private void GameManagerOnGameStateChanged(GameState state)
     {
-        switch (state)
+        if (state==GameState.StartingYoungTurn)
         {
-            case GameState.YoungPlayerTurn:
-                Init();
-                break;
-            case GameState.SwitchingPlayerTurn:
-                break;
-            case GameState.OldPlayerTurn:
-                StartSecondPart();
-                break;
-            case GameState.Paradox:
+            Init();
+        }
+        else if (state==GameState.StartingOldTurn)
+        {
+            StartSecondPart();
+        }
+        else if (state==GameState.Paradox)
+        {
+            if (GameManager.Instance.PreviousGameState == GameState.OldPlayerTurn)
+            {
                 _reloadSpeed = index / parameterReload;
                 Old_Player.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
-                break;
-            case GameState.PauseMenu:
-                break;
-            case GameState.GameOverMenu:
-                break;
-            case GameState.LevelCompleted:
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(state), state, null);
+            }
         }
     }
 
@@ -86,8 +79,6 @@ public class RewindManager : MonoBehaviour
         
         parameterReload = 40;
         index = 0;
-        
-        
     }
     
     private void Start()
@@ -103,28 +94,18 @@ public class RewindManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        switch (GameManager.Instance.State)
+        if (GameManager.Instance.State == GameState.YoungPlayerTurn)
         {
-            case GameState.YoungPlayerTurn:
-                Record();
-                break;
-            case GameState.SwitchingPlayerTurn:
-                break;
-            case GameState.OldPlayerTurn:
-                positions_old_p.Insert(positions_old_p.Count, Old_Player.transform.position);
-                MoveGhost();
-                break;
-            case GameState.Paradox:
-                RestartOldAndGhost();
-                break;
-            case GameState.PauseMenu:
-                break;
-            case GameState.GameOverMenu:
-                break;
-            case GameState.LevelCompleted:
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(GameManager.Instance.State), GameManager.Instance.State, null);
+            Record();
+        }
+        else if (GameManager.Instance.State == GameState.OldPlayerTurn)
+        {
+            positions_old_p.Insert(positions_old_p.Count, Old_Player.transform.position);
+            MoveGhost();
+        }
+        else if (GameManager.Instance.State == GameState.Paradox)
+        {
+            RestartOldAndGhost();
         }
     }
     
@@ -162,8 +143,9 @@ public class RewindManager : MonoBehaviour
         }
         else
         {
-            GameManager.Instance.UpdateGameState(GameState.OldPlayerTurn);
+            GameManager.Instance.UpdateGameState(GameState.StartingOldTurn);
             index = 0;
+            return;
         }
         Old_Player.transform.position = positions_old_p[index];
         GhostPrefab.SetActive(false);
@@ -171,12 +153,15 @@ public class RewindManager : MonoBehaviour
     
     public void MoveGhost()
     {
-        if (Vector2.Distance(new Vector2(GhostPrefab.transform.position.x, GhostPrefab.transform.position.y), new Vector2(positions_young_p[index].x, positions_young_p[index].y)) > 0.5) {
-            GameManager.Instance.UpdateGameState(GameState.Paradox);
-            return;
+        if (index < inputs.Count)
+        {
+            if (Vector2.Distance(new Vector2(GhostPrefab.transform.position.x, GhostPrefab.transform.position.y), new Vector2(positions_young_p[index].x, positions_young_p[index].y)) > 0.5) {
+                GameManager.Instance.UpdateGameState(GameState.Paradox);
+                return;
+            }
+            GhostPrefab.GetComponent<CharacterController2D>().Move(inputs[index].getHorizontal() * Time.fixedDeltaTime, inputs[index].getCrouch(), inputs[index].getJump()); 
+            index++;
         }
-        GhostPrefab.GetComponent<CharacterController2D>().Move(inputs[index].getHorizontal() * Time.fixedDeltaTime, inputs[index].getCrouch(), inputs[index].getJump()); 
-        index++;
     }
 }
 

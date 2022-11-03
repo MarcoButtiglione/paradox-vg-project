@@ -32,7 +32,7 @@ public class LevelManager : MonoBehaviour
     }
 
     
-    private async void LoadScene(string sceneName)
+    private void LoadScene(string sceneName)
     {
         /*
         _target = 0;

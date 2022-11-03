@@ -24,11 +24,12 @@ public class TimerScript : MonoBehaviour
     }
     private void GameManagerOnGameStateChanged(GameState state)
     {
-        if (state == GameState.YoungPlayerTurn)
+        if (state == GameState.StartingYoungTurn)
         {
             TimeLeft = _timerLevelsParameters.timerLevel;
+            gameObject.SetActive(true);
         }
-        else if (state == GameState.SwitchingPlayerTurn)
+        else if (state == GameState.StartingOldTurn)
         {
             gameObject.SetActive(false);
         }
@@ -45,7 +46,7 @@ public class TimerScript : MonoBehaviour
         {
             TimeLeft = 0;
             //GAME OVER
-            GameManager.Instance.UpdateGameState(GameState.YoungPlayerTurn);
+            GameManager.Instance.UpdateGameState(GameState.StartingYoungTurn);
 
         }
 
