@@ -1,27 +1,22 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-
 public class CollisionCheckDeathLine : MonoBehaviour
 {
-    
-    private SceneController father;
-    public static event Action OnPlayerDeath;
-
-
-   private void OnTriggerEnter2D(Collider2D col){
+    private void OnTriggerEnter2D(Collider2D col){
         if(col.CompareTag("Young")){
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            //In common for tutorial and game
+            GameManager.Instance.UpdateGameState(GameState.StartingYoungTurn);
         }
         else if(col.CompareTag("Old"))
         {
-            father.RestartRewind();
+            if (GameManager.Instance.IsTutorial()&& GameManager.Instance.State==GameState.SecondPart)
+            {
+                GameManager.Instance.UpdateGameState(GameState.StartingSecondPart);
+            }
+            else
+            {
+                GameManager.Instance.UpdateGameState(GameState.Paradox);
+            }
         }
     }
-    public void setFather(SceneController father){
-        this.father = father;
-    }
+   
 }

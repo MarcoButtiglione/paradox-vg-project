@@ -51,19 +51,20 @@ public class SceneController : MonoBehaviour
     private bool upIntensityDone = false;
     [SerializeField]
     private int parameterReload = 40;
-    [SerializeField]
-    private float timerTime = 10.0f;
-    [SerializeField]
-    private float delayBetweenParts = 3.0f;
+    //[SerializeField]
+    //private float timerTime = 10.0f;
+    //[SerializeField]
+    //private float delayBetweenParts = 3.0f;
 
 
 
+    /*
     //FOR TRAP TRIGGER
     private void OnEnable()
     {
         CollisionCheckTrap.OnPlayerDeath += RestartRewind;
     }
-
+*/
     void Start()
     {
         parameterReload = 40;
@@ -80,20 +81,22 @@ public class SceneController : MonoBehaviour
         GhostPrefab = Instantiate(GhostPrefab, GhostPrefab.transform.position, Quaternion.identity);
         ReplayButtonPrefab = Instantiate(ReplayButtonPrefab, ReplayButtonPrefab.transform.position, ReplayButtonPrefab.transform.rotation);
 
-        GhostPrefab.GetComponent<GhostController>().setFather(this);
-        EndLevel.GetComponent<CollisionCheckEndLevel>().setFather(this);
+        //GhostPrefab.GetComponent<GhostController>().setFather(this);
+        //EndLevel.GetComponent<CollisionCheckEndLevel>().setFather(this);
         toTrack = Young_Player.GetComponent<PlayerMovement>();
-        Timer.GetComponentInChildren<TimerScript>().setTimeLeft(timerTime);
+        //Timer.GetComponentInChildren<TimerScript>().setTimeLeft(timerTime);
         Camera.GetComponent<PostProcessVolume>().profile.TryGetSettings(out _vignette);
 
         //Wanted to center the camera on the old player but doesn't work in this way
         _vignette.center.value = normalizedOldPlayerPos;
 
 
+        /*
         foreach (CollisionCheckDeathLine line in DeathLine.GetComponentsInChildren<CollisionCheckDeathLine>())
         {
             line.setFather(this);
         }
+        */
 
     }
 

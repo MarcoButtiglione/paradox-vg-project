@@ -21,7 +21,11 @@ public class ButtonController : MonoBehaviour
     {
         if (!_isActive)
         {
-            FindObjectOfType<AudioManager>().Play("Click");
+            //Play the click sound-----
+            AudioManager a = FindObjectOfType<AudioManager>();
+            if(a)
+                a.Play("Click");
+            //-------------------------
             _isActive = true;
             for (int i = 0; i < _objToActivate.Length; i++) 
             {
