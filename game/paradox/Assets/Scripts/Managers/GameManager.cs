@@ -42,6 +42,7 @@ public class GameManager : MonoBehaviour
      */
     public void UpdateGameState(GameState newState)
     {
+        Debug.Log("Current State: "+newState+" ----- IsTutorial: "+isTutorial);
         Time.timeScale = 1f;
         PreviousGameState = State;
         State = newState;
@@ -98,7 +99,10 @@ public class GameManager : MonoBehaviour
                 case GameState.YoungPlayerTurn:
                     break;
                 case GameState.StartingOldTurn:
-                    //UpdateGameState(GameState.OldPlayerTurn);
+                    if (PreviousGameState!=GameState.YoungPlayerTurn)
+                    {
+                        UpdateGameState(GameState.OldPlayerTurn);
+                    }
                     break;
                 case GameState.OldPlayerTurn:
                     break;

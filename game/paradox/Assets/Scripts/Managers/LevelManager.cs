@@ -87,6 +87,12 @@ public class LevelManager : MonoBehaviour
                 LoadScene("level0");
                 break;
             case 3:
+                LoadScene("level1");
+                break;
+            case 4:
+                LoadScene("level2");
+                break;
+            case 5:
                 PlayMainMenu();
                 break;
             default:
