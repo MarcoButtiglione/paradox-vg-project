@@ -25,11 +25,21 @@ public class PostProcessingManager : MonoBehaviour
     }
     private void GameManagerOnGameStateChanged(GameState state)
     {
-        if (state == GameState.StartingOldTurn&& GameManager.Instance.PreviousGameState==GameState.YoungPlayerTurn)
+        if (GameManager.Instance.IsTutorial())
         {
-            StartCoroutine("StartDelay");
-        }
+            if (state == GameState.StartingSecondPart&& GameManager.Instance.PreviousGameState==GameState.YoungPlayerTurn)
+            {
+                StartCoroutine("StartDelay");
+            }
 
+        }else{
+            if (state == GameState.StartingOldTurn&& GameManager.Instance.PreviousGameState==GameState.YoungPlayerTurn)
+            {
+                StartCoroutine("StartDelay");
+            }
+
+        }
+        
         if (state == GameState.Paradox)
         {
             Camera.GetComponent<CameraShakeScript>().setShakeTrue();
@@ -76,7 +86,15 @@ public class PostProcessingManager : MonoBehaviour
         upIntensityDone = false;
         _vignette.intensity.value = 0f;
         Time.timeScale = 1;
-        GameManager.Instance.UpdateGameState(GameState.OldPlayerTurn);
+        if (GameManager.Instance.IsTutorial())
+        {
+            GameManager.Instance.UpdateGameState(GameState.SecondPart);
+        }
+        else
+        {
+            GameManager.Instance.UpdateGameState(GameState.OldPlayerTurn);
+        }
+        
 
 
     }

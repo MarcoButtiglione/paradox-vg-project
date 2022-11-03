@@ -58,7 +58,10 @@ public class GameManager : MonoBehaviour
                 case GameState.YoungPlayerTurn:
                     break;
                 case GameState.StartingSecondPart:
-                    UpdateGameState(GameState.SecondPart);
+                    if (PreviousGameState!=GameState.YoungPlayerTurn)
+                    {
+                        UpdateGameState(GameState.SecondPart);
+                    }
                     break;
                 case GameState.SecondPart:
                     break;
