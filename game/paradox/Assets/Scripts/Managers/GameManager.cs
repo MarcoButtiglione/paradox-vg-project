@@ -11,12 +11,19 @@ public class GameManager : MonoBehaviour
     public GameState PreviousGameState;
 
     public static event Action<GameState> OnGameStateChanged;
-    
-    
+
+    private bool isTutorial;
 
     private void Awake()
     {
         Instance = this;
+        LevelManager l = LevelManager.Instance;
+        if (l)
+        {
+            isTutorial = l.IsTutorialLevel();
+        }
+        else
+        { isTutorial = false; }
     }
 
     private void Start()
@@ -39,32 +46,76 @@ public class GameManager : MonoBehaviour
         PreviousGameState = State;
         State = newState;
 
-        switch (newState)
+        if (isTutorial)
         {
-            case GameState.StartingYoungTurn:
-                UpdateGameState(GameState.YoungPlayerTurn);
-                break;
-            case GameState.YoungPlayerTurn:
-                break;
-            case GameState.StartingOldTurn:
-                UpdateGameState(GameState.OldPlayerTurn);
-                break;
-            case GameState.OldPlayerTurn:
-                break;
-            case GameState.Paradox:
-                break;
-            case GameState.PauseMenu:
-                break;
-            case GameState.GameOverMenu:
-                break;
-            case GameState.LevelCompleted:
-                UpdateGameState(GameState.NextLevel);
-                break;
-            case GameState.NextLevel:
-                LevelManager.Instance.PlayNextLevel();
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
+            switch (newState)
+            {
+                case GameState.StartingYoungTurn:
+                    UpdateGameState(GameState.YoungPlayerTurn);
+                    break;
+                case GameState.YoungPlayerTurn:
+                    break;
+                case GameState.StartingSecondPart:
+                    UpdateGameState(GameState.SecondPart);
+                    break;
+                case GameState.SecondPart:
+                    break;
+                case GameState.StartingThirdPart:
+                    GameObject.Find("Plat_5").SetActive(false);
+                    UpdateGameState(GameState.ThirdPart);
+                    break;
+                case GameState.ThirdPart:
+                    break;
+                case GameState.StartingOldTurn:
+                    UpdateGameState(GameState.OldPlayerTurn);
+                    break;
+                case GameState.OldPlayerTurn:
+                    break;
+                case GameState.Paradox:
+                    break;
+                case GameState.PauseMenu:
+                    break;
+                case GameState.GameOverMenu:
+                    break;
+                case GameState.LevelCompleted:
+                    UpdateGameState(GameState.NextLevel);
+                    break;
+                case GameState.NextLevel:
+                    LevelManager.Instance.PlayNextLevel();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
+            }
+        }
+        else
+        {
+            switch (newState)
+            {
+                case GameState.StartingYoungTurn:
+                    UpdateGameState(GameState.YoungPlayerTurn);
+                    break;
+                case GameState.YoungPlayerTurn:
+                    break;
+                case GameState.StartingOldTurn:
+                    UpdateGameState(GameState.OldPlayerTurn);
+                    break;
+                case GameState.OldPlayerTurn:
+                    break;
+                case GameState.Paradox:
+                    break;
+                case GameState.PauseMenu:
+                    break;
+                case GameState.GameOverMenu:
+                    break;
+                case GameState.LevelCompleted:
+                    UpdateGameState(GameState.NextLevel);
+                    break;
+                case GameState.NextLevel:
+                    LevelManager.Instance.PlayNextLevel();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
+            }
         }
 
         OnGameStateChanged?.Invoke(newState);
@@ -77,21 +128,30 @@ public class GameManager : MonoBehaviour
             UpdateGameState(PreviousGameState);
             Time.timeScale = 1f;
         }
-        else if(State == GameState.YoungPlayerTurn||State==GameState.OldPlayerTurn)
+        else if (State == GameState.YoungPlayerTurn || State == GameState.OldPlayerTurn)
         {
             UpdateGameState(GameState.PauseMenu);
             Time.timeScale = 0f;
         }
     }
-    
-    
+
+    public bool IsTutorial(){
+        return isTutorial;
+    }
+
+
 }
+
 
 public enum GameState
 {
     StartingYoungTurn,
-    YoungPlayerTurn,
+    StartingSecondPart,
+    StartingThirdPart,
     StartingOldTurn,
+    YoungPlayerTurn,
+    SecondPart,
+    ThirdPart,
     OldPlayerTurn,
     Paradox,
     PauseMenu,

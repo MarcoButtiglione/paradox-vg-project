@@ -61,7 +61,7 @@ public class LevelManager : MonoBehaviour
         _progressBar.fillAmount = Mathf.MoveTowards(_progressBar.fillAmount, _target, 3 * Time.deltaTime);
     }
     */
-
+    
     public void PlayFirstLevel()
     {
         PlayLevel(1);
@@ -81,9 +81,12 @@ public class LevelManager : MonoBehaviour
         switch (level)
         {
             case 1:
-                LoadScene("level0");
+                LoadScene("intro_level");
                 break;
             case 2:
+                LoadScene("level0");
+                break;
+            case 3:
                 PlayMainMenu();
                 break;
             default:
@@ -91,6 +94,12 @@ public class LevelManager : MonoBehaviour
         }
 
         
+    }
+
+    public bool IsTutorialLevel(){
+        if(_currentLevel == 1)
+            return true;
+        return false;    
     }
 
     public void PlayMainMenu()
