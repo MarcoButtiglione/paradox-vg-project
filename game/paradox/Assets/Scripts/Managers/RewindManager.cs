@@ -152,8 +152,9 @@ public class RewindManager : MonoBehaviour
         }
         else
         {
-            GameManager.Instance.UpdateGameState(GameState.StartingOldTurn);
             index = 0;
+            Old_Player.transform.position = positions_old_p[0];
+            GameManager.Instance.UpdateGameState(GameState.StartingOldTurn);
             return;
         }
         Old_Player.transform.position = positions_old_p[index];

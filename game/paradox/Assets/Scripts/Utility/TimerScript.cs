@@ -1,7 +1,6 @@
 using TMPro;
 using System;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class TimerScript : MonoBehaviour
 {
