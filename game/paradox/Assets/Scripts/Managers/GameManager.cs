@@ -97,7 +97,7 @@ public class GameManager : MonoBehaviour
             switch (newState)
             {
                 case GameState.StartingYoungTurn:
-                    UpdateGameState(GameState.YoungPlayerTurn);
+                    Time.timeScale = 0f;
                     break;
                 case GameState.YoungPlayerTurn:
                     break;

@@ -76,12 +76,12 @@ public class PostProcessingManager : MonoBehaviour
 
             if (_vignette.intensity.value <= 1.5f && !upIntensityDone)
             {
-                _vignette.intensity.value += 0.8f * Time.unscaledDeltaTime;
+                _vignette.intensity.value += 1.5f * Time.unscaledDeltaTime;
             }
             else
             {
                 upIntensityDone = true;
-                _vignette.intensity.value -= 1.2f*Time.unscaledDeltaTime;
+                _vignette.intensity.value -= 1.5f*Time.unscaledDeltaTime;
             }
 
 
