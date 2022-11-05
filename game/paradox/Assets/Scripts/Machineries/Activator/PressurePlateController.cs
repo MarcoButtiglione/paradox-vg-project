@@ -33,7 +33,15 @@ public class PressurePlateController : MonoBehaviour
                     _isActive = true;
                     for (int i = 0; i < _objToActivate.Length; i++) 
                     {
-                        _objToActivate[i].SetActive(!_objToActivate[i].activeSelf);
+                        if (_objToActivate[i].GetComponent<MovingPlatformController>())
+                        {
+                            _objToActivate[i].GetComponent<MovingPlatformController>().SwitchState();
+                        }
+                        else
+                        {
+                            _objToActivate[i].SetActive(!_objToActivate[i].activeSelf);
+                        }
+               
                     }
                 }   
             }
@@ -75,7 +83,15 @@ public class PressurePlateController : MonoBehaviour
                 {
                     for (int i = 0; i < _objToActivate.Length; i++) 
                     {
-                        _objToActivate[i].SetActive(!_objToActivate[i].activeSelf);
+                        if (_objToActivate[i].GetComponent<MovingPlatformController>())
+                        {
+                            _objToActivate[i].GetComponent<MovingPlatformController>().SwitchState();
+                        }
+                        else
+                        {
+                            _objToActivate[i].SetActive(!_objToActivate[i].activeSelf);
+                        }
+               
                     }
                     _isActive = false;
                 }
