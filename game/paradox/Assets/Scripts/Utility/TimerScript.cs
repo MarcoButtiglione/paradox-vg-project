@@ -12,7 +12,7 @@ public class TimerScript : MonoBehaviour
     private void Awake()
     {
         _timerText = GetComponent<TMP_Text>();
-        
+
         //It is subscribing to the event
         GameManager.OnGameStateChanged += GameManagerOnGameStateChanged;
     }
@@ -23,19 +23,23 @@ public class TimerScript : MonoBehaviour
     }
     private void GameManagerOnGameStateChanged(GameState state)
     {
+        
         if (state == GameState.StartingYoungTurn)
         {
-            TimeLeft = _timerLevelsParameters.timerLevel;
             gameObject.SetActive(true);
+            TimeLeft = _timerLevelsParameters.timerLevel;
+            updateTimer(TimeLeft);
         }
         else if (state == GameState.StartingOldTurn || state == GameState.StartingSecondPart)
         {
             gameObject.SetActive(false);
         }
     }
-    
+
     void Update()
     {
+        if (GameManager.Instance.State == GameState.YoungPlayerTurn)
+        {
         if (TimeLeft > 0)
         {
             TimeLeft -= Time.deltaTime;
@@ -48,6 +52,7 @@ public class TimerScript : MonoBehaviour
             GameManager.Instance.UpdateGameState(GameState.StartingYoungTurn);
 
         }
+        }
 
     }
 
@@ -56,6 +61,6 @@ public class TimerScript : MonoBehaviour
         TimeSpan timeSpan = TimeSpan.FromSeconds(currentTime);
         _timerText.text = timeSpan.ToString(@"mm\:ss\:ff");
     }
-    
+
 
 }
