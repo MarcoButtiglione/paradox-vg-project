@@ -5,8 +5,7 @@ using System;
 
 public class InputManager : MonoBehaviour
 {
-    private bool _buttonPressed = false;
-
+   
     // Update is called once per frame
     void Update()
     {
