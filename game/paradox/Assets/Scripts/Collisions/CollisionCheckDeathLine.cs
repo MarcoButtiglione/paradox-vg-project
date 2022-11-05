@@ -8,7 +8,7 @@ public class CollisionCheckDeathLine : MonoBehaviour
         }
         else if(col.CompareTag("Old"))
         {
-            if (GameManager.Instance.IsTutorial()&& GameManager.Instance.State==GameState.SecondPart)
+            if (GameManager.Instance.IsTutorial() && GameManager.Instance.State==GameState.SecondPart)
             {
                 GameManager.Instance.UpdateGameState(GameState.StartingSecondPart);
             }

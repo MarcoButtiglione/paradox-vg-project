@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
      */
     public void UpdateGameState(GameState newState)
     {
-        Debug.Log("Current State: "+newState+" ----- IsTutorial: "+isTutorial);
+        Debug.Log("Current State: " + newState + " ----- IsTutorial: " + isTutorial);
         Time.timeScale = 1f;
         PreviousGameState = State;
         State = newState;
@@ -53,12 +53,12 @@ public class GameManager : MonoBehaviour
             switch (newState)
             {
                 case GameState.StartingYoungTurn:
-                    UpdateGameState(GameState.YoungPlayerTurn);
+                    Time.timeScale=0f;
                     break;
                 case GameState.YoungPlayerTurn:
                     break;
                 case GameState.StartingSecondPart:
-                    if (PreviousGameState!=GameState.YoungPlayerTurn)
+                    if (PreviousGameState != GameState.YoungPlayerTurn)
                     {
                         UpdateGameState(GameState.SecondPart);
                     }
@@ -72,7 +72,7 @@ public class GameManager : MonoBehaviour
                 case GameState.ThirdPart:
                     break;
                 case GameState.StartingOldTurn:
-                    UpdateGameState(GameState.OldPlayerTurn);
+                    Time.timeScale=0f;
                     break;
                 case GameState.OldPlayerTurn:
                     break;
@@ -102,9 +102,9 @@ public class GameManager : MonoBehaviour
                 case GameState.YoungPlayerTurn:
                     break;
                 case GameState.StartingOldTurn:
-                    if (PreviousGameState!=GameState.YoungPlayerTurn)
+                    if (PreviousGameState != GameState.YoungPlayerTurn)
                     {
-                        UpdateGameState(GameState.OldPlayerTurn);
+                        Time.timeScale = 0f;
                     }
                     break;
                 case GameState.OldPlayerTurn:
@@ -136,14 +136,16 @@ public class GameManager : MonoBehaviour
             UpdateGameState(PreviousGameState);
             Time.timeScale = 1f;
         }
-        else if (State == GameState.YoungPlayerTurn || State == GameState.OldPlayerTurn)
+        else if (State == GameState.YoungPlayerTurn || State == GameState.OldPlayerTurn || State == GameState.SecondPart || State == GameState.ThirdPart)
         {
             UpdateGameState(GameState.PauseMenu);
             Time.timeScale = 0f;
         }
     }
 
-    public bool IsTutorial(){
+
+    public bool IsTutorial()
+    {
         return isTutorial;
     }
 

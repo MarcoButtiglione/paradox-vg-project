@@ -6,15 +6,19 @@ using UnityEngine.Rendering.PostProcessing;
 
 public class PostProcessingManager : MonoBehaviour
 {
+    public static PostProcessingManager Instance;
     public GameObject Camera;
     public GameObject Old_Player;
     
     private Vignette _vignette;
     private Vector2 normalizedOldPlayerPos;
     private bool upIntensityDone = false;
+    public bool isProcessing = false;
+   
 
     private void Awake()
     {
+        Instance = this;
         //It is subscribing to the event
         GameManager.OnGameStateChanged += GameManagerOnGameStateChanged;
     }
@@ -64,6 +68,7 @@ public class PostProcessingManager : MonoBehaviour
     //COROUTINE TO ADD A TRANSACTION BETWEEN FIRST AND SECOND PART
     IEnumerator StartDelay()
     {
+        isProcessing = true;
         Time.timeScale = 0;
 
         while (_vignette.intensity.value >= 0f)
@@ -85,7 +90,10 @@ public class PostProcessingManager : MonoBehaviour
 
         upIntensityDone = false;
         _vignette.intensity.value = 0f;
+
+        isProcessing = false;
         Time.timeScale = 1;
+
         if (GameManager.Instance.IsTutorial())
         {
             GameManager.Instance.UpdateGameState(GameState.SecondPart);
