@@ -29,13 +29,29 @@ public class ButtonController : MonoBehaviour
             _isActive = true;
             for (int i = 0; i < _objToActivate.Length; i++) 
             {
-                _objToActivate[i].SetActive(!_objToActivate[i].activeSelf);
+                if (_objToActivate[i].GetComponent<MovingPlatformController>())
+                {
+                    _objToActivate[i].GetComponent<MovingPlatformController>().SwitchState();
+                }
+                else
+                {
+                    _objToActivate[i].SetActive(!_objToActivate[i].activeSelf);
+                }
+               
             }
             yield return new WaitForSeconds(_timer);
             _isActive = false;
             for (int i = 0; i < _objToActivate.Length; i++) 
             {
-                _objToActivate[i].SetActive(!_objToActivate[i].activeSelf);
+                if (_objToActivate[i].GetComponent<MovingPlatformController>())
+                {
+                    _objToActivate[i].GetComponent<MovingPlatformController>().SwitchState();
+                }
+                else
+                {
+                    _objToActivate[i].SetActive(!_objToActivate[i].activeSelf);
+                }
+               
             }
             
         }

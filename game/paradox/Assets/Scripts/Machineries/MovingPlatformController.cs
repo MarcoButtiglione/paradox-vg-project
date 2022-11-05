@@ -7,8 +7,15 @@ public class MovingPlatformController : MonoBehaviour
 {
      [SerializeField] private GameObject[] _waypoints;
      private int _currentWaypointIndex = 0;
-     [SerializeField] private bool _isActive = true;
+     private Vector3 _initPosition;
+     private bool _isActive = true;
      [SerializeField] private float speed = 2.0f;
+     
+
+     private void Awake()
+     {
+          _initPosition = gameObject.transform.position;
+     }
 
      private void Update()
      {
@@ -28,7 +35,22 @@ public class MovingPlatformController : MonoBehaviour
           }
      }
 
-     public void switchState()
+     
+
+     public void SetDeactivated()
+     {
+          _isActive = false;
+          _currentWaypointIndex = 0;
+          gameObject.transform.position=_initPosition;
+     }
+     public void SetActivated()
+     {
+          _isActive = true;
+          _currentWaypointIndex = 0;
+          gameObject.transform.position=_initPosition;
+     }
+
+     public void SwitchState()
      {
           _isActive = !_isActive;
      }
