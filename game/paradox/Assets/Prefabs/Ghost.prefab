@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: -5853166896368534587}
   - component: {fileID: -6801669417768076945}
   - component: {fileID: 7480229893904129146}
+  - component: {fileID: 7219070296908140650}
   m_Layer: 7
   m_Name: Ghost
   m_TagString: Ghost
@@ -81,7 +82,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: f457e5f821d06a24895cc8d30ebfcb06, type: 3}
-  m_Color: {r: 0.30922034, g: 0.9528302, b: 0.55626255, a: 1}
+  m_Color: {r: 0.2679245, g: 1, b: 0.5172213, a: 0.49019608}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -204,6 +205,19 @@ MonoBehaviour:
   OnCrouchEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &7219070296908140650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4628769056619335621}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ba52ec3462362d47aa6aba3c6ad635f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeToBlink: 3
 --- !u!1 &5245921306718348420
 GameObject:
   m_ObjectHideFlags: 0
