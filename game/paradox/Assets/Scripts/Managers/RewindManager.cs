@@ -3,6 +3,7 @@ using UnityEngine;
 public class RewindManager : MonoBehaviour
 {
     public GameObject GhostPrefab;
+    private GameObject _initGhostPrefab;
 
     public GameObject Old_Player;
     private Vector3 _initPosOld;
@@ -32,7 +33,8 @@ public class RewindManager : MonoBehaviour
 
         _initPosOld = Old_Player.transform.position;
         _initPosYoung = Young_Player.transform.position;
-        GhostPrefab = Instantiate(GhostPrefab, GhostPrefab.transform.position, Quaternion.identity);
+        _initGhostPrefab = GhostPrefab;
+        //GhostPrefab = Instantiate(GhostPrefab, GhostPrefab.transform.position, Quaternion.identity);
 
     }
     private void OnDestroy()
@@ -70,7 +72,8 @@ public class RewindManager : MonoBehaviour
 
     private void Init()
     {
-        GhostPrefab.SetActive(false);
+        //GhostPrefab.SetActive(false);
+        
 
         Old_Player.SetActive(false);
         Old_Player.transform.position = _initPosOld;
@@ -130,14 +133,18 @@ public class RewindManager : MonoBehaviour
     private void StartSecondPart()
     {
         index = 0;
-        GhostPrefab.transform.position = positions_young_p[0];
+        if(GhostPrefab)
+            Destroy(GhostPrefab);
+        //GhostPrefab.transform.position = positions_young_p[0];
+        GhostPrefab = Instantiate(_initGhostPrefab, positions_young_p[0], Quaternion.identity);
+        GhostPrefab.SetActive(true);
 
         positions_old_p = new List<Vector3>();
         Old_Player.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
 
         Old_Player.SetActive(true);
         Young_Player.SetActive(false);
-        GhostPrefab.SetActive(true);
+        
     }
 
     private void RestartOldAndGhost()
@@ -168,6 +175,7 @@ public class RewindManager : MonoBehaviour
         {
             if (Vector2.Distance(new Vector2(GhostPrefab.transform.position.x, GhostPrefab.transform.position.y), new Vector2(positions_young_p[index].x, positions_young_p[index].y)) > 0.5)
             {
+                Destroy(GhostPrefab);
                 GameManager.Instance.UpdateGameState(GameState.Paradox);
                 return;
             }
@@ -183,6 +191,7 @@ public class RewindManager : MonoBehaviour
         {
             if (Vector2.Distance(new Vector2(GhostPrefab.transform.position.x, GhostPrefab.transform.position.y), new Vector2(positions_young_p[index].x, positions_young_p[index].y)) > 0.5)
             {
+                Destroy(GhostPrefab);
                 GameManager.Instance.UpdateGameState(GameState.StartingOldTurn);
                 return;
             }
@@ -202,7 +211,7 @@ public class RewindManager : MonoBehaviour
     private void StartThirdPartTutorial()
     {
         index = 0;
-        GhostPrefab.transform.position = positions_young_p[0];
+        GhostPrefab = Instantiate(_initGhostPrefab, positions_young_p[0], Quaternion.identity);
 
         Old_Player.SetActive(false);
         GhostPrefab.SetActive(true);
