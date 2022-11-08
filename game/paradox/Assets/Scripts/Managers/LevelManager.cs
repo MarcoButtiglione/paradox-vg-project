@@ -28,7 +28,7 @@ public class LevelManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        _currentLevel = 0;
+        _currentLevel = SceneManager.GetActiveScene().buildIndex;
     }
 
     
@@ -74,8 +74,11 @@ public class LevelManager : MonoBehaviour
     {
         PlayLevel(_currentLevel);
     }
+    
+    
     private void PlayLevel(int level)
     {
+        
         _currentLevel = level;
         
         switch (level)
@@ -102,6 +105,7 @@ public class LevelManager : MonoBehaviour
         
     }
 
+    
     public bool IsTutorialLevel(){
         if(_currentLevel == 1)
             return true;
