@@ -79,6 +79,8 @@ public class RewindManager : MonoBehaviour
         Old_Player.transform.position = _initPosOld;
         Young_Player.SetActive(true);
         Young_Player.transform.position = _initPosYoung;
+        
+        GhostPrefab.SetActive(false);
 
         positions_young_p = new List<Vector3>();
         inputs = new List<TypeOfInputs>();
