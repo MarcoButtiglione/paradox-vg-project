@@ -61,21 +61,6 @@ public class LevelManager : MonoBehaviour
         _progressBar.fillAmount = Mathf.MoveTowards(_progressBar.fillAmount, _target, 3 * Time.deltaTime);
     }
     */
-    
-    public void PlayFirstLevel()
-    {
-        PlayLevel(1);
-    }
-    public void PlayNextLevel()
-    {
-        PlayLevel(_currentLevel+1);
-    }
-    public void RestartLevel()
-    {
-        PlayLevel(_currentLevel);
-    }
-    
-    
     private void PlayLevel(int level)
     {
         
@@ -104,18 +89,29 @@ public class LevelManager : MonoBehaviour
 
         
     }
-
-    
+    public void PlayMainMenu()
+    {
+        LoadScene("Menu");
+        _currentLevel = 0;
+    }
+    public void PlayFirstLevel()
+    {
+        PlayLevel(1);
+    }
+    public void PlayNextLevel()
+    {
+        PlayLevel(_currentLevel+1);
+    }
+    public void RestartLevel()
+    {
+        PlayLevel(_currentLevel);
+    }
     public bool IsTutorialLevel(){
         if(_currentLevel == 1)
             return true;
         return false;    
     }
 
-    public void PlayMainMenu()
-    {
-        LoadScene("Menu");
-        _currentLevel = 0;
-    }
+    
 }
 

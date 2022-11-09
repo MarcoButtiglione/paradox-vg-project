@@ -43,13 +43,13 @@ public class GameManager : MonoBehaviour
     public void UpdateGameState(GameState newState)
     {
         Debug.Log("Current State: " + newState + " ----- IsTutorial: " + isTutorial);
+        
         Time.timeScale = 1f;
         PreviousGameState = State;
         State = newState;
 
         if (isTutorial)
         {
-
             switch (newState)
             {
                 case GameState.StartingYoungTurn:
@@ -155,15 +155,19 @@ public class GameManager : MonoBehaviour
 
 public enum GameState
 {
+    
     StartingYoungTurn,
-    StartingSecondPart,
-    StartingThirdPart,
-    StartingOldTurn,
     YoungPlayerTurn,
+    
+    StartingSecondPart,
     SecondPart,
     ThirdPart,
+    StartingThirdPart,
+    
+    StartingOldTurn,
     OldPlayerTurn,
     Paradox,
+    
     PauseMenu,
     GameOverMenu,
     LevelCompleted,

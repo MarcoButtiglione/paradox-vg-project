@@ -40,18 +40,17 @@ public class TimerScript : MonoBehaviour
     {
         if (GameManager.Instance.State == GameState.YoungPlayerTurn)
         {
-        if (TimeLeft > 0)
-        {
-            TimeLeft -= Time.deltaTime;
-            updateTimer(TimeLeft);
-        }
-        else
-        {
-            TimeLeft = 0;
-            //GAME OVER
-            GameManager.Instance.UpdateGameState(GameState.StartingYoungTurn);
-
-        }
+            if (TimeLeft > 0)
+            {
+                TimeLeft -= Time.deltaTime;
+                updateTimer(TimeLeft);
+            }
+            else
+            {
+                TimeLeft = 0;
+                //GAME OVER
+                GameManager.Instance.UpdateGameState(GameState.StartingYoungTurn);
+            }
         }
 
     }

@@ -11,7 +11,6 @@ public class ActivatorManager : MonoBehaviour
     {
         //It is subscribing to the event
         GameManager.OnGameStateChanged += GameManagerOnGameStateChanged;
-       
     }
     private void OnDestroy()
     {
