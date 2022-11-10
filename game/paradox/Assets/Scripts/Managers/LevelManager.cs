@@ -15,7 +15,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private Image _progressBar;
     private float _target;
     */
-    
+
     private void Awake()
     {
         if (Instance == null)
@@ -31,7 +31,7 @@ public class LevelManager : MonoBehaviour
         _currentLevel = SceneManager.GetActiveScene().buildIndex;
     }
 
-    
+
     private void LoadScene(string sceneName)
     {
         /*
@@ -39,7 +39,7 @@ public class LevelManager : MonoBehaviour
         _progressBar.fillAmount = 0;
         */
         var scene = SceneManager.LoadSceneAsync(sceneName);
-        
+
         //TODO
         /*
         scene.allowSceneActivation = false;
@@ -63,9 +63,9 @@ public class LevelManager : MonoBehaviour
     */
     private void PlayLevel(int level)
     {
-        
+
         _currentLevel = level;
-        
+
         switch (level)
         {
             case 1:
@@ -81,13 +81,16 @@ public class LevelManager : MonoBehaviour
                 LoadScene("level2");
                 break;
             case 5:
+                LoadScene("level3");
+                break;
+            case 6:
                 PlayMainMenu();
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
 
-        
+
     }
     public void PlayMainMenu()
     {
@@ -100,18 +103,19 @@ public class LevelManager : MonoBehaviour
     }
     public void PlayNextLevel()
     {
-        PlayLevel(_currentLevel+1);
+        PlayLevel(_currentLevel + 1);
     }
     public void RestartLevel()
     {
         PlayLevel(_currentLevel);
     }
-    public bool IsTutorialLevel(){
-        if(_currentLevel == 1)
+    public bool IsTutorialLevel()
+    {
+        if (_currentLevel == 1)
             return true;
-        return false;    
+        return false;
     }
 
-    
+
 }
 

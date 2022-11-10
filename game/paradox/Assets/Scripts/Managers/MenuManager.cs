@@ -61,15 +61,7 @@ public class MenuManager : MonoBehaviour
     
     public void RestartLevel()
     {
-        LevelManager l = LevelManager.Instance;
-        if (l)
-        {
-            l.RestartLevel();
-        }
-        else
-        {
-            GameManager.Instance.UpdateGameState(GameState.StartingYoungTurn);
-        }
+        GameManager.Instance.UpdateGameState(GameState.StartingYoungTurn);
     }
 
     public void GoToMainMenu()
