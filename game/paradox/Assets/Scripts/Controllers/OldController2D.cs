@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -34,6 +35,8 @@ public class OldController2D : MonoBehaviour
     public BoolEvent OnCrouchEvent;
     private bool m_wasCrouching = false;
 
+    private bool _wasJetpack = false;
+
     private void Awake()
     {
         m_Rigidbody2D = GetComponent<Rigidbody2D>();
@@ -64,9 +67,17 @@ public class OldController2D : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        AudioManager a = FindObjectOfType<AudioManager>();
+        if (a)
+            a.Stop("Jetpack");
+    }
+
 
     public void Move(float move, bool crouch, bool jump, bool jet, bool dash)
     {
+        bool playJet = false;
         // If crouching, check to see if the character can stand up
         if (!crouch)
         {
@@ -146,11 +157,17 @@ public class OldController2D : MonoBehaviour
             // JetpackJump
             
             m_Rigidbody2D.AddForce(new Vector2(0f, m_JetForce * m_JumpForce));
-            //Play the jetpack sound
-            //AudioManager a = FindObjectOfType<AudioManager>();
-            //if (a)
-            //    a.Play("Jump");
-            //---------------------------
+            playJet = true;
+            if (!_wasJetpack)
+            {
+                _wasJetpack = true;
+                //Play the jetpack sound
+                AudioManager a = FindObjectOfType<AudioManager>();
+                if (a)
+                    a.Play("Jetpack");
+                //---------------------------
+            }
+            
 
         }
 
@@ -167,6 +184,14 @@ public class OldController2D : MonoBehaviour
             //---------------------------
 
         }
+
+         if (_wasJetpack && !playJet)
+         {
+             _wasJetpack = false;
+             AudioManager a = FindObjectOfType<AudioManager>();
+             if (a)
+                 a.Stop("Jetpack");
+         }
     }
 
 
