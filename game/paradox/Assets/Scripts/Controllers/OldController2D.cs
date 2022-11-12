@@ -160,10 +160,10 @@ public class OldController2D : MonoBehaviour
             // Add a horizontal force to the player.
             dash = false;
             m_Rigidbody2D.AddForce(new Vector2(move*m_DashForce, 0f));
-            //Play the jump sound-------
-            //AudioManager a = FindObjectOfType<AudioManager>();
-            //if (a)
-            //    a.Play("Jump");
+            //Play the dash sound-------
+            AudioManager a = FindObjectOfType<AudioManager>();
+            if (a)
+                a.Play("Dash");
             //---------------------------
 
         }
