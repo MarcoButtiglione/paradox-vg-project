@@ -38,6 +38,7 @@ public class LaserController : MonoBehaviour
         {
            if (col.gameObject.CompareTag("Young"))
            {
+               StopAllCoroutines();
                GameManager.Instance.UpdateGameState(GameState.StartingYoungTurn);
            }
            else if(col.gameObject.CompareTag("Old") || col.gameObject.CompareTag("Ghost"))
@@ -51,24 +52,23 @@ public class LaserController : MonoBehaviour
     // In the young player turn, the laser activates and deactivates periodically
     public void StartPeriodic()
     {
+        StopAllCoroutines();
         StartCoroutine(Periodic());
     }
 
     private IEnumerator Periodic()
     {
-        while (true)
-        {
-            _laserRay.SetActive(false);
-            yield return new WaitForSeconds(_timer);
-            _laserRay.SetActive(true);
-            yield return new WaitForSeconds(_timer);
-            Debug.Log("Coroutine started");
-        }
+        _laserRay.SetActive(false);
+        yield return new WaitForSeconds(_timer);
+        _laserRay.SetActive(true);
+        yield return new WaitForSeconds(_timer);
+        StartCoroutine(Periodic());
     }
 
     // In the old player turn, the laser is fixed and it is the player's job to deactivate it
     public void StartFixed()
     {
-        
+        StopAllCoroutines();
+        _laserRay.SetActive(true);
     }
 }
