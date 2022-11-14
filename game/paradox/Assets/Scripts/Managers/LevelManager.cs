@@ -32,13 +32,13 @@ public class LevelManager : MonoBehaviour
     }
 
 
-    private void LoadScene(string sceneName)
+    private void LoadScene(int level)
     {
         /*
         _target = 0;
         _progressBar.fillAmount = 0;
         */
-        var scene = SceneManager.LoadSceneAsync(sceneName);
+        var scene = SceneManager.LoadSceneAsync(level);
 
         //TODO
         /*
@@ -64,37 +64,13 @@ public class LevelManager : MonoBehaviour
     private void PlayLevel(int level)
     {
 
-        _currentLevel = level;
-
-        switch (level)
-        {
-            case 1:
-                LoadScene("intro_level");
-                break;
-            case 2:
-                LoadScene("level0");
-                break;
-            case 3:
-                LoadScene("level1");
-                break;
-            case 4:
-                LoadScene("level2");
-                break;
-            case 5:
-                LoadScene("level3");
-                break;
-            case 6:
-                PlayMainMenu();
-                break;
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
-
+        _currentLevel = level % SceneManager.sceneCountInBuildSettings;
+        LoadScene(_currentLevel);
 
     }
     public void PlayMainMenu()
     {
-        LoadScene("Menu");
+        LoadScene(0);
         _currentLevel = 0;
     }
     public void PlayFirstLevel()
