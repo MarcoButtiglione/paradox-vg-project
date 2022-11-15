@@ -3305,8 +3305,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6141140494349239078, guid: 92b6bffacecfba449b7dcad34656af9f, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.87865746
+      objectReference: {fileID: 0}
+    - target: {fileID: 6141140494349239078, guid: 92b6bffacecfba449b7dcad34656af9f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.53
+      value: 2.97
       objectReference: {fileID: 0}
     - target: {fileID: 6141140494349239078, guid: 92b6bffacecfba449b7dcad34656af9f, type: 3}
       propertyPath: m_LocalPosition.y
@@ -4052,6 +4056,7 @@ MonoBehaviour:
   Old_Player: {fileID: 1346616423}
   Young_Player: {fileID: 2044639553}
   parameterReload: 40
+  tresHold: 0.5
 --- !u!1 &1777651299
 GameObject:
   m_ObjectHideFlags: 0
