@@ -24,6 +24,9 @@ public class RewindManager : MonoBehaviour
     [SerializeField]
     private int parameterReload = 40;
 
+    [SerializeField]
+    private float tresHold = 0.5f;
+
 
     //Event managment 
     private void Awake()
@@ -175,7 +178,7 @@ public class RewindManager : MonoBehaviour
 
         if (index < inputs.Count)
         {
-            if (Vector2.Distance(new Vector2(GhostPrefab.transform.position.x, GhostPrefab.transform.position.y), new Vector2(positions_young_p[index].x, positions_young_p[index].y)) > 0.5)
+            if (Vector2.Distance(new Vector2(GhostPrefab.transform.position.x, GhostPrefab.transform.position.y), new Vector2(positions_young_p[index].x, positions_young_p[index].y)) > tresHold)
             {
                 Destroy(GhostPrefab);
                 GameManager.Instance.UpdateGameState(GameState.Paradox);
@@ -191,7 +194,7 @@ public class RewindManager : MonoBehaviour
 
         if (index < inputs.Count)
         {
-            if (Vector2.Distance(new Vector2(GhostPrefab.transform.position.x, GhostPrefab.transform.position.y), new Vector2(positions_young_p[index].x, positions_young_p[index].y)) > 0.5)
+            if (Vector2.Distance(new Vector2(GhostPrefab.transform.position.x, GhostPrefab.transform.position.y), new Vector2(positions_young_p[index].x, positions_young_p[index].y)) > tresHold)
             {
                 Destroy(GhostPrefab);
                 GameManager.Instance.UpdateGameState(GameState.StartingOldTurn);
