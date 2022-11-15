@@ -52,23 +52,25 @@ public class LaserController : MonoBehaviour
     // In the young player turn, the laser activates and deactivates periodically
     public void StartPeriodic()
     {
-        StopAllCoroutines();
+        //StopAllCoroutines();
         StartCoroutine(Periodic());
     }
 
     private IEnumerator Periodic()
     {
-        _laserRay.SetActive(false);
-        yield return new WaitForSeconds(_timer);
-        _laserRay.SetActive(true);
-        yield return new WaitForSeconds(_timer);
-        StartCoroutine(Periodic());
+        while (GameManager.Instance.State == GameState.YoungPlayerTurn)
+        {
+            _laserRay.SetActive(false);
+            yield return new WaitForSeconds(_timer);
+            _laserRay.SetActive(true);
+            yield return new WaitForSeconds(_timer);
+        }
     }
 
     // In the old player turn, the laser is fixed and it is the player's job to deactivate it
     public void StartFixed()
     {
-        StopAllCoroutines();
+        //StopAllCoroutines();
         _laserRay.SetActive(true);
     }
 }
