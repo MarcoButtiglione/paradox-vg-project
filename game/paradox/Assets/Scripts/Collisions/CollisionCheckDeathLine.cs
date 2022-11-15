@@ -1,14 +1,18 @@
 using UnityEngine;
 public class CollisionCheckDeathLine : MonoBehaviour
 {
-    private void OnTriggerEnter2D(Collider2D col){
-        if(col.CompareTag("Young")){
-            //In common for tutorial and game
-            GameManager.Instance.UpdateGameState(GameState.StartingYoungTurn);
-        }
-        else if(col.CompareTag("Old"))
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.CompareTag("Young"))
         {
-            if (GameManager.Instance.IsTutorial() && GameManager.Instance.State==GameState.SecondPart)
+            //In common for tutorial and game
+
+            GameManager.Instance.UpdateGameState(GameState.StartingYoungTurn);
+
+        }
+        else if (col.CompareTag("Old"))
+        {
+            if (GameManager.Instance.IsTutorial() && GameManager.Instance.State == GameState.SecondPart)
             {
                 GameManager.Instance.UpdateGameState(GameState.StartingSecondPart);
             }
@@ -18,5 +22,5 @@ public class CollisionCheckDeathLine : MonoBehaviour
             }
         }
     }
-   
+
 }

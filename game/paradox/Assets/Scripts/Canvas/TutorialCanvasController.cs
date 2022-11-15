@@ -9,6 +9,7 @@ public class TutorialCanvasController : MonoBehaviour
     [SerializeField] private GameObject _secondPart;
     [SerializeField] private GameObject _thirdPart;
     [SerializeField] private GameObject _forthPart;
+    [SerializeField] private GameObject questionMarks;
     //Event managment 
     private void Awake()
     {
@@ -45,6 +46,7 @@ public class TutorialCanvasController : MonoBehaviour
             _secondPart.SetActive(true);
             _thirdPart.SetActive(false);
             _forthPart.SetActive(false);
+            
         }
         else if (state == GameState.StartingThirdPart)
         {

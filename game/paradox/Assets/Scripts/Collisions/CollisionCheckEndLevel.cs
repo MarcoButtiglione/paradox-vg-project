@@ -11,7 +11,7 @@ public class CollisionCheckEndLevel : MonoBehaviour
         {
             if (GameManager.Instance.IsTutorial())
             {
-                GameManager.Instance.UpdateGameState(GameState.StartingSecondPart);
+                GameManager.Instance.UpdateGameState(GameState.StartingThirdPart);
             }
             else
             {
