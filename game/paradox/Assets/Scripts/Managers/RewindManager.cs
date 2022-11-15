@@ -2,13 +2,16 @@ using System.Collections.Generic;
 using UnityEngine;
 public class RewindManager : MonoBehaviour
 {
+    //Ghost
     public GameObject GhostPrefab;
     private GameObject _initGhostPrefab;
-
+    //Old
     public GameObject Old_Player;
     private Vector3 _initPosOld;
+    //Young
     public GameObject Young_Player;
     private Vector3 _initPosYoung;
+    
     private List<Vector3> positions_young_p;
     private List<TypeOfInputs> inputs;
 
@@ -31,10 +34,12 @@ public class RewindManager : MonoBehaviour
         //It is subscribing to the event
         GameManager.OnGameStateChanged += GameManagerOnGameStateChanged;
 
+        //Old
         _initPosOld = Old_Player.transform.position;
+        //Young
         _initPosYoung = Young_Player.transform.position;
+        //Ghost
         _initGhostPrefab = GhostPrefab;
-        //GhostPrefab = Instantiate(GhostPrefab, GhostPrefab.transform.position, Quaternion.identity);
 
     }
     private void OnDestroy()
@@ -77,8 +82,27 @@ public class RewindManager : MonoBehaviour
 
         Old_Player.SetActive(false);
         Old_Player.transform.position = _initPosOld;
+        
+        
+        //Init Young
+        
         Young_Player.SetActive(true);
-        Young_Player.transform.position = _initPosYoung;
+        //Young_Player.transform.position = _initPosYoung;
+        
+        Young_Player.GetComponent<Rigidbody2D>().velocity = new Vector3(0f,0f,0f);
+        Young_Player.GetComponent<Rigidbody2D>().angularVelocity = 0f;
+        Young_Player.transform.rotation = Quaternion.Euler(new Vector3(0f,0f,0f));
+        Young_Player.transform.position = _initPosYoung;   
+        
+        /*
+        if(Young_Player)
+            Destroy(Young_Player);
+        Young_Player = Instantiate(_initYoungPrefab, _initYoungPrefab.transform.position, Quaternion.identity);
+        
+        
+        Young_Player.SetActive(true);
+        */
+        //-------------
         
         GhostPrefab.SetActive(false);
 
@@ -135,16 +159,20 @@ public class RewindManager : MonoBehaviour
     private void StartSecondPart()
     {
         index = 0;
+        
+        //Init Ghost
         if(GhostPrefab)
             Destroy(GhostPrefab);
-        //GhostPrefab.transform.position = positions_young_p[0];
         GhostPrefab = Instantiate(_initGhostPrefab, positions_young_p[0], Quaternion.identity);
         GhostPrefab.SetActive(true);
+        //-------------
 
+        //Init Old
         positions_old_p = new List<Vector3>();
         Old_Player.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
-
         Old_Player.SetActive(true);
+        //-------------
+        
         Young_Player.SetActive(false);
         
     }
