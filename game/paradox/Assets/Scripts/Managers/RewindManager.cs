@@ -197,7 +197,7 @@ public class RewindManager : MonoBehaviour
             if (Vector2.Distance(new Vector2(GhostPrefab.transform.position.x, GhostPrefab.transform.position.y), new Vector2(positions_young_p[index].x, positions_young_p[index].y)) > tresHold)
             {
                 Destroy(GhostPrefab);
-                GameManager.Instance.UpdateGameState(GameState.StartingOldTurn);
+                GameManager.Instance.UpdateGameState(GameState.StartingSecondPart);
                 return;
             }
             GhostPrefab.GetComponent<CharacterController2D>().Move(inputs[index].getHorizontal() * Time.fixedDeltaTime, inputs[index].getCrouch(), inputs[index].getJump());
@@ -220,6 +220,7 @@ public class RewindManager : MonoBehaviour
 
         Old_Player.SetActive(false);
         GhostPrefab.SetActive(true);
+        Young_Player.SetActive(false);
         
     }
 

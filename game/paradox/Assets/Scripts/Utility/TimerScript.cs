@@ -30,7 +30,7 @@ public class TimerScript : MonoBehaviour
             TimeLeft = _timerLevelsParameters.timerLevel;
             updateTimer(TimeLeft);
         }
-        else if (state == GameState.StartingOldTurn || state == GameState.StartingSecondPart)
+        else if (state == GameState.StartingOldTurn || state == GameState.StartingThirdPart)
         {
             gameObject.SetActive(false);
         }

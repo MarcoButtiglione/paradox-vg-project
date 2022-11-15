@@ -14,10 +14,12 @@ public class LeverControllerTutorial : MonoBehaviour
     {
         if (GameManager.Instance.State == GameState.SecondPart)
         {
-            GameManager.Instance.UpdateGameState(GameState.StartingThirdPart);
+            
             AudioManager a = FindObjectOfType<AudioManager>();
             if (a)
                 a.Play("Click");
+
+            StartCoroutine(activatePlatform());    
             
         }
         else
@@ -47,5 +49,32 @@ public class LeverControllerTutorial : MonoBehaviour
         }
     }
 
+    IEnumerator activatePlatform(){
+
+        _isActive = !_isActive;
+            if (_isActive)
+            {
+                for (int i = 0; i < _objToActivate.Length; i++)
+                {
+                    _objToActivate[i].SetActive(!_objToActivate[i].activeSelf);
+                }
+                stick.transform.Rotate(0.0f, 0.0f, 90.0f);
+            }
+            else
+            {
+                for (int i = 0; i < _objToActivate.Length; i++)
+                {
+                    _objToActivate[i].SetActive(!_objToActivate[i].activeSelf);
+                }
+                stick.transform.Rotate(0.0f, 0.0f, -90.0f);
+            }
+
+        yield return new WaitForSecondsRealtime(1f);
+        GameManager.Instance.UpdateGameState(GameState.StartingOldTurn);
+
+    }
+
 
 }
+
+
