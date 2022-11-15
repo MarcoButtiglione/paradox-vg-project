@@ -146,6 +146,7 @@ public class RewindManager : MonoBehaviour
 
         positions_old_p = new List<Vector3>();
         Old_Player.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+        Old_Player.transform.position = _initPosOld;
 
         Old_Player.SetActive(true);
         Young_Player.SetActive(false);
