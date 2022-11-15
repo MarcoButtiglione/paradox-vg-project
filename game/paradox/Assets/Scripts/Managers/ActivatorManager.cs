@@ -27,10 +27,10 @@ public class ActivatorManager : MonoBehaviour
                 {
                     _objToActivate[i].GetComponent<MovingPlatformController>().SetActivated();
                 }
-                /*else if (_objToActivate[i].GetComponent<LaserController>())
+                else if (_objToActivate[i].GetComponent<MovingLaserController>())
                 {
-                    _objToActivate[i].GetComponent<LaserController>().StartPeriodic();
-                }*/
+                    _objToActivate[i].GetComponent<MovingLaserController>().SetActivated();
+                }
                 else
                 {
                     _objToActivate[i].SetActive(true);
@@ -49,6 +49,10 @@ public class ActivatorManager : MonoBehaviour
                 else if (_objToActivate[i].GetComponent<LaserController>())
                 {
                     _objToActivate[i].GetComponent<LaserController>().StartFixed();
+                }
+                else if (_objToActivate[i].GetComponent<MovingLaserController>())
+                {
+                    _objToActivate[i].GetComponent<MovingLaserController>().SetActivated();
                 }
                 else
                 {
