@@ -27,6 +27,10 @@ public class ActivatorManager : MonoBehaviour
                 {
                     _objToActivate[i].GetComponent<MovingPlatformController>().SetActivated();
                 }
+                /*else if (_objToActivate[i].GetComponent<LaserController>())
+                {
+                    _objToActivate[i].GetComponent<LaserController>().StartPeriodic();
+                }*/
                 else
                 {
                     _objToActivate[i].SetActive(true);
@@ -42,11 +46,26 @@ public class ActivatorManager : MonoBehaviour
                 {
                     _objToActivate[i].GetComponent<MovingPlatformController>().SetDeactivated();
                 }
+                else if (_objToActivate[i].GetComponent<LaserController>())
+                {
+                    _objToActivate[i].GetComponent<LaserController>().StartFixed();
+                }
                 else
                 {
                     _objToActivate[i].SetActive(false);
                 }
                
+            }
+        }
+
+        if (state == GameState.YoungPlayerTurn)
+        {
+            for (int i = 0; i < _objToActivate.Length; i++)
+            {
+                if (_objToActivate[i].GetComponent<LaserController>())
+                {
+                    _objToActivate[i].GetComponent<LaserController>().StartPeriodic();
+                }
             }
         }
     }
