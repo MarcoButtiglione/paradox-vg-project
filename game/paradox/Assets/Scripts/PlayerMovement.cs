@@ -9,11 +9,17 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float runSpeed = 40f;
     private bool jump = false;
     private bool crouch = false;
+    private List<TypeOfInputs> inputs;
+    
 
+    void Start(){
+        inputs = new List<TypeOfInputs>();
+    }
 
     // Update is called once per frame
     void Update()
     {
+        if(GameManager.Instance.State == GameState.YoungPlayerTurn){
         horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
         if (Input.GetButtonDown("Jump"))
         {
@@ -28,17 +34,19 @@ public class PlayerMovement : MonoBehaviour
         {
             crouch = false;
         }
+        }
     }
 
     void FixedUpdate()
     {
         controller.Move(horizontalMove * Time.fixedDeltaTime, crouch, jump);
+        inputs.Insert(inputs.Count, new TypeOfInputs(horizontalMove * Time.fixedDeltaTime, crouch, jump));
         jump = false;
     }
 
     public float getHorizontal()
     {
-        return horizontalMove;
+        return horizontalMove * Time.fixedDeltaTime;
     }
 
     public bool getJump()
@@ -49,5 +57,9 @@ public class PlayerMovement : MonoBehaviour
     public bool getCrouch()
     {
         return crouch;
+    }
+
+    public List<TypeOfInputs> getListInputs(){
+        return inputs;
     }
 }
