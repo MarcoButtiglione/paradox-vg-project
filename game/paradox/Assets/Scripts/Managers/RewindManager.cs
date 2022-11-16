@@ -110,6 +110,7 @@ public class RewindManager : MonoBehaviour
         GhostPrefab.SetActive(false);
 
         positions_young_p = new List<Vector3>();
+        positions_young_p.Insert(positions_young_p.Count, _initPosYoung);
         inputs = new List<TypeOfInputs>();
 
         positions_old_p = new List<Vector3>();
