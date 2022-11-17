@@ -31,6 +31,10 @@ public class ActivatorManager : MonoBehaviour
                 {
                     _objToActivate[i].GetComponent<MovingLaserController>().SetActivated();
                 }
+                else if (_objToActivate[i].GetComponent<RotatingLaserController>())
+                {
+                    _objToActivate[i].GetComponent<RotatingLaserController>().SetActivated();
+                }
                 else
                 {
                     _objToActivate[i].SetActive(true);
@@ -53,6 +57,10 @@ public class ActivatorManager : MonoBehaviour
                 else if (_objToActivate[i].GetComponent<MovingLaserController>())
                 {
                     _objToActivate[i].GetComponent<MovingLaserController>().SetActivated();
+                }
+                else if (_objToActivate[i].GetComponent<RotatingLaserController>())
+                {
+                    _objToActivate[i].GetComponent<RotatingLaserController>().SetActivated();
                 }
                 else
                 {

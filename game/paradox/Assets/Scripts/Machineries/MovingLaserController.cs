@@ -31,6 +31,8 @@ public class MovingLaserController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        /*transform.Rotate(20f * Time.deltaTime * Vector3.forward);*/
+        
         if (Vector2.Distance(_waypoints[_currentWaypointIndex].transform.position, gameObject.transform.position) < .1f)
         {
             _currentWaypointIndex++;

@@ -8,16 +8,20 @@ public class LaserController : MonoBehaviour
     public Transform laserPosition;
     private GameObject _laserRay;
     private float _timer = 1.0f;
+    private Vector2 _direction;
 
     // Start is called before the first frame update
     void Start()
     {
         _laserRay = GameObject.Find("LaserRay");
+        _direction = -transform.up;
     }
 
     // Update is called once per frame
     void Update()
     {
+        _direction = Quaternion.Euler(0f, 0f, 20f * Time.deltaTime) * _direction;
+        Debug.Log(_direction.y);
         RaycastHit2D hit = Physics2D.Raycast(transform.position, -transform.up);
         lineRenderer.SetPosition(0, laserPosition.position);
         if (hit)
