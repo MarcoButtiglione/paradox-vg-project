@@ -12,13 +12,17 @@ public class RotatingLaserController : MonoBehaviour
     [SerializeField] private float speed = 20.0f;
     private Vector2 _direction;
     private Vector2 _startingDirection;
-    
-    // Start is called before the first frame update
-    void Start()
+
+    private void Awake()
     {
         _laserRay = GameObject.Find("LaserRay");
         _direction = -transform.up;
-        _startingDirection = -transform.up;
+        _startingDirection = -transform.up;    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        
     }
 
     // Update is called once per frame
@@ -64,6 +68,6 @@ public class RotatingLaserController : MonoBehaviour
     {
         _laserRay.SetActive(true);
         _direction = _startingDirection;
-        Debug.Log(_direction.y);
+        speed = 20.0f;
     }
 }
