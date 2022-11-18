@@ -5,7 +5,8 @@ using System;
 
 public class InputManager : MonoBehaviour
 {
-   
+    private bool holdingDown = false;
+
     // Update is called once per frame
     void Update()
     {
@@ -13,15 +14,22 @@ public class InputManager : MonoBehaviour
         {
             if (Input.anyKey)
             {
-                GameManager.Instance.UpdateGameState(GameState.YoungPlayerTurn);
+                holdingDown = true;
             }
+
+            if (!Input.anyKey && holdingDown)
+            {
+                GameManager.Instance.UpdateGameState(GameState.YoungPlayerTurn);
+                holdingDown = false;
+            }
+
         }
-        
+
         if (GameManager.Instance.State == GameState.StartingOldTurn && !PostProcessingManager.Instance.isProcessing)
         {
             if (Input.anyKey)
             {
-                    GameManager.Instance.UpdateGameState(GameState.OldPlayerTurn);
+                GameManager.Instance.UpdateGameState(GameState.OldPlayerTurn);
             }
         }
     }

@@ -41,9 +41,9 @@ GameObject:
   m_Component:
   - component: {fileID: 710007497020768993}
   - component: {fileID: 4096984113987292319}
+  - component: {fileID: -540907114832672798}
   - component: {fileID: -5826414399186505662}
   - component: {fileID: -8533912168925430660}
-  - component: {fileID: -540907114832672798}
   - component: {fileID: -4811527521465688718}
   - component: {fileID: 5336099704751671438}
   m_Layer: 7
@@ -122,6 +122,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!50 &-540907114832672798
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5809052076800437296}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 4
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!114 &-5826414399186505662
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,7 +188,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 186.1875, y: 248.25}
+    oldSize: {x: 0.99300003, y: 1.324}
     newSize: {x: 29.789999, y: 39.719997}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -176,27 +197,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.24656034, y: 1}
   m_EdgeRadius: 0
---- !u!50 &-540907114832672798
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5809052076800437296}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 4
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 1
-  m_Constraints: 4
 --- !u!114 &-4811527521465688718
 MonoBehaviour:
   m_ObjectHideFlags: 0

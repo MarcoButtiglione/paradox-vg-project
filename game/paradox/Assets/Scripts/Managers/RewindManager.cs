@@ -3,23 +3,37 @@ using UnityEngine;
 public class RewindManager : MonoBehaviour
 {
     //Ghost
-    public GameObject GhostPrefab;
-    private GameObject _initGhostPrefab;
+    public GameObject _initGhostPrefab;
+    private GameObject GhostPrefab;
+
+
     //Old
-    public GameObject Old_Player;
     private Vector3 _initPosOld;
+    public GameObject _initOldPrefab;
+    private GameObject OldPrefab;
+    public GameObject Old_Start_Position;
+
     //Young
-    public GameObject Young_Player;
+
+    //private GameObject YoungPlayer;
+    //[SerializeField] private GameObject _youngPrefab;
+
+
+
+    public GameObject _initYoungPrefab;
+    private GameObject YoungPrefab;
+
+    public GameObject Young_Start_Position;
     private Vector3 _initPosYoung;
-    
+
     private List<Vector3> positions_young_p;
     private List<TypeOfInputs> inputs;
 
     private List<Vector3> positions_old_p;
-    private TypeOfInputs structInputs;
+    //private TypeOfInputs structInputs;
     private PlayerMovement toTrack;
 
-    private bool jump = false;
+    //private bool jump = false;
 
     private int index;
     private int _reloadSpeed;
@@ -38,11 +52,13 @@ public class RewindManager : MonoBehaviour
         GameManager.OnGameStateChanged += GameManagerOnGameStateChanged;
 
         //Old
-        _initPosOld = Old_Player.transform.position;
+        _initPosOld = Old_Start_Position.transform.position;
+        //_initOldPrefab = OldPrefab;
         //Young
-        _initPosYoung = Young_Player.transform.position;
+        _initPosYoung = Young_Start_Position.transform.position;
+        //_initYoungPrefab = YoungPrefab;
         //Ghost
-        _initGhostPrefab = GhostPrefab;
+        //_initGhostPrefab = GhostPrefab;
 
     }
     private void OnDestroy()
@@ -73,7 +89,7 @@ public class RewindManager : MonoBehaviour
             if (GameManager.Instance.PreviousGameState == GameState.OldPlayerTurn)
             {
                 _reloadSpeed = index / parameterReload;
-                Old_Player.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+                OldPrefab.GetComponent<OldPlayerMovement>().enabled = false;
             }
         }
     }
@@ -81,22 +97,48 @@ public class RewindManager : MonoBehaviour
     private void Init()
     {
         //GhostPrefab.SetActive(false);
-        
 
-        Old_Player.SetActive(false);
-        Old_Player.transform.position = _initPosOld;
-        
-        
+
+
+        //Old_Player.SetActive(false);
+        //Old_Player.transform.position = _initPosOld;
+
+        if (GhostPrefab != null)
+        {
+            Destroy(GhostPrefab);
+        }
+
+        if (OldPrefab != null)
+        {
+            Destroy(OldPrefab);
+        }
+
+        if (YoungPrefab != null)
+        {
+            Destroy(YoungPrefab);
+        }
+
+        /*
+        if (YoungPlayer != null)
+        {
+            Destroy(YoungPlayer);
+        }
+        YoungPlayer = Instantiate(_youngPrefab, _initPosYoung, Quaternion.identity);
+        */
+
         //Init Young
-        
-        Young_Player.SetActive(true);
+        YoungPrefab = Instantiate(_initYoungPrefab, _initPosYoung, Quaternion.identity);
+        toTrack = YoungPrefab.GetComponent<PlayerMovement>();
+
+
+        //Young_Player.SetActive(true);
         //Young_Player.transform.position = _initPosYoung;
-        
-        Young_Player.GetComponent<Rigidbody2D>().velocity = new Vector3(0f,0f,0f);
-        Young_Player.GetComponent<Rigidbody2D>().angularVelocity = 0f;
-        Young_Player.transform.rotation = Quaternion.Euler(new Vector3(0f,0f,0f));
-        Young_Player.transform.position = _initPosYoung;   
-        
+
+        //Young_Player.GetComponent<Rigidbody2D>().velocity = new Vector3(0f, 0f, 0f);
+        //Young_Player.GetComponent<Rigidbody2D>().angularVelocity = 0f;
+        //Young_Player.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
+        //Young_Player.transform.position = _initPosYoung;
+
         /*
         if(Young_Player)
             Destroy(Young_Player);
@@ -106,29 +148,18 @@ public class RewindManager : MonoBehaviour
         Young_Player.SetActive(true);
         */
         //-------------
-        
-        GhostPrefab.SetActive(false);
+
+        //GhostPrefab.SetActive(false);
 
         positions_young_p = new List<Vector3>();
-        positions_young_p.Insert(positions_young_p.Count, _initPosYoung);
-        inputs = new List<TypeOfInputs>();
+        
 
-        positions_old_p = new List<Vector3>();
+        //inputs = new List<TypeOfInputs>();
+        //inputs.Insert(inputs.Count, new TypeOfInputs(0, false, false));
 
         parameterReload = 40;
         index = 0;
     }
-
-    private void Start()
-    {
-        toTrack = Young_Player.GetComponent<PlayerMovement>();
-    }
-
-    void Update()
-    {
-        jump = toTrack.getJump();
-    }
-
 
     private void FixedUpdate()
     {
@@ -138,7 +169,7 @@ public class RewindManager : MonoBehaviour
         }
         else if (GameManager.Instance.State == GameState.OldPlayerTurn)
         {
-            positions_old_p.Insert(positions_old_p.Count, Old_Player.transform.position);
+            positions_old_p.Insert(positions_old_p.Count, OldPrefab.transform.position);
             MoveGhost();
         }
         else if (GameManager.Instance.State == GameState.ThirdPart)
@@ -147,41 +178,58 @@ public class RewindManager : MonoBehaviour
         }
         else if (GameManager.Instance.State == GameState.Paradox)
         {
+            Destroy(GhostPrefab);
             RestartOldAndGhost();
         }
     }
 
     void Record()
     {
-        positions_young_p.Insert(positions_young_p.Count, Young_Player.transform.position);
 
-        structInputs = new TypeOfInputs(toTrack.getHorizontal(), toTrack.getCrouch(), jump);
-        jump = false;
-        inputs.Insert(inputs.Count, structInputs);
+        positions_young_p.Insert(positions_young_p.Count, YoungPrefab.transform.position);
+
+        //structInputs = new TypeOfInputs(toTrack.getHorizontal(), toTrack.getCrouch(), jump);
+        //jump = false;
+        //inputs.Insert(inputs.Count, structInputs);
     }
 
     private void StartSecondPart()
     {
-        index = 0;
-        
-        //Init Ghost
-        if(GhostPrefab)
+        inputs = toTrack.getListInputs();
+
+        if (GhostPrefab != null)
+        {
             Destroy(GhostPrefab);
-        GhostPrefab = Instantiate(_initGhostPrefab, positions_young_p[0], Quaternion.identity);
-        GhostPrefab.SetActive(true);
+        }
+
+        if (OldPrefab != null)
+        {
+            Destroy(OldPrefab);
+        }
+
+        if (YoungPrefab != null)
+        {
+            Destroy(YoungPrefab);
+        }
+
+        index = 0;
+
+        //Init Ghost
+        GhostPrefab = Instantiate(_initGhostPrefab, _initPosYoung, Quaternion.identity);
         //-------------
 
         //Init Old
+        OldPrefab = Instantiate(_initOldPrefab, _initPosOld, Quaternion.identity);
         positions_old_p = new List<Vector3>();
-        Old_Player.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
 
-        Old_Player.transform.position = _initPosOld;
 
-        Old_Player.SetActive(true);
+        //Old_Player.transform.position = _initPosOld;
+
+        //Old_Player.SetActive(true);
         //-------------
-        
-        Young_Player.SetActive(false);
-        
+
+        //Young_Player.SetActive(false);
+
     }
 
     private void RestartOldAndGhost()
@@ -197,12 +245,11 @@ public class RewindManager : MonoBehaviour
         else
         {
             index = 0;
-            Old_Player.transform.position = positions_old_p[0];
+            OldPrefab.transform.position = positions_old_p[0];
             GameManager.Instance.UpdateGameState(GameState.StartingOldTurn);
             return;
         }
-        Old_Player.transform.position = positions_old_p[index];
-        GhostPrefab.SetActive(false);
+        OldPrefab.transform.position = positions_old_p[index];
     }
 
     private void MoveGhost()
@@ -216,10 +263,10 @@ public class RewindManager : MonoBehaviour
                 GameManager.Instance.UpdateGameState(GameState.Paradox);
                 return;
             }
-            GhostPrefab.GetComponent<CharacterController2D>().Move(inputs[index].getHorizontal() * Time.fixedDeltaTime, inputs[index].getCrouch(), inputs[index].getJump());
+            GhostPrefab.GetComponent<CharacterController2D>().Move(inputs[index].getHorizontal(), inputs[index].getCrouch(), inputs[index].getJump());
             index++;
         }
-        
+
     }
     private void MoveOnlyGhost()
     {
@@ -232,28 +279,58 @@ public class RewindManager : MonoBehaviour
                 GameManager.Instance.UpdateGameState(GameState.StartingSecondPart);
                 return;
             }
-            GhostPrefab.GetComponent<CharacterController2D>().Move(inputs[index].getHorizontal() * Time.fixedDeltaTime, inputs[index].getCrouch(), inputs[index].getJump());
+            GhostPrefab.GetComponent<CharacterController2D>().Move(inputs[index].getHorizontal(), inputs[index].getCrouch(), inputs[index].getJump());
             index++;
         }
-        
+
     }
     private void StartSecondPartTutorial()
     {
+        if (GhostPrefab != null)
+        {
+            Destroy(GhostPrefab);
+        }
 
-        Old_Player.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
-        Old_Player.transform.position = _initPosOld;
-        Old_Player.SetActive(true);
-        Young_Player.SetActive(false);
+        if (OldPrefab != null)
+        {
+            Destroy(OldPrefab);
+        }
+
+        if (YoungPrefab != null)
+        {
+            Destroy(YoungPrefab);
+        }
+
+        //Old_Player.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+
+        OldPrefab = Instantiate(_initOldPrefab, _initPosOld, Quaternion.identity);
+        positions_old_p = new List<Vector3>();
+
+        
     }
     private void StartThirdPartTutorial()
     {
+        inputs = toTrack.getListInputs();
+
+        if (GhostPrefab != null)
+        {
+            Destroy(GhostPrefab);
+        }
+
+        if (OldPrefab != null)
+        {
+            Destroy(OldPrefab);
+        }
+
+        if (YoungPrefab != null)
+        {
+            Destroy(YoungPrefab);
+        }
+
+        
         index = 0;
         GhostPrefab = Instantiate(_initGhostPrefab, positions_young_p[0], Quaternion.identity);
 
-        Old_Player.SetActive(false);
-        GhostPrefab.SetActive(true);
-        Young_Player.SetActive(false);
-        
     }
 
 }
