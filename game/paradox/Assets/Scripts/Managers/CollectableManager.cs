@@ -9,7 +9,7 @@ public class CollectableManager : MonoBehaviour
     private int youngCollectable = 0;
     private int ghostCollectable = 0;
 
-    public GameObject[] collectables;
+    private GameObject[] collectables;
     private int _numberToCollect;
     private GameObject _door;
     private CollisionCheckEndLevel _doorActivate;
