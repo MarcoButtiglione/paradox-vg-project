@@ -8,6 +8,8 @@ public class PressurePlateController : MonoBehaviour
 {
     [SerializeField]private float _plateMovement = 0.05f;
     [SerializeField] private GameObject[] _objToActivate;
+    
+    
     private Vector3 _originalPos;
     private bool _moveBack;
     private bool _isActive = false;
@@ -17,7 +19,6 @@ public class PressurePlateController : MonoBehaviour
     {
         _originalPos = transform.position;
     }
-
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.transform.CompareTag("Old"))
@@ -49,6 +50,7 @@ public class PressurePlateController : MonoBehaviour
         }
     }
 
+    
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

@@ -6,11 +6,16 @@ using UnityEngine.Events;
 public class ActivatorManager : MonoBehaviour
 {
     [SerializeField] private GameObject[] _objToActivate;
+    private GameObject _activable;
+    private GameObject _activators;
+    
     
     private void Awake()
     {
         //It is subscribing to the event
         GameManager.OnGameStateChanged += GameManagerOnGameStateChanged;
+        _activable = GameObject.Find("Activable");
+        _activators = GameObject.Find("Activators");
     }
     private void OnDestroy()
     {
@@ -21,6 +26,20 @@ public class ActivatorManager : MonoBehaviour
     {
         if (state == GameState.StartingYoungTurn)
         {
+            
+            for(int i = 0; i < _activable.transform.childCount; i++)
+            {
+                GameObject child = _activable.transform.GetChild(i).gameObject;
+            }
+            
+            
+            for(int i = 0; i < _activators.transform.childCount; i++)
+            {
+                GameObject child = _activators.transform.GetChild(i).gameObject;
+            }
+            
+            
+            /*
             for (int i = 0; i < _objToActivate.Length; i++) 
             {
                 if (_objToActivate[i].GetComponent<MovingPlatformController>())
@@ -41,9 +60,11 @@ public class ActivatorManager : MonoBehaviour
                 }
                
             }
+            */
         }
         if (state == GameState.StartingOldTurn)
         {
+            /*
             for (int i = 0; i < _objToActivate.Length; i++) 
             {
                 if (_objToActivate[i].GetComponent<MovingPlatformController>())
@@ -68,10 +89,12 @@ public class ActivatorManager : MonoBehaviour
                 }
                
             }
+            */
         }
 
         if (state == GameState.YoungPlayerTurn)
         {
+            /*
             for (int i = 0; i < _objToActivate.Length; i++)
             {
                 if (_objToActivate[i].GetComponent<LaserController>())
@@ -79,6 +102,7 @@ public class ActivatorManager : MonoBehaviour
                     _objToActivate[i].GetComponent<LaserController>().StartPeriodic();
                 }
             }
+            */
         }
     }
 }
