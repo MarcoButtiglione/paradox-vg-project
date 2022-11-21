@@ -54,7 +54,6 @@ public class GameManager : MonoBehaviour
             {
                 case GameState.StartingYoungTurn:
                     Time.timeScale=0f;
-                    //UpdateGameState(GameState.YoungPlayerTurn);
                     break;
                 case GameState.YoungPlayerTurn:
                     break;
@@ -99,7 +98,6 @@ public class GameManager : MonoBehaviour
             {
                 case GameState.StartingYoungTurn:
                     Time.timeScale = 0f; 
-                    //UpdateGameState(GameState.YoungPlayerTurn);
                     break;
                 case GameState.YoungPlayerTurn:
                     break;
