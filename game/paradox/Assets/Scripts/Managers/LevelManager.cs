@@ -61,7 +61,7 @@ public class LevelManager : MonoBehaviour
         _progressBar.fillAmount = Mathf.MoveTowards(_progressBar.fillAmount, _target, 3 * Time.deltaTime);
     }
     */
-    private void PlayLevel(int level)
+    public void PlayLevel(int level)
     {
 
         _currentLevel = level % SceneManager.sceneCountInBuildSettings;
