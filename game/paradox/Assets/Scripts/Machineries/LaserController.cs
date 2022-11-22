@@ -13,7 +13,7 @@ public class LaserController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _laserRay = GameObject.Find("LaserRay");
+        _laserRay = transform.GetChild(0).gameObject;
         _direction = -transform.up;
     }
 

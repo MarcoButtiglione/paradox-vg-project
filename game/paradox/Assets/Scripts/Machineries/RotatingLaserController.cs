@@ -15,7 +15,7 @@ public class RotatingLaserController : MonoBehaviour
 
     private void Awake()
     {
-        _laserRay = GameObject.Find("LaserRay");
+        _laserRay = transform.GetChild(0).gameObject;
         _direction = -transform.up;
         _startingDirection = -transform.up;    }
 

@@ -14,12 +14,13 @@ public class MovingLaserController : MonoBehaviour
 
     private void Awake()
     {
-        _top = GameObject.Find("LaserTop");
+        _top = transform.GetChild(0).gameObject;
         if (_top)
         {
             Debug.Log("Top is here");
         }
         _initPosition = gameObject.transform.position;
+        Debug.Log(_initPosition);
     }
 
     // Start is called before the first frame update
