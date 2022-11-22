@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class ActivatorManager : MonoBehaviour
 {
-    [SerializeField] private GameObject[] _objToActivate;
+    //[SerializeField] private GameObject[] _objToActivate;
     private GameObject _activable;
     private GameObject _activators;
     

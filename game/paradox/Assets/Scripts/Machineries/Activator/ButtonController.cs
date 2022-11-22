@@ -10,13 +10,34 @@ public class ButtonController : MonoBehaviour
     [SerializeField] private float _timer = 1.0f;
     [SerializeField] private GameObject[] _objToActivate;
     [Header("Initial state (Young/Old phase)")]
-    [SerializeField] private bool _initYoungState;
-    [SerializeField] private bool _initOldState;
+    [HideInInspector][SerializeField] private bool _initYoungState=false;
+    [HideInInspector][SerializeField] private bool _initOldState=false;
     
     private bool _isActive=false;
     
-    //Functions used by the "activator manager". Initialize the activator in the various phases of the game.
-    public void InitYoung()
+    //-------------------------------
+    private void Awake()
+    {
+        //It is subscribing to the event
+        GameManager.OnGameStateChanged += GameManagerOnGameStateChanged;
+    }
+    private void OnDestroy()
+    {
+        //It is unsubscribing to the event
+        GameManager.OnGameStateChanged -= GameManagerOnGameStateChanged;
+    }
+    private void GameManagerOnGameStateChanged(GameState state)
+    {
+        if (state == GameState.StartingYoungTurn)
+        {
+            InitYoung();
+        }
+        if (state == GameState.StartingOldTurn)
+        {
+            InitOld();
+        }
+    }
+    private void InitYoung()
     {
         if (_initYoungState)
         {
@@ -28,7 +49,7 @@ public class ButtonController : MonoBehaviour
         }
         
     }
-    public void InitOld()
+    private void InitOld()
     {
         if (_initOldState)
         {
@@ -45,36 +66,25 @@ public class ButtonController : MonoBehaviour
     {
         //gameObject.GetComponent<SpriteRenderer>().sprite = _spriteOn;
         
-        //TODO SET ACTIVE
         _isActive = true;
         for (int i = 0; i < _objToActivate.Length; i++) 
         {
-            if (_objToActivate[i].GetComponent<MovingPlatformController>())
+            if (_objToActivate[i].GetComponent<ActivableController>())
             {
-                _objToActivate[i].GetComponent<MovingPlatformController>().SwitchState();
+                _objToActivate[i].GetComponent<ActivableController>().SwitchState();
             }
-            else
-            {
-                _objToActivate[i].SetActive(!_objToActivate[i].activeSelf);
-            }
-               
         }
     }
     private void SetInactive()
     {
         //gameObject.GetComponent<SpriteRenderer>().sprite = _spriteOff;
         
-        //TODO SET INACTIVE
         _isActive = false;
         for (int i = 0; i < _objToActivate.Length; i++) 
         {
-            if (_objToActivate[i].GetComponent<MovingPlatformController>())
+            if (_objToActivate[i].GetComponent<ActivableController>())
             {
-                _objToActivate[i].GetComponent<MovingPlatformController>().SwitchState();
-            }
-            else
-            {
-                _objToActivate[i].SetActive(!_objToActivate[i].activeSelf);
+                _objToActivate[i].GetComponent<ActivableController>().SwitchState();
             }
         }
     }

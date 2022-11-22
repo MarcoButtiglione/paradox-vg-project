@@ -10,12 +10,11 @@ public class PressurePlateController : MonoBehaviour
     [SerializeField] private GameObject[] _objToActivate;
     
     [Header("Initial state (Young/Old phase)")]
-    [SerializeField] private bool _initYoungState;
-    [SerializeField] private bool _initOldState;
+    [HideInInspector][SerializeField] private bool _initYoungState=false;
+    [HideInInspector][SerializeField] private bool _initOldState=false;
     
     
     private Vector3 _originalPos;
-    private bool _moveBack;
     private bool _isActive = false;
     private bool _isHover=false;
 
@@ -23,30 +22,55 @@ public class PressurePlateController : MonoBehaviour
     {
         _originalPos = transform.position;
     }
-    //Functions used by the "activator manager". Initialize the activator in the various phases of the game.
-    public void InitYoung()
+    //-------------------------------
+    private void Awake()
+    {
+        //It is subscribing to the event
+        GameManager.OnGameStateChanged += GameManagerOnGameStateChanged;
+    }
+    private void OnDestroy()
+    {
+        //It is unsubscribing to the event
+        GameManager.OnGameStateChanged -= GameManagerOnGameStateChanged;
+    }
+    private void GameManagerOnGameStateChanged(GameState state)
+    {
+        if (state == GameState.StartingYoungTurn)
+        {
+            InitYoung();
+        }
+        if (state == GameState.StartingOldTurn)
+        {
+            InitOld();
+        }
+    }
+    private void InitYoung()
     {
         if (_initYoungState)
         {
+            transform.position = _originalPos;
             _isActive = true;
             _isHover = true;
         }
         else
         {
+            transform.position = _originalPos;
             _isActive = false;
             _isHover = false;
         }
         
     }
-    public void InitOld()
+    private void InitOld()
     {
         if (_initOldState)
         {
+            transform.position = _originalPos;
             _isActive = true;
             _isHover = true;
         }
         else
         {
+            transform.position = _originalPos;
             _isActive = false;
             _isHover = false;
         }
@@ -76,15 +100,10 @@ public class PressurePlateController : MonoBehaviour
         _isActive = true;
         for (int i = 0; i < _objToActivate.Length; i++) 
         {
-            if (_objToActivate[i].GetComponent<MovingPlatformController>())
+            if (_objToActivate[i].GetComponent<ActivableController>())
             {
-                _objToActivate[i].GetComponent<MovingPlatformController>().SwitchState();
+                _objToActivate[i].GetComponent<ActivableController>().SwitchState();
             }
-            else
-            {
-                _objToActivate[i].SetActive(!_objToActivate[i].activeSelf);
-            }
-               
         }
     }
     private void SetInactive()
@@ -92,15 +111,10 @@ public class PressurePlateController : MonoBehaviour
         _isActive = false;
         for (int i = 0; i < _objToActivate.Length; i++) 
         {
-            if (_objToActivate[i].GetComponent<MovingPlatformController>())
+            if (_objToActivate[i].GetComponent<ActivableController>())
             {
-                _objToActivate[i].GetComponent<MovingPlatformController>().SwitchState();
+                _objToActivate[i].GetComponent<ActivableController>().SwitchState();
             }
-            else
-            {
-                _objToActivate[i].SetActive(!_objToActivate[i].activeSelf);
-            }
-               
         }
     }
     
@@ -132,7 +146,6 @@ public class PressurePlateController : MonoBehaviour
                 {
                     SetInactive();
                 }
-                _moveBack = false;
             }
         }
     }

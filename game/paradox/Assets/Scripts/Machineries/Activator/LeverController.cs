@@ -19,9 +19,29 @@ public class LeverController : MonoBehaviour
     
     private bool _isActive=false;
     
-    
-    //Functions used by the "activator manager". Initialize the activator in the various phases of the game.
-    public void InitYoung()
+    //-------------------------------
+    private void Awake()
+    {
+        //It is subscribing to the event
+        GameManager.OnGameStateChanged += GameManagerOnGameStateChanged;
+    }
+    private void OnDestroy()
+    {
+        //It is unsubscribing to the event
+        GameManager.OnGameStateChanged -= GameManagerOnGameStateChanged;
+    }
+    private void GameManagerOnGameStateChanged(GameState state)
+    {
+        if (state == GameState.StartingYoungTurn)
+        {
+            InitYoung();
+        }
+        if (state == GameState.StartingOldTurn)
+        {
+            InitOld();
+        }
+    }
+    private void InitYoung()
     {
         if (_initYoungState)
         {
@@ -35,7 +55,7 @@ public class LeverController : MonoBehaviour
         }
         
     }
-    public void InitOld()
+    private void InitOld()
     {
         if (_initOldState)
         {
@@ -54,16 +74,11 @@ public class LeverController : MonoBehaviour
     {
         gameObject.GetComponent<SpriteRenderer>().sprite = _spriteOn;
         
-        //TODO SET ACTIVE
         for (int i = 0; i < _objToActivate.Length; i++) 
         {
-            if (_objToActivate[i].GetComponent<MovingPlatformController>())
+            if (_objToActivate[i].GetComponent<ActivableController>())
             {
-                _objToActivate[i].GetComponent<MovingPlatformController>().SwitchState();
-            }
-            else
-            {
-                _objToActivate[i].SetActive(!_objToActivate[i].activeSelf);
+                _objToActivate[i].GetComponent<ActivableController>().SwitchState();
             }
         }
     }
@@ -71,16 +86,11 @@ public class LeverController : MonoBehaviour
     {
         gameObject.GetComponent<SpriteRenderer>().sprite = _spriteOff;
         
-        //TODO SET INACTIVE
         for (int i = 0; i < _objToActivate.Length; i++) 
         {
-            if (_objToActivate[i].GetComponent<MovingPlatformController>())
+            if (_objToActivate[i].GetComponent<ActivableController>())
             {
-                _objToActivate[i].GetComponent<MovingPlatformController>().SwitchState();
-            }
-            else
-            {
-                _objToActivate[i].SetActive(!_objToActivate[i].activeSelf);
+                _objToActivate[i].GetComponent<ActivableController>().SwitchState();
             }
         }
     }
