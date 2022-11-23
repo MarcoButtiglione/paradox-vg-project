@@ -41,12 +41,9 @@ public class LevelManager : MonoBehaviour
         _target = 0;
         _progressBar.fillAmount = 0;
         */
-        var scene = SceneManager.LoadSceneAsync(level);
-
-        //TODO
         
-        scene.allowSceneActivation = false;
-        StartCoroutine("EndLevel",scene);
+        Instantiate(endAnimation, endAnimation.transform.position, Quaternion.identity);
+        StartCoroutine("EndLevel",level);
         
         //_loaderCanvas.SetActive(true);
         
@@ -78,7 +75,6 @@ public class LevelManager : MonoBehaviour
     }
     public void PlayMainMenu()
     {
-        Instantiate(endAnimation, endAnimation.transform.position, Quaternion.identity);
         LoadScene(0);
         _currentLevel = 0;
     }
@@ -88,7 +84,6 @@ public class LevelManager : MonoBehaviour
     }
     public void PlayNextLevel()
     {
-        Instantiate(endAnimation, endAnimation.transform.position, Quaternion.identity);
         PlayLevel(_currentLevel + 1);
     }
     public void RestartLevel()
@@ -102,10 +97,10 @@ public class LevelManager : MonoBehaviour
         return false;
     }
 
-    private IEnumerator EndLevel(AsyncOperation loadedScene){
-        yield return new WaitForSecondsRealtime(1f);
-        loadedScene.allowSceneActivation = true;
-
+    private IEnumerator EndLevel(int level){
+        yield return new WaitForSecondsRealtime(0.5f);
+        var scene = SceneManager.LoadSceneAsync(level);
+        
     }
 
  }
