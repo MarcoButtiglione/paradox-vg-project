@@ -9,6 +9,8 @@ public class LevelManager : MonoBehaviour
 {
     public static LevelManager Instance;
     private int _currentLevel;
+    [SerializeField] private GameObject endAnimation;
+    private GameObject anim;
     //private Scene _nextScene;
 
     
@@ -44,14 +46,18 @@ public class LevelManager : MonoBehaviour
         //TODO
         
         scene.allowSceneActivation = false;
+        StartCoroutine("EndLevel",scene);
         
         //_loaderCanvas.SetActive(true);
-        do
+        
+        
+        /*do
         {
             //_target = scene.progress;
         } while (scene.progress<0.9f);
+        */
         
-        scene.allowSceneActivation = true;
+        //scene.allowSceneActivation = true;
        
         //_loaderCanvas.SetActive(false);
         
@@ -72,6 +78,7 @@ public class LevelManager : MonoBehaviour
     }
     public void PlayMainMenu()
     {
+        Instantiate(endAnimation, endAnimation.transform.position, Quaternion.identity);
         LoadScene(0);
         _currentLevel = 0;
     }
@@ -81,6 +88,7 @@ public class LevelManager : MonoBehaviour
     }
     public void PlayNextLevel()
     {
+        Instantiate(endAnimation, endAnimation.transform.position, Quaternion.identity);
         PlayLevel(_currentLevel + 1);
     }
     public void RestartLevel()
@@ -94,6 +102,14 @@ public class LevelManager : MonoBehaviour
         return false;
     }
 
+    private IEnumerator EndLevel(AsyncOperation loadedScene){
+        yield return new WaitForSecondsRealtime(1f);
+        loadedScene.allowSceneActivation = true;
 
-}
+    }
+
+ }
+
+
+
 
