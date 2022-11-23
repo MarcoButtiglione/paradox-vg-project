@@ -39,6 +39,7 @@ public class ButtonController : MonoBehaviour
     }
     private void InitYoung()
     {
+        StopAllCoroutines();
         if (_initYoungState)
         {
             _isActive = true;
@@ -51,6 +52,7 @@ public class ButtonController : MonoBehaviour
     }
     private void InitOld()
     {
+        StopAllCoroutines();
         if (_initOldState)
         {
             _isActive = true;

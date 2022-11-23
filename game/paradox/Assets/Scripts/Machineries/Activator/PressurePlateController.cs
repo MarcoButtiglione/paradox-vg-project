@@ -76,24 +76,30 @@ public class PressurePlateController : MonoBehaviour
         }
     }
     //-------------------------------
-    
-    private void OnTriggerEnter2D(Collider2D col)
+
+    private void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.CompareTag("Old"))  
+        if (col.gameObject.CompareTag("Old"))  
         {
-            _isHover = true;
-            col.gameObject.transform.SetParent(transform);
+            if (col.contacts[0].normal.y <= -0.9f && Math.Abs(col.contacts[0].normal.x)<0.1f)
+            {
+                _isHover = true;
+                col.gameObject.transform.SetParent(transform);
+            }
+            
             
         }
     }
-    private void OnTriggerExit2D(Collider2D col)
+
+    private void OnCollisionExit2D(Collision2D col)
     {
-        if (col.CompareTag("Old"))  
-        { 
+        if (col.gameObject.CompareTag("Old"))
+        {
             _isHover = false;
-            col.gameObject.transform.SetParent(null); 
-        }    
+            col.gameObject.transform.SetParent(null);
+        }
     }
+    
 
     private void SetActive()
     {
