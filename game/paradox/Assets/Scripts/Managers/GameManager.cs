@@ -1,18 +1,17 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-
     public GameState State;
     public GameState PreviousGameState;
 
     public static event Action<GameState> OnGameStateChanged;
 
     private bool isTutorial;
+   
 
     private void Awake()
     {
@@ -28,7 +27,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        UpdateGameState(GameState.StartingYoungTurn);
+        StartCoroutine("WaitToStart");
     }
 
     private void OnDestroy()
@@ -43,8 +42,7 @@ public class GameManager : MonoBehaviour
     public void UpdateGameState(GameState newState)
     {
         Debug.Log("Current State: " + newState + " ----- IsTutorial: " + isTutorial);
-        
-        Time.timeScale = 1f;
+
         PreviousGameState = State;
         State = newState;
 
@@ -53,9 +51,11 @@ public class GameManager : MonoBehaviour
             switch (newState)
             {
                 case GameState.StartingYoungTurn:
-                    Time.timeScale=0f;
+                    
+                        Time.timeScale = 0f;
                     break;
                 case GameState.YoungPlayerTurn:
+                    Time.timeScale = 1f;
                     break;
                 case GameState.StartingSecondPart:
                     if (PreviousGameState != GameState.YoungPlayerTurn)
@@ -72,9 +72,10 @@ public class GameManager : MonoBehaviour
                 case GameState.ThirdPart:
                     break;
                 case GameState.StartingOldTurn:
-                    Time.timeScale=0f;
+                    Time.timeScale = 0f;
                     break;
                 case GameState.OldPlayerTurn:
+                    Time.timeScale = 1f;
                     break;
                 case GameState.Paradox:
                     break;
@@ -83,6 +84,7 @@ public class GameManager : MonoBehaviour
                 case GameState.GameOverMenu:
                     break;
                 case GameState.LevelCompleted:
+                    
                     UpdateGameState(GameState.NextLevel);
                     break;
                 case GameState.NextLevel:
@@ -97,9 +99,11 @@ public class GameManager : MonoBehaviour
             switch (newState)
             {
                 case GameState.StartingYoungTurn:
-                    Time.timeScale = 0f; 
+                    
+                        Time.timeScale = 0f;
                     break;
                 case GameState.YoungPlayerTurn:
+                    Time.timeScale = 1f;
                     break;
                 case GameState.StartingOldTurn:
                     if (PreviousGameState != GameState.YoungPlayerTurn)
@@ -108,6 +112,7 @@ public class GameManager : MonoBehaviour
                     }
                     break;
                 case GameState.OldPlayerTurn:
+                    Time.timeScale = 1f;
                     break;
                 case GameState.Paradox:
                     break;
@@ -116,6 +121,7 @@ public class GameManager : MonoBehaviour
                 case GameState.GameOverMenu:
                     break;
                 case GameState.LevelCompleted:
+                    
                     UpdateGameState(GameState.NextLevel);
                     break;
                 case GameState.NextLevel:
@@ -149,27 +155,34 @@ public class GameManager : MonoBehaviour
         return isTutorial;
     }
 
+    IEnumerator WaitToStart(){
+    yield return new WaitForSecondsRealtime(0.1f);
+    UpdateGameState(GameState.StartingYoungTurn);
+    }
+
 
 }
 
 
 public enum GameState
 {
-    
+
     StartingYoungTurn,
     YoungPlayerTurn,
-    
+
     StartingSecondPart,
     SecondPart,
     ThirdPart,
     StartingThirdPart,
-    
+
     StartingOldTurn,
     OldPlayerTurn,
     Paradox,
-    
+
     PauseMenu,
     GameOverMenu,
     LevelCompleted,
     NextLevel
 }
+
+

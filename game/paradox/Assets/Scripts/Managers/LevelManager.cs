@@ -9,12 +9,13 @@ public class LevelManager : MonoBehaviour
 {
     public static LevelManager Instance;
     private int _currentLevel;
+    //private Scene _nextScene;
 
-    /*
-    [SerializeField] private GameObject _loaderCanvas;
-    [SerializeField] private Image _progressBar;
-    private float _target;
-    */
+    
+    //[SerializeField] private GameObject _loaderCanvas;
+    //[SerializeField] private Image _progressBar;
+    //private float _target;
+    
 
     private void Awake()
     {
@@ -41,18 +42,19 @@ public class LevelManager : MonoBehaviour
         var scene = SceneManager.LoadSceneAsync(level);
 
         //TODO
-        /*
+        
         scene.allowSceneActivation = false;
         
-        _loaderCanvas.SetActive(true);
+        //_loaderCanvas.SetActive(true);
         do
         {
-            _target = scene.progress;
-        } while (scene.progress < 0.9f);
+            //_target = scene.progress;
+        } while (scene.progress<0.9f);
         
         scene.allowSceneActivation = true;
-        _loaderCanvas.SetActive(false);
-        */
+       
+        //_loaderCanvas.SetActive(false);
+        
     }
 
     /*

@@ -48,6 +48,7 @@ public class CollisionCheckEndLevel : MonoBehaviour
         else if (col.CompareTag("Ghost") && GameManager.Instance.State != GameState.NextLevel && _doorIsActive)
         {
             _doorIsActive = false;
+            col.gameObject.SetActive(false);
             GameManager.Instance.UpdateGameState(GameState.LevelCompleted);
         }
     }
