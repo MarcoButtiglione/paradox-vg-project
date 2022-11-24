@@ -9,6 +9,8 @@ public class LevelManager : MonoBehaviour
 {
     public static LevelManager Instance;
     private int _currentLevel;
+    [SerializeField] private GameObject endAnimation;
+    private GameObject anim;
     //private Scene _nextScene;
 
     
@@ -39,19 +41,20 @@ public class LevelManager : MonoBehaviour
         _target = 0;
         _progressBar.fillAmount = 0;
         */
-        var scene = SceneManager.LoadSceneAsync(level);
-
-        //TODO
         
-        scene.allowSceneActivation = false;
+        Instantiate(endAnimation, endAnimation.transform.position, Quaternion.identity);
+        StartCoroutine("EndLevel",level);
         
         //_loaderCanvas.SetActive(true);
-        do
+        
+        
+        /*do
         {
             //_target = scene.progress;
         } while (scene.progress<0.9f);
+        */
         
-        scene.allowSceneActivation = true;
+        //scene.allowSceneActivation = true;
        
         //_loaderCanvas.SetActive(false);
         
@@ -94,6 +97,14 @@ public class LevelManager : MonoBehaviour
         return false;
     }
 
+    private IEnumerator EndLevel(int level){
+        yield return new WaitForSecondsRealtime(0.5f);
+        var scene = SceneManager.LoadSceneAsync(level);
+        
+    }
 
-}
+ }
+
+
+
 
