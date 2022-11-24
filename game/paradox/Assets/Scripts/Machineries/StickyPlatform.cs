@@ -7,7 +7,7 @@ public class StickyPlatform : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.CompareTag("Young_Player")||col.CompareTag("Old_Player")||col.CompareTag("Ghost"))  
+        if (col.CompareTag("Young")||col.CompareTag("Old")||col.CompareTag("Ghost"))  
         {                                                                                                                
             col.gameObject.transform.SetParent(transform);                                                               
         }                                                                                                                
@@ -15,7 +15,7 @@ public class StickyPlatform : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D col)
     {
-        if (col.CompareTag("Young_Player")||col.CompareTag("Old_Player")||col.CompareTag("Ghost"))    
+        if (col.CompareTag("Young")||col.CompareTag("Old")||col.CompareTag("Ghost"))    
         {                                                                                                                  
             col.gameObject.transform.SetParent(null);                                                                      
         }                                                                                                                  
