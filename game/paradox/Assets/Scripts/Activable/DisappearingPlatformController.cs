@@ -13,12 +13,20 @@ public class DisappearingPlatformController : MonoBehaviour
     [SerializeField] private DisappearingState _initYoungState;
     [SerializeField] private DisappearingState _initOldStateOFF;
 
+    [Header("Sprites")]
+    [SerializeField] private Sprite _spriteOff;
+    [SerializeField] private Sprite _spriteOn;
+    private SpriteRenderer _spriteRenderer;
+    private Collider2D _collider2D;
+    
     private bool _isActive;
     
     
     //-------------------------------
     private void Awake()
     {
+        _spriteRenderer=gameObject.GetComponent<SpriteRenderer>();
+        _collider2D = gameObject.GetComponent<Collider2D>();
         //It is subscribing to the event
         GameManager.OnGameStateChanged += GameManagerOnGameStateChanged;
     }
@@ -40,25 +48,14 @@ public class DisappearingPlatformController : MonoBehaviour
     }
     private void InitYoung()
     {
+        StopAllCoroutines();
         if (_initYoungState == DisappearingState.Active)
         {
-            StopAllCoroutines();
-            _isActive = true;
-            if (_function == DisappearingFunctioning.Fixed)
-            {
-                gameObject.SetActive(true);
-            }
-            /*
-            else if (_function == DisappearingFunctioning.Intermittent)
-            {
-                gameObject.SetActive(true);
-                StartCoroutine(Intermittent());
-            } */
+            SetActive();
         }
         else if (_initYoungState==DisappearingState.Inactive)
         {
-            _isActive = false;
-            gameObject.SetActive(false);
+            SetInactive();
         }
     }
     private void InitOld()
@@ -66,22 +63,11 @@ public class DisappearingPlatformController : MonoBehaviour
         StopAllCoroutines();
         if (_initOldStateOFF == DisappearingState.Active)
         {
-            _isActive = true;
-            if (_function == DisappearingFunctioning.Fixed)
-            {
-                gameObject.SetActive(true);
-            }
-            /*
-            else if (_function == DisappearingFunctioning.Intermittent)
-            {
-                StopCoroutine(Intermittent());
-            } 
-            */
+            SetActive();
         }
         else if (_initOldStateOFF==DisappearingState.Inactive)
         {
-            _isActive = false;
-            gameObject.SetActive(false);
+            SetInactive();
         }
     }
     //-------------------------------
@@ -104,25 +90,32 @@ public class DisappearingPlatformController : MonoBehaviour
     {
         if (_isActive)
         {
-            _isActive = false;
-            gameObject.SetActive(false);
+            SetInactive();
             StopAllCoroutines();
         }
         else
         {
-            _isActive = true;
-            if (_function == DisappearingFunctioning.Fixed)
-            {
-                gameObject.SetActive(true);
-            }
-            /*
-            else if (_function == DisappearingFunctioning.Intermittent)
-            {
-                gameObject.SetActive(true);
-                StartCoroutine(Intermittent());
-            }*/
+            SetActive();
         }
         
+    }
+
+
+    private void SetActive()
+    {
+        _spriteRenderer.sprite = _spriteOn;
+        _isActive = true;
+        if (_function == DisappearingFunctioning.Fixed)
+        {
+            _collider2D.enabled = true;            
+        }
+    }
+
+    private void SetInactive()
+    {
+        _spriteRenderer.sprite = _spriteOff;
+        _isActive = false;
+        _collider2D.enabled = false;
     }
 }
 
