@@ -49,7 +49,7 @@ public class LaserTurretController : MonoBehaviour
     //-------------------------------
     private void Awake()
     {
-        _laserRay = GameObject.Find("LaserRay");
+        _laserRay = transform.GetChild(0).GetChild(1).gameObject;
         _direction = (_laserOutput.position - _laserHead.transform.position).normalized;
         _initDirection = _laserHead.transform.rotation.eulerAngles;
         _spriteRenderer = _laserHead.GetComponent<SpriteRenderer>();
