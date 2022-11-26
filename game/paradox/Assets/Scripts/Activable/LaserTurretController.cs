@@ -16,14 +16,14 @@ public class LaserTurretController : MonoBehaviour
     [SerializeField] private LaserFunctioning _functionYoung;
     [SerializeField] private LaserFunctioning _functionOldActive;
     [SerializeField] private float _intermittentPeriod = 2.0f;
-    [Header("Moving platform configuration")] 
+    [Header("Moving laser configuration")] 
     [SerializeField] private GameObject[] _waypoints;
     [SerializeField] private float speed = 2.0f;
     private int _currentWaypointIndex = 0;
     private Vector3 _initPosition;
     private Vector3 _laserPosition;
     private bool _isMoving;
-    [Header("Rotating platform configuration")] 
+    [Header("Rotating laser configuration")] 
     [SerializeField] private float _angularSpeed = 1f;
     [SerializeField] private float _rotationArc = 90f;
     [SerializeField] private bool _continuousRotation=false;
@@ -49,7 +49,7 @@ public class LaserTurretController : MonoBehaviour
     //-------------------------------
     private void Awake()
     {
-        _laserRay = GameObject.Find("LaserRay");
+        _laserRay = transform.GetChild(0).GetChild(1).gameObject;
         _direction = (_laserOutput.position - _laserHead.transform.position).normalized;
         _initDirection = _laserHead.transform.rotation.eulerAngles;
         _spriteRenderer = _laserHead.GetComponent<SpriteRenderer>();
