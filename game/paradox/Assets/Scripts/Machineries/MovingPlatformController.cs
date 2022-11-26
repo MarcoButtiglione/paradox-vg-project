@@ -10,6 +10,7 @@ public class MovingPlatformController : MonoBehaviour
      private Vector3 _initPosition;
      private Vector3 _platformPosition;
      private bool _isMoving;
+     private bool _isActive;
      [SerializeField]private GameObject _platform;
      [SerializeField] private GameObject[] _waypoints;
      [SerializeField] private MovingFunctioning _function;
@@ -18,10 +19,20 @@ public class MovingPlatformController : MonoBehaviour
      [SerializeField] private MovingState _initYoungState;
      [SerializeField] private MovingState _initOldStateOFF;
      
+     [Header("Sprites")]
+     [SerializeField] private Sprite _spriteOffDisappearedIfInactive;
+     [SerializeField] private Sprite _spriteOnDisappearedIfInactive;
+     [SerializeField] private Sprite _spriteStoppedIfInactive;
+     private SpriteRenderer _spriteRenderer;
+     private Collider2D _collider2D;
+     
      
      //-------------------------------
      private void Awake()
      { 
+         _spriteRenderer=_platform.GetComponent<SpriteRenderer>();
+         _collider2D = _platform.GetComponent<Collider2D>();
+         
          _isMoving = false; 
          _initPosition = _platform.transform.position;
          _platformPosition = _initPosition;
@@ -48,22 +59,29 @@ public class MovingPlatformController : MonoBehaviour
      {
          _platformPosition = _initPosition;
          _currentWaypointIndex = 0;
+         _platform.transform.position = _initPosition;
          if (_initYoungState == MovingState.Active)
          {
+             if (_function==MovingFunctioning.DisappearedIfInactive)
+             {
+                 SetActive();
+             }
+             else if (_function==MovingFunctioning.StoppedIfInactive)
+             {
+                 _spriteRenderer.sprite = _spriteStoppedIfInactive;
+             }
              _isMoving = true;
-             _platform.transform.position = _initPosition;
-             _platform.SetActive(true);
          }
          else if (_initYoungState==MovingState.Inactive)
          {
              if (_function==MovingFunctioning.DisappearedIfInactive)
              {
-                 _platform.SetActive(false);
+                 SetInactive();
                  _isMoving = true;
-                 
              }
              else if (_function==MovingFunctioning.StoppedIfInactive)
              {
+                 _spriteRenderer.sprite = _spriteStoppedIfInactive;
                  _isMoving = false; 
              }
          }
@@ -72,11 +90,18 @@ public class MovingPlatformController : MonoBehaviour
      {
          _currentWaypointIndex = 0;
          _platformPosition = _initPosition;
+         _platform.transform.position = _initPosition;
          if (_initOldStateOFF == MovingState.Active)
          { 
+             if (_function==MovingFunctioning.DisappearedIfInactive)
+             {
+                 SetActive();
+             }
+             else if (_function==MovingFunctioning.StoppedIfInactive)
+             {
+                 _spriteRenderer.sprite = _spriteStoppedIfInactive;
+             }
              _isMoving = true;
-             _platform.transform.position = _initPosition;
-             _platform.SetActive(true);
          }
          else if (_initOldStateOFF==MovingState.Inactive)
          { 
@@ -121,13 +146,37 @@ public class MovingPlatformController : MonoBehaviour
      {
          if (_function==MovingFunctioning.DisappearedIfInactive)
          {
-             _platform.SetActive(!_platform.activeSelf);
+             if (_isActive)
+             {
+                 SetInactive();
+             }
+             else
+             {
+                 SetActive();
+             }
              _isMoving = true;
          }
          else if (_function==MovingFunctioning.StoppedIfInactive)
          {
              _isMoving = !_isMoving;
          }
+     }
+     
+     
+     private void SetActive()
+     {
+         _spriteRenderer.sprite = _spriteOnDisappearedIfInactive;
+         _collider2D.enabled = true;
+         _isActive = true;
+
+     }
+     
+
+     private void SetInactive()
+     {
+         _spriteRenderer.sprite = _spriteOffDisappearedIfInactive;
+         _collider2D.enabled = false;
+         _isActive = false;
      }
      /*
      public void SetDeactivated()
