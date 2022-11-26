@@ -5,21 +5,123 @@ using UnityEngine;
 
 public class MovingPlatformController : MonoBehaviour
 {
-     [SerializeField] private GameObject[] _waypoints;
+     
      private int _currentWaypointIndex = 0;
      private Vector3 _initPosition;
-     private bool _isActive = true;
+     private Vector3 _platformPosition;
+     private bool _isMoving;
+     private bool _isActive;
+     [SerializeField]private GameObject _platform;
+     [SerializeField] private GameObject[] _waypoints;
+     [SerializeField] private MovingFunctioning _function;
      [SerializeField] private float speed = 2.0f;
+     [Header("Initial state (Young/Old phase)")]
+     [SerializeField] private MovingState _initYoungState;
+     [SerializeField] private MovingState _initOldStateOFF;
      
-
+     [Header("Sprites")]
+     [SerializeField] private Sprite _spriteOffDisappearedIfInactive;
+     [SerializeField] private Sprite _spriteOnDisappearedIfInactive;
+     [SerializeField] private Sprite _spriteStoppedIfInactive;
+     private SpriteRenderer _spriteRenderer;
+     private Collider2D _collider2D;
+     
+     
+     //-------------------------------
      private void Awake()
-     {
-          _initPosition = gameObject.transform.position;
+     { 
+         _spriteRenderer=_platform.GetComponent<SpriteRenderer>();
+         _collider2D = _platform.GetComponent<Collider2D>();
+         
+         _isMoving = false; 
+         _initPosition = _platform.transform.position;
+         _platformPosition = _initPosition;
+         //It is subscribing to the event
+         GameManager.OnGameStateChanged += GameManagerOnGameStateChanged;
      }
-
-     private void Update()
+     private void OnDestroy()
+         {
+             //It is unsubscribing to the event
+             GameManager.OnGameStateChanged -= GameManagerOnGameStateChanged;
+         } 
+     private void GameManagerOnGameStateChanged(GameState state)
+         {
+             if (state == GameState.StartingYoungTurn)
+             {
+                 InitYoung();
+             }
+             if (state == GameState.StartingOldTurn)
+             {
+                 InitOld();
+             }
+         }
+     private void InitYoung()
      {
-          if (Vector2.Distance(_waypoints[_currentWaypointIndex].transform.position, transform.position) < .1f)
+         _platformPosition = _initPosition;
+         _currentWaypointIndex = 0;
+         _platform.transform.position = _initPosition;
+         if (_initYoungState == MovingState.Active)
+         {
+             if (_function==MovingFunctioning.DisappearedIfInactive)
+             {
+                 SetActive();
+             }
+             else if (_function==MovingFunctioning.StoppedIfInactive)
+             {
+                 _spriteRenderer.sprite = _spriteStoppedIfInactive;
+             }
+             _isMoving = true;
+         }
+         else if (_initYoungState==MovingState.Inactive)
+         {
+             if (_function==MovingFunctioning.DisappearedIfInactive)
+             {
+                 SetInactive();
+                 _isMoving = true;
+             }
+             else if (_function==MovingFunctioning.StoppedIfInactive)
+             {
+                 _spriteRenderer.sprite = _spriteStoppedIfInactive;
+                 _isMoving = false; 
+             }
+         }
+     }
+     private void InitOld()
+     {
+         _currentWaypointIndex = 0;
+         _platformPosition = _initPosition;
+         _platform.transform.position = _initPosition;
+         if (_initOldStateOFF == MovingState.Active)
+         { 
+             if (_function==MovingFunctioning.DisappearedIfInactive)
+             {
+                 SetActive();
+             }
+             else if (_function==MovingFunctioning.StoppedIfInactive)
+             {
+                 _spriteRenderer.sprite = _spriteStoppedIfInactive;
+             }
+             _isMoving = true;
+         }
+         else if (_initOldStateOFF==MovingState.Inactive)
+         { 
+             if (_function==MovingFunctioning.DisappearedIfInactive)
+             {
+                 _platform.SetActive(false);
+                 _isMoving = true;
+                 
+             }
+             else if (_function==MovingFunctioning.StoppedIfInactive)
+             {
+                 _isMoving = false; 
+             }
+         }
+     }
+     //-------------------------------
+     
+     private void FixedUpdate()
+     {
+          if (Vector2.Distance(_waypoints[_currentWaypointIndex].transform.position, _platformPosition) < .1f)
           {
                _currentWaypointIndex++;
                if (_currentWaypointIndex >= _waypoints.Length)
@@ -28,15 +130,55 @@ public class MovingPlatformController : MonoBehaviour
                }
           }
 
-          if (_isActive)
+          if (_isMoving&& GameManager.Instance.State!=GameState.StartingYoungTurn&& GameManager.Instance.State!=GameState.StartingOldTurn)
           {
-               transform.position = Vector2.MoveTowards(transform.position,
-                    _waypoints[_currentWaypointIndex].transform.position, Time.deltaTime * speed);
+              _platformPosition = Vector2.MoveTowards(_platformPosition,
+                    _waypoints[_currentWaypointIndex].transform.position, Time.fixedDeltaTime * speed);
           }
      }
 
+     private void Update()
+     {
+         _platform.transform.position = _platformPosition;
+     }
+
+     public void SwitchState()
+     {
+         if (_function==MovingFunctioning.DisappearedIfInactive)
+         {
+             if (_isActive)
+             {
+                 SetInactive();
+             }
+             else
+             {
+                 SetActive();
+             }
+             _isMoving = true;
+         }
+         else if (_function==MovingFunctioning.StoppedIfInactive)
+         {
+             _isMoving = !_isMoving;
+         }
+     }
+     
+     
+     private void SetActive()
+     {
+         _spriteRenderer.sprite = _spriteOnDisappearedIfInactive;
+         _collider2D.enabled = true;
+         _isActive = true;
+
+     }
      
 
+     private void SetInactive()
+     {
+         _spriteRenderer.sprite = _spriteOffDisappearedIfInactive;
+         _collider2D.enabled = false;
+         _isActive = false;
+     }
+     /*
      public void SetDeactivated()
      {
           _isActive = false;
@@ -49,9 +191,20 @@ public class MovingPlatformController : MonoBehaviour
           _currentWaypointIndex = 0;
           gameObject.transform.position=_initPosition;
      }
+     */
 
-     public void SwitchState()
-     {
-          _isActive = !_isActive;
-     }
+     
+}
+
+[System.Serializable]
+public enum MovingState
+{
+    Inactive,
+    Active
+}
+[System.Serializable]
+public enum MovingFunctioning
+{
+    StoppedIfInactive,
+    DisappearedIfInactive
 }
