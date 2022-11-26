@@ -32,6 +32,15 @@ public class MovingPlatformController : MonoBehaviour
      { 
          _spriteRenderer=_platform.GetComponent<SpriteRenderer>();
          _collider2D = _platform.GetComponent<Collider2D>();
+
+         if (_function==MovingFunctioning.DisappearedIfInactive)
+         {
+             _spriteRenderer.sprite = _spriteOnDisappearedIfInactive;
+         }
+         else if (_function == MovingFunctioning.StoppedIfInactive)
+         {
+             _spriteRenderer.sprite = _spriteStoppedIfInactive;
+         }
          
          _isMoving = false; 
          _initPosition = _platform.transform.position;
@@ -107,12 +116,12 @@ public class MovingPlatformController : MonoBehaviour
          { 
              if (_function==MovingFunctioning.DisappearedIfInactive)
              {
-                 _platform.SetActive(false);
+                 SetInactive();
                  _isMoving = true;
-                 
              }
              else if (_function==MovingFunctioning.StoppedIfInactive)
              {
+                 _spriteRenderer.sprite = _spriteStoppedIfInactive;
                  _isMoving = false; 
              }
          }
@@ -168,32 +177,13 @@ public class MovingPlatformController : MonoBehaviour
          _spriteRenderer.sprite = _spriteOnDisappearedIfInactive;
          _collider2D.enabled = true;
          _isActive = true;
-
      }
-     
-
      private void SetInactive()
      {
          _spriteRenderer.sprite = _spriteOffDisappearedIfInactive;
          _collider2D.enabled = false;
          _isActive = false;
      }
-     /*
-     public void SetDeactivated()
-     {
-          _isActive = false;
-          _currentWaypointIndex = 0;
-          gameObject.transform.position=_initPosition;
-     }
-     public void SetActivated()
-     {
-          _isActive = true;
-          _currentWaypointIndex = 0;
-          gameObject.transform.position=_initPosition;
-     }
-     */
-
-     
 }
 
 [System.Serializable]

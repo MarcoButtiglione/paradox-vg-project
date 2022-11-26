@@ -107,8 +107,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
-  m_Sprite: {fileID: 3286163911610860551, guid: 63510f21536858a42a11a15ec29a3d61, type: 3}
+  m_SortingOrder: -2
+  m_Sprite: {fileID: 3286163911610860551, guid: 2d2e1c392c195b34285ae802bf082f4a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -153,7 +153,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.041370988, y: 0.023640633}
+  m_Offset: {x: 0.0070021152, y: -0.029569626}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -164,7 +164,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.8101103, y: 0.50042534}
+  m_Size: {x: 1.7133641, y: 0.40367937}
   m_EdgeRadius: 0
 --- !u!61 &2718147601861352057
 BoxCollider2D:
@@ -179,7 +179,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.041371107, y: 0.3331399}
+  m_Offset: {x: 0.016676664, y: 0.23639405}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -190,7 +190,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.682735, y: 0.11783314}
+  m_Size: {x: 1.6537108, y: 0.1178329}
   m_EdgeRadius: 0
 --- !u!114 &2718147601861352006
 MonoBehaviour:
@@ -247,7 +247,7 @@ GameObject:
   - component: {fileID: 2718147602486743274}
   - component: {fileID: 2718147602486743275}
   m_Layer: 0
-  m_Name: MovingPlatform
+  m_Name: MovingPlatform 7
   m_TagString: Untagged
   m_Icon: {fileID: 6519382022992737161, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -318,3 +318,6 @@ MonoBehaviour:
   speed: 2
   _initYoungState: 1
   _initOldStateOFF: 1
+  _spriteOffDisappearedIfInactive: {fileID: 3286163911610860551, guid: 46d17acfcd31c0f448ec78aa52b6154e, type: 3}
+  _spriteOnDisappearedIfInactive: {fileID: 3286163911610860551, guid: 2d2e1c392c195b34285ae802bf082f4a, type: 3}
+  _spriteStoppedIfInactive: {fileID: 3286163911610860551, guid: f5e75281411a32149ab743ac6d6cb21a, type: 3}
