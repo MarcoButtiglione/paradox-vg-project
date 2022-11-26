@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VectorGraphics.Editor;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -15,9 +16,16 @@ public class ButtonController : MonoBehaviour
     
     private bool _isActive=false;
     
+    [Header("Sprites")]
+    [SerializeField] private Sprite _spriteOff;
+    [SerializeField] private Sprite _spriteOn;
+    private SpriteRenderer _spriteRenderer;
+
+
     //-------------------------------
     private void Awake()
     {
+        _spriteRenderer=gameObject.GetComponent<SpriteRenderer>();
         //It is subscribing to the event
         GameManager.OnGameStateChanged += GameManagerOnGameStateChanged;
     }
@@ -42,10 +50,12 @@ public class ButtonController : MonoBehaviour
         StopAllCoroutines();
         if (_initYoungState)
         {
+            _spriteRenderer.sprite = _spriteOn;
             _isActive = true;
         }
         else
         {
+            _spriteRenderer.sprite = _spriteOff;
             _isActive = false;
         }
         
@@ -55,10 +65,12 @@ public class ButtonController : MonoBehaviour
         StopAllCoroutines();
         if (_initOldState)
         {
+            _spriteRenderer.sprite = _spriteOn;
             _isActive = true;
         }
         else
         {
+            _spriteRenderer.sprite = _spriteOff;
             _isActive = false;
         }
     }
@@ -67,7 +79,7 @@ public class ButtonController : MonoBehaviour
     private void SetActive()
     {
         //gameObject.GetComponent<SpriteRenderer>().sprite = _spriteOn;
-        
+        _spriteRenderer.sprite = _spriteOn;
         _isActive = true;
         for (int i = 0; i < _objToActivate.Length; i++) 
         {
@@ -79,6 +91,7 @@ public class ButtonController : MonoBehaviour
     }
     private void SetInactive()
     {
+        _spriteRenderer.sprite = _spriteOff;
         //gameObject.GetComponent<SpriteRenderer>().sprite = _spriteOff;
         
         _isActive = false;
