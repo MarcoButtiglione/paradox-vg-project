@@ -10,7 +10,7 @@ public class LaserTurretController : MonoBehaviour
     private GameObject _laserRay;
     private Vector3 _direction;
     private bool _isActive;
-    private SpriteRenderer _spriteRenderer;
+    //private SpriteRenderer _spriteRenderer;
     [SerializeField] private Transform _laserOutput;
     [SerializeField] private LaserType _laserType;
     [SerializeField] private LaserFunctioning _functionYoung;
@@ -36,27 +36,48 @@ public class LaserTurretController : MonoBehaviour
     [Header("Initial state (Young/Old phase)")] 
     [SerializeField] private LaserState _initYoungState;
     [SerializeField] private LaserState _initOldStateOFF;
-    [Header("Laser sprites")]
-    [SerializeField] private Sprite _spriteStaticOff;
-    [SerializeField] private Sprite _spriteStaticOn;
-    [SerializeField] private Sprite _spriteRotatingOff;
-    [SerializeField] private Sprite _spriteRotatingOn;
-    [SerializeField] private Sprite _spriteMovingOff;
-    [SerializeField] private Sprite _spriteMovingOn;
+    
+    
+    [Header("Laser component")]
+    [SerializeField] private GameObject _laserOff;
+    [SerializeField] private GameObject _laserOn;
+    [SerializeField] private GameObject _laserFoot;
+    [SerializeField] private GameObject _laserWing;
 
-    [SerializeField] private Sprite _spriteMovingRotatingOff;
-    [SerializeField] private Sprite _spriteMovingRotatingOn;
     //-------------------------------
     private void Awake()
     {
         _laserRay = transform.GetChild(0).GetChild(1).gameObject;
         _direction = (_laserOutput.position - _laserHead.transform.position).normalized;
         _initDirection = _laserHead.transform.rotation.eulerAngles;
-        _spriteRenderer = _laserHead.GetComponent<SpriteRenderer>();
         //Moving LASER
         _isMoving = false; 
         _initPosition = _laserHead.transform.position;
         _laserPosition = _initPosition;
+        SetLaserOff();
+        switch (_laserType)
+        {
+            case LaserType.Static:
+                _laserFoot.SetActive(true);
+                _laserWing.SetActive(false);
+                break;
+            case LaserType.Rotating:
+                _laserFoot.SetActive(true);
+                _laserWing.SetActive(false);
+                break;
+            case LaserType.Moving:
+                _laserFoot.SetActive(false);
+                _laserWing.SetActive(true);
+                break;
+            case LaserType.MovingRotating:
+                _laserFoot.SetActive(false);
+                _laserWing.SetActive(true);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+
+
         //------------------------------------
         //It is subscribing to the event
         GameManager.OnGameStateChanged += GameManagerOnGameStateChanged;
@@ -97,8 +118,7 @@ public class LaserTurretController : MonoBehaviour
         if (_initYoungState == LaserState.Active)
         {
             _isActive = true;
-            _laserRay.SetActive(true);
-            SetSpriteOn();
+            SetLaserOn();
             if (_functionYoung == LaserFunctioning.Intermittent)
             {
                 InvokeRepeating("Intermittent", _intermittentPeriod/2, _intermittentPeriod/2);
@@ -107,8 +127,7 @@ public class LaserTurretController : MonoBehaviour
         else if (_initYoungState == LaserState.Inactive)
         {
             _isActive = false;
-            _laserRay.SetActive(false);
-            SetSpriteOff();
+            SetLaserOff();
         }
     }
 
@@ -130,8 +149,7 @@ public class LaserTurretController : MonoBehaviour
         if (_initOldStateOFF == LaserState.Active)
         {
             _isActive = true;
-            _laserRay.SetActive(true);
-            SetSpriteOn();
+            SetLaserOn();
             if (_functionOldActive == LaserFunctioning.Intermittent)
             {
                 InvokeRepeating("Intermittent", _intermittentPeriod/2, _intermittentPeriod / 2);
@@ -141,8 +159,7 @@ public class LaserTurretController : MonoBehaviour
         else if (_initOldStateOFF == LaserState.Inactive)
         {
             _isActive = false;
-            _laserRay.SetActive(false);
-            SetSpriteOff();
+            SetLaserOff();
         }
     }
     //-------------------------------
@@ -150,8 +167,10 @@ public class LaserTurretController : MonoBehaviour
 
     void Update()
     {
+        _laserHead.transform.position = _laserPosition;
         if (_isActive)
         {
+            _laserRay.SetActive(true);
             _direction = (_laserOutput.position - _laserHead.transform.position).normalized;
             RaycastHit2D hit = Physics2D.Raycast(_laserOutput.position, _direction);
             lineRenderer.SetPosition(0, _laserOutput.position);
@@ -165,8 +184,10 @@ public class LaserTurretController : MonoBehaviour
                 lineRenderer.SetPosition(1, _direction * 100);
             }
         }
-        _laserHead.transform.position = _laserPosition;
-
+        else
+        {
+            _laserRay.SetActive(false);
+        }
     }
     private void FixedUpdate()
     {
@@ -231,13 +252,13 @@ public class LaserTurretController : MonoBehaviour
             _isActive = !_isActive;
             if (_isActive)
             {
-                SetSpriteOn();
+                SetLaserOn();
             }
             else
             {
-                SetSpriteOff();
+                SetLaserOff();
             }
-            _laserRay.SetActive(!_laserRay.activeSelf);
+            
         }
         
     }
@@ -248,14 +269,12 @@ public class LaserTurretController : MonoBehaviour
             if (_isActive)
             {
                 _isActive = false;
-                _laserRay.SetActive(false);
-                SetSpriteOff();
+                SetLaserOff();
             }
             else
             {
                 _isActive = true;
-                _laserRay.SetActive(true);
-                SetSpriteOn();
+                SetLaserOn();
             }
             
         }
@@ -264,64 +283,36 @@ public class LaserTurretController : MonoBehaviour
             if (_isActive)
             {
                 _isActive = false;
-                _laserRay.SetActive(false);
                 CancelInvoke();
-                SetSpriteOff();
+                SetLaserOff();
             }
             else
             {
                 _isActive = true;
-                _laserRay.SetActive(true); 
-                SetSpriteOn();
+                SetLaserOn();
                 InvokeRepeating("Intermittent", _intermittentPeriod/2, _intermittentPeriod / 2);
             }
         }
     }
 
 
-    private void SetSpriteOn()
+    
+    private void SetLaserOn()
     {
-        if (_laserType==LaserType.Static)
-        {
-            _spriteRenderer.sprite = _spriteStaticOn;
-        }
-        else if (_laserType==LaserType.Moving)
-        {
-            _spriteRenderer.sprite = _spriteMovingOn;
-        }
-        else if (_laserType==LaserType.Rotating)
-        {
-            _spriteRenderer.sprite = _spriteRotatingOn;
-
-        }
-        else if (_laserType==LaserType.MovingRotating)
-        {
-            _spriteRenderer.sprite = _spriteMovingRotatingOn;
-
-        }
+        
+        _laserOff.SetActive(false);
+        _laserOn.SetActive(true);
+        
     }
 
-    private void SetSpriteOff()
+    private void SetLaserOff()
     {
-        if (_laserType==LaserType.Static)
-        {
-            _spriteRenderer.sprite = _spriteStaticOff;
-        }
-        else if (_laserType==LaserType.Moving)
-        {
-            _spriteRenderer.sprite = _spriteMovingOff;
-        }
-        else if (_laserType==LaserType.Rotating)
-        {
-            _spriteRenderer.sprite = _spriteRotatingOff;
-
-        }
-        else if (_laserType==LaserType.MovingRotating)
-        {
-            _spriteRenderer.sprite = _spriteMovingRotatingOff;
-
-        }
+        
+        _laserOff.SetActive(true);
+        _laserOn.SetActive(false);
+        
     }
+    
 }
 
 [System.Serializable]
