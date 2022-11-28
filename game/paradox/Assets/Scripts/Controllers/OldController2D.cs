@@ -173,7 +173,6 @@ public class OldController2D : MonoBehaviour
 
          if (m_Grounded && dash)
         {
-            Debug.Log("Detected shift");
             // Add a horizontal force to the player.
             dash = false;
             m_Rigidbody2D.AddForce(new Vector2(move*m_DashForce, 0f));

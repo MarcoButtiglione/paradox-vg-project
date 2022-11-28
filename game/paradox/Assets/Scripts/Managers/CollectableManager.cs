@@ -52,7 +52,6 @@ public class CollectableManager : MonoBehaviour
             _doorActivate.ActivateDoor();
         }
 
-        Debug.Log("Number to collect at start = " + _numberToCollect);
     }
 
 
@@ -70,7 +69,6 @@ public class CollectableManager : MonoBehaviour
             youngCollectable = youngCollectable + 1;
         else if (tag == "Ghost")
             ghostCollectable = ghostCollectable + 1;
-        Debug.Log("ghostcollectable= "+ ghostCollectable + " youngCollectble= " + youngCollectable);
         if (youngCollectable == _numberToCollect || ghostCollectable == _numberToCollect)
         {
             _doorActivate.ActivateDoor();

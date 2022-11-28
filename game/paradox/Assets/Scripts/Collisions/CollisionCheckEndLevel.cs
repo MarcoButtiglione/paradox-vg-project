@@ -8,15 +8,25 @@ public class CollisionCheckEndLevel : MonoBehaviour
 {
     private bool _doorIsActive = false;
     private CollectableManager _cm;
+
+    [SerializeField]private GameObject _doorOn;
+    [SerializeField]private GameObject _doorOnClosed;
+    [SerializeField] private GameObject _doorOff;
     
     public void ActivateDoor()
     {
         _doorIsActive = true;
+        _doorOn.SetActive(true);
+        _doorOff.SetActive(false);
+        _doorOnClosed.SetActive(false);
     }
 
     public void DisableDoor()
     {
         _doorIsActive = false;
+        _doorOn.SetActive(false);
+        _doorOnClosed.SetActive(false);
+        _doorOff.SetActive(true);
     }
 
     private void Start()
@@ -24,17 +34,17 @@ public class CollisionCheckEndLevel : MonoBehaviour
         _cm = GameObject.FindGameObjectWithTag("CollectableManager").GetComponent<CollectableManager>();
         if(_cm.GetNumberToCollect() == 0)
         {
-            Debug.Log("NUMBER TO COLLECT: " + _cm.GetNumberToCollect());
             _doorIsActive = true;
+            _doorOn.SetActive(true);
+            _doorOnClosed.SetActive(false);
+            _doorOff.SetActive(false);
         }
     }
 
     private void OnTriggerEnter2D(Collider2D col)
     {
-        Debug.Log("Door state is= " + _doorIsActive);
         if (col.CompareTag("Young"))
         {
-            Debug.Log("Door is not active : door value is=" + _doorIsActive);
             if (GameManager.Instance.IsTutorial())
             {
                 GameManager.Instance.UpdateGameState(GameState.StartingThirdPart);
@@ -42,6 +52,9 @@ public class CollisionCheckEndLevel : MonoBehaviour
             else if (_doorIsActive)
             {
                 _doorIsActive = false;
+                _doorOn.SetActive(false);
+                _doorOff.SetActive(true);
+                _doorOnClosed.SetActive(false);
                 GameManager.Instance.UpdateGameState(GameState.StartingOldTurn);
             }
         }
@@ -49,6 +62,9 @@ public class CollisionCheckEndLevel : MonoBehaviour
         {
             _doorIsActive = false;
             col.gameObject.SetActive(false);
+            _doorOn.SetActive(false);
+            _doorOff.SetActive(false);
+            _doorOnClosed.SetActive(true);
             GameManager.Instance.UpdateGameState(GameState.LevelCompleted);
         }
     }
