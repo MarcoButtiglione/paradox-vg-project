@@ -9,13 +9,14 @@ public class RotatingLaserController : MonoBehaviour
     public LineRenderer lineRenderer;
     public Transform laserPosition;
     private GameObject _laserRay;
-    [SerializeField] private float speed = 20.0f;
+    [SerializeField] float speed = 20.0f;
+    [SerializeField] float angle = 0.75f;
     private Vector2 _direction;
     private Vector2 _startingDirection;
 
     private void Awake()
     {
-        _laserRay = GameObject.Find("LaserRay");
+        _laserRay = transform.GetChild(0).gameObject;
         _direction = -transform.up;
         _startingDirection = -transform.up;    }
 
@@ -30,7 +31,7 @@ public class RotatingLaserController : MonoBehaviour
     {
         _direction = Quaternion.Euler(0f, 0f, speed * Time.deltaTime) * _direction;
 
-        if (Math.Abs(_direction.y) <= 0.75)
+        if (Math.Abs(_direction.y) <= angle)
         {
             speed = -speed;
         }

@@ -20,8 +20,6 @@ public class LaserController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        _direction = Quaternion.Euler(0f, 0f, 20f * Time.deltaTime) * _direction;
-        Debug.Log(_direction.y);
         RaycastHit2D hit = Physics2D.Raycast(transform.position, -transform.up);
         lineRenderer.SetPosition(0, laserPosition.position);
         if (hit)
@@ -56,7 +54,7 @@ public class LaserController : MonoBehaviour
     // In the young player turn, the laser activates and deactivates periodically
     public void StartPeriodic()
     {
-        //StopAllCoroutines();
+        StopAllCoroutines();
         StartCoroutine(Periodic());
     }
 
@@ -74,7 +72,7 @@ public class LaserController : MonoBehaviour
     // In the old player turn, the laser is fixed and it is the player's job to deactivate it
     public void StartFixed()
     {
-        //StopAllCoroutines();
+        StopAllCoroutines();
         _laserRay.SetActive(true);
     }
 }
