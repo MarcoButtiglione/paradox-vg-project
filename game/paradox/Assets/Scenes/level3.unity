@@ -888,6 +888,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9ac2297961a3f44a856a61bd427eed8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _doorOn: {fileID: 0}
+  _doorOnClosed: {fileID: 0}
+  _doorOff: {fileID: 0}
 --- !u!50 &653221511
 Rigidbody2D:
   serializedVersion: 4
@@ -3399,8 +3402,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72358bf0325d3794a881586a30ac3ec1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _objToActivate:
-  - {fileID: 1416764015}
 --- !u!1 &1489285718
 GameObject:
   m_ObjectHideFlags: 0
@@ -4217,7 +4218,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 728f58f334abdf04685b5fde2c6d60a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collectables: []
 --- !u!4 &1764575701
 Transform:
   m_ObjectHideFlags: 0
@@ -4524,7 +4524,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1872680228
 Transform:
   m_ObjectHideFlags: 0
