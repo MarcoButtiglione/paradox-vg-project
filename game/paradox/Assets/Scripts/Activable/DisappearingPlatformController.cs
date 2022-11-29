@@ -6,7 +6,10 @@ using UnityEngine;
 //TODO dev intermittent
 public class DisappearingPlatformController : MonoBehaviour
 {
-    [SerializeField] private DisappearingFunctioning _function;
+    //[SerializeField] private DisappearingFunctioning _function;
+    
+    [SerializeField] private DisappearingFunctioning _functioningYoung;
+    [SerializeField] private DisappearingFunctioning _functioningOld;
 
     [Tooltip("Set the period if function is 'Intermittent'. Set function 'Intermittent'.")]
     [Range(0.0f, 10.0f)]
@@ -14,7 +17,10 @@ public class DisappearingPlatformController : MonoBehaviour
     private float _intermittentPeriod = 1f;
     [Range(0.0f, 10.0f)]
     [SerializeField]
-    private float _intermittentDelay = 1f;
+    private float _intermittentStartingDelay = 1f;
+    //The starting state when it is intermitent
+    [SerializeField] private bool _startingIntermittentState;
+    
 
     private bool _isIntermittent;
 
@@ -62,7 +68,7 @@ public class DisappearingPlatformController : MonoBehaviour
     private void InitYoung()
     {
         CancelInvoke();
-        if (_function == DisappearingFunctioning.Fixed)
+        if (_functioningYoung == DisappearingFunctioning.Fixed)
         {
             if (_initYoungState == DisappearingState.Active)
             {
@@ -73,13 +79,20 @@ public class DisappearingPlatformController : MonoBehaviour
                 SetInactive();
             }
         }
-        else if (_function == DisappearingFunctioning.Intermittent)
+        else if (_functioningYoung == DisappearingFunctioning.Intermittent)
         {
             if (_initYoungState == DisappearingState.Active)
             {
                 _isIntermittent = true;
-                SetActive();
-                InvokeRepeating("Intermittent", _intermittentPeriod / 2+_intermittentDelay, _intermittentPeriod / 2);
+                if(_startingIntermittentState){
+                    SetActive();
+                }
+                else
+                {
+                    SetInactive();
+                }
+                
+                InvokeRepeating("Intermittent", _intermittentPeriod / 2+_intermittentStartingDelay, _intermittentPeriod / 2);
             }
             else if (_initYoungState == DisappearingState.Inactive)
             {
@@ -93,7 +106,7 @@ public class DisappearingPlatformController : MonoBehaviour
     private void InitOld()
     {
         CancelInvoke();
-        if (_function == DisappearingFunctioning.Fixed)
+        if (_functioningOld == DisappearingFunctioning.Fixed)
         {
             if (_initOldStateOFF == DisappearingState.Active)
             {
@@ -104,13 +117,19 @@ public class DisappearingPlatformController : MonoBehaviour
                 SetInactive();
             }
         }
-        else if (_function == DisappearingFunctioning.Intermittent)
+        else if (_functioningOld == DisappearingFunctioning.Intermittent)
         {
             if (_initOldStateOFF == DisappearingState.Active)
             {
                 _isIntermittent = true;
-                SetActive();
-                InvokeRepeating("Intermittent", _intermittentPeriod / 2+_intermittentDelay, _intermittentPeriod / 2);
+                if(_startingIntermittentState){
+                    SetActive();
+                }
+                else
+                {
+                    SetInactive();
+                }
+                InvokeRepeating("Intermittent", _intermittentPeriod / 2+_intermittentStartingDelay, _intermittentPeriod / 2);
             }
             else if (_initOldStateOFF == DisappearingState.Inactive)
             {
@@ -125,7 +144,65 @@ public class DisappearingPlatformController : MonoBehaviour
 
     public void SwitchState()
     {
-        if (_function == DisappearingFunctioning.Fixed)
+        if (GameManager.Instance.State==GameState.YoungPlayerTurn)
+        {
+            if (_functioningYoung == DisappearingFunctioning.Fixed)
+            {
+                if (_isActive)
+                {
+                    SetInactive();
+                }
+                else
+                {
+                    SetActive();
+                }
+            }
+            else if (_functioningYoung == DisappearingFunctioning.Intermittent)
+            {
+                if (_isIntermittent)
+                {
+                    _isIntermittent = false;
+                    CancelInvoke();
+                    SetInactive();
+                }
+                else
+                {
+                    _isIntermittent = true;
+                    SetActive();
+                    InvokeRepeating("Intermittent", _intermittentPeriod / 2, _intermittentPeriod / 2);
+                }
+            }
+        }
+        else if (GameManager.Instance.State==GameState.OldPlayerTurn)
+        {
+            if (_functioningOld == DisappearingFunctioning.Fixed)
+            {
+                if (_isActive)
+                {
+                    SetInactive();
+                }
+                else
+                {
+                    SetActive();
+                }
+            }
+            else if (_functioningOld == DisappearingFunctioning.Intermittent)
+            {
+                if (_isIntermittent)
+                {
+                    _isIntermittent = false;
+                    CancelInvoke();
+                    SetInactive();
+                }
+                else
+                {
+                    _isIntermittent = true;
+                    SetActive();
+                    InvokeRepeating("Intermittent", _intermittentPeriod / 2, _intermittentPeriod / 2);
+                }
+            }
+        }
+        else
         {
             if (_isActive)
             {
@@ -136,21 +213,7 @@ public class DisappearingPlatformController : MonoBehaviour
                 SetActive();
             }
         }
-        else if (_function == DisappearingFunctioning.Intermittent)
-        {
-            if (_isIntermittent)
-            {
-                _isIntermittent = false;
-                CancelInvoke();
-                SetInactive();
-            }
-            else
-            {
-                _isIntermittent = true;
-                SetActive();
-                InvokeRepeating("Intermittent", _intermittentPeriod / 2, _intermittentPeriod / 2);
-            }
-        }
+        
     }
 
 
