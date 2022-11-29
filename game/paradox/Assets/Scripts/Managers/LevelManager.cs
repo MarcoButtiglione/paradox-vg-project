@@ -10,6 +10,7 @@ public class LevelManager : MonoBehaviour
     public static LevelManager Instance;
     private int _currentLevel;
     [SerializeField] private GameObject endAnimation;
+    [SerializeField] private GameObject startAnimation;
     private GameObject anim;
     //private Scene _nextScene;
 
@@ -21,6 +22,7 @@ public class LevelManager : MonoBehaviour
 
     private void Awake()
     {
+        Instantiate(startAnimation, startAnimation.transform.position, Quaternion.identity);
         if (Instance == null)
         {
             Instance = this;
