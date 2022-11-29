@@ -8,10 +8,13 @@ public class MainMenuManager : MonoBehaviour
 {
     public GameObject selectLevelMenu;
     public GameObject mainMenu;
+    public GameObject feedbackMenu;
 
     private void Start()
     {
+        mainMenu.SetActive(true);
         selectLevelMenu.SetActive(false);
+        feedbackMenu.SetActive(false);
     }
 
     public void PlayGame()
@@ -29,6 +32,14 @@ public class MainMenuManager : MonoBehaviour
     {
         mainMenu.SetActive(true);
         selectLevelMenu.SetActive(false);
+        feedbackMenu.SetActive(false);
+    }
+
+    public void FeedBack()
+    {
+        mainMenu.SetActive(false);
+        feedbackMenu.SetActive(true);
+        
     }
 
     public void QuitGame()
