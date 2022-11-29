@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     public GameState State;
     public GameState PreviousGameState;
+    
 
     public static event Action<GameState> OnGameStateChanged;
 

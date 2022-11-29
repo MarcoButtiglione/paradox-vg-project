@@ -2585,6 +2585,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 51588942582330633, guid: ac49ae6bf93a03045b18f69c71f279b0, type: 3}
+      propertyPath: startAnimation
+      value: 
+      objectReference: {fileID: 553465703770180407, guid: 153c9de19477d264795b3147ff7bbc05, type: 3}
     - target: {fileID: 51588942582330646, guid: ac49ae6bf93a03045b18f69c71f279b0, type: 3}
       propertyPath: m_Name
       value: LevelManager
@@ -3739,8 +3743,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e03d9916ef98fc4aa524e91a7bc10b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ourScreenSize: 1
   Camera: {fileID: 1093535051}
-  Old_Player: {fileID: 1413808016}
   isProcessing: 0
 --- !u!1 &1605438224
 GameObject:
