@@ -7,11 +7,12 @@ public class LaserTurretController : MonoBehaviour
 {
     [SerializeField] private GameObject _laserHead;
     public LineRenderer lineRenderer;
-    private GameObject _laserRay;
+    [SerializeField] private GameObject _laserRay;
     private Vector3 _direction;
     private bool _isActive;
     //private SpriteRenderer _spriteRenderer;
     [SerializeField] private Transform _laserOutput;
+    [SerializeField] private LaserDecoration _laserDecoration;
     [SerializeField] private LaserType _laserType;
     [SerializeField] private LaserFunctioning _functionYoung;
     [SerializeField] private LaserFunctioning _functionOldActive;
@@ -39,15 +40,21 @@ public class LaserTurretController : MonoBehaviour
     
     
     [Header("Laser component")]
-    [SerializeField] private GameObject _laserOff;
-    [SerializeField] private GameObject _laserOn;
     [SerializeField] private GameObject _laserFoot;
     [SerializeField] private GameObject _laserWing;
-
+    [Header("Laser sprites")]
+    [SerializeField] private Sprite _spriteOff;
+    [SerializeField] private Sprite _spriteOn1;
+    [SerializeField] private Sprite _spriteOn2;
+    private int _sprintOn;
+    private SpriteRenderer _spriteRenderer;
+    private float _fpsCount=0;
+    private float _spriteSpeed=0.1f;
+    
     //-------------------------------
     private void Awake()
     {
-        _laserRay = transform.GetChild(0).GetChild(1).gameObject;
+        _spriteRenderer = _laserHead.GetComponentInChildren<SpriteRenderer>();
         _direction = (_laserOutput.position - _laserHead.transform.position).normalized;
         _initDirection = _laserHead.transform.rotation.eulerAngles;
         //Moving LASER
@@ -55,21 +62,13 @@ public class LaserTurretController : MonoBehaviour
         _initPosition = _laserHead.transform.position;
         _laserPosition = _initPosition;
         SetLaserOff();
-        switch (_laserType)
+        switch (_laserDecoration)
         {
-            case LaserType.Static:
+            case LaserDecoration.Foot:
                 _laserFoot.SetActive(true);
                 _laserWing.SetActive(false);
                 break;
-            case LaserType.Rotating:
-                _laserFoot.SetActive(true);
-                _laserWing.SetActive(false);
-                break;
-            case LaserType.Moving:
-                _laserFoot.SetActive(false);
-                _laserWing.SetActive(true);
-                break;
-            case LaserType.MovingRotating:
+            case LaserDecoration.Wing:
                 _laserFoot.SetActive(false);
                 _laserWing.SetActive(true);
                 break;
@@ -170,6 +169,26 @@ public class LaserTurretController : MonoBehaviour
         _laserHead.transform.position = _laserPosition;
         if (_isActive)
         {
+            //Animation
+            _fpsCount += Time.deltaTime;
+            if (_fpsCount > _spriteSpeed)
+            {
+                _fpsCount = 0;
+                if (_sprintOn==1)
+                {
+                    _sprintOn = 2;
+                    _spriteRenderer.sprite = _spriteOn2;
+                }
+                else if (_sprintOn==2)
+                {
+                    _sprintOn = 1;
+                    _spriteRenderer.sprite = _spriteOn1;
+                }
+            }
+            //---------
+            
+            
+            
             _laserRay.SetActive(true);
             _direction = (_laserOutput.position - _laserHead.transform.position).normalized;
             RaycastHit2D hit = Physics2D.Raycast(_laserOutput.position, _direction);
@@ -299,18 +318,13 @@ public class LaserTurretController : MonoBehaviour
     
     private void SetLaserOn()
     {
-        
-        _laserOff.SetActive(false);
-        _laserOn.SetActive(true);
-        
+        _spriteRenderer.sprite = _spriteOn1;
+        _sprintOn = 1;
     }
 
     private void SetLaserOff()
     {
-        
-        _laserOff.SetActive(true);
-        _laserOn.SetActive(false);
-        
+        _spriteRenderer.sprite = _spriteOff;
     }
     
 }
@@ -327,6 +341,12 @@ public enum LaserFunctioning
 {
     Intermittent,
     Fixed
+}
+
+public enum LaserDecoration
+{
+    Foot,
+    Wing
 }
 
 [System.Serializable]
