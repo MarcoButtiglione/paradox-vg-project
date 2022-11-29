@@ -7,14 +7,15 @@ using UnityEngine.Rendering.PostProcessing;
 public class PostProcessingManager : MonoBehaviour
 {
     public static PostProcessingManager Instance;
+    [SerializeField] private ScreenSize ourScreenSize;
     public GameObject Camera;
-    public GameObject Old_Player;
-    
+    private GameObject Old_Player_Position;
+
     private Vignette _vignette;
     private Vector2 normalizedOldPlayerPos;
     private bool upIntensityDone = false;
     public bool isProcessing = false;
-   
+
 
     private void Awake()
     {
@@ -31,19 +32,21 @@ public class PostProcessingManager : MonoBehaviour
     {
         if (GameManager.Instance.IsTutorial())
         {
-            if (state == GameState.StartingSecondPart&& GameManager.Instance.PreviousGameState==GameState.YoungPlayerTurn)
-            {
-                StartCoroutine("StartDelay");
-            }
-
-        }else{
-            if (state == GameState.StartingOldTurn&& GameManager.Instance.PreviousGameState==GameState.YoungPlayerTurn)
+            if (state == GameState.StartingSecondPart && GameManager.Instance.PreviousGameState == GameState.YoungPlayerTurn)
             {
                 StartCoroutine("StartDelay");
             }
 
         }
-        
+        else
+        {
+            if (state == GameState.StartingOldTurn && GameManager.Instance.PreviousGameState == GameState.YoungPlayerTurn)
+            {
+                StartCoroutine("StartDelay");
+            }
+
+        }
+
         if (state == GameState.Paradox)
         {
             Camera.GetComponent<CameraShakeScript>().setShakeTrue();
@@ -56,15 +59,16 @@ public class PostProcessingManager : MonoBehaviour
 
     private void Start()
     {
-        normalizedOldPlayerPos = NormPosFromZeroToOne(new Vector2(Old_Player.transform.position.x, Old_Player.transform.position.y));
+        Old_Player_Position = GameObject.Find("Old_Position");
+        normalizedOldPlayerPos = NormPosFromZeroToOne(new Vector2(Old_Player_Position.transform.position.x, Old_Player_Position.transform.position.y));
         Camera.GetComponent<PostProcessVolume>().profile.TryGetSettings(out _vignette);
 
         //Wanted to center the camera on the old player but doesn't work in this way
         _vignette.center.value = normalizedOldPlayerPos;
     }
-    
-    
-    
+
+
+
     //COROUTINE TO ADD A TRANSACTION BETWEEN FIRST AND SECOND PART
     IEnumerator StartDelay()
     {
@@ -81,7 +85,7 @@ public class PostProcessingManager : MonoBehaviour
             else
             {
                 upIntensityDone = true;
-                _vignette.intensity.value -= 1.5f*Time.unscaledDeltaTime;
+                _vignette.intensity.value -= 1.5f * Time.unscaledDeltaTime;
             }
 
 
@@ -102,17 +106,39 @@ public class PostProcessingManager : MonoBehaviour
         {
             GameManager.Instance.UpdateGameState(GameState.OldPlayerTurn);
         }
-        
+
 
 
     }
 
     public Vector2 NormPosFromZeroToOne(Vector2 input)
     {
+        //INFO ON HOW TO CALCULATE DIMENSIONS
+        //Place a square on you screen and put it at the boards of the screen
 
-        input.x = Mathf.InverseLerp(-8.6f, 8.6f, input.x);
-        input.y = Mathf.InverseLerp(-4.4f, 4.4f, input.y);
-
+        switch (ourScreenSize)
+        {
+            case ScreenSize.Small:
+                input.x = Mathf.InverseLerp(-9f, 9f, input.x);
+                input.y = Mathf.InverseLerp(-5f, 5f, input.y);
+                break;
+            case ScreenSize.Medium:
+                input.x = Mathf.InverseLerp(-12.6f, 12.6f, input.x);
+                input.y = Mathf.InverseLerp(-7f, 7f, input.y);
+                break;
+            case ScreenSize.Large:
+                input.x = Mathf.InverseLerp(-17.8f, 17.8f, input.x);
+                input.y = Mathf.InverseLerp(-10f, 10f, input.y);
+                break;
+        }
         return input;
+    }
+
+    [System.Serializable]
+    public enum ScreenSize
+    {
+        Small,
+        Medium,
+        Large
     }
 }

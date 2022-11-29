@@ -19,7 +19,7 @@ public class RewindManager : MonoBehaviour
     //[SerializeField] private GameObject _youngPrefab;
 
 
-
+    private Rigidbody2D rigidbodyYoung;
     public GameObject _initYoungPrefab;
     private GameObject YoungPrefab;
 
@@ -71,6 +71,10 @@ public class RewindManager : MonoBehaviour
         if (state == GameState.StartingYoungTurn)
         {
             Init();
+        }
+        else if (state == GameState.YoungPlayerTurn)
+        {
+            rigidbodyYoung.bodyType = RigidbodyType2D.Dynamic;
         }
         else if (state == GameState.StartingSecondPart)
         {
@@ -128,6 +132,8 @@ public class RewindManager : MonoBehaviour
 
         //Init Young
         YoungPrefab = Instantiate(_initYoungPrefab, _initPosYoung, Quaternion.identity);
+        rigidbodyYoung = YoungPrefab.GetComponent<Rigidbody2D>();
+        rigidbodyYoung.bodyType = RigidbodyType2D.Static;
         toTrack = YoungPrefab.GetComponent<PlayerMovement>();
 
 
@@ -152,7 +158,7 @@ public class RewindManager : MonoBehaviour
         //GhostPrefab.SetActive(false);
 
         positions_young_p = new List<Vector3>();
-        
+
 
         //inputs = new List<TypeOfInputs>();
         //inputs.Insert(inputs.Count, new TypeOfInputs(0, false, false));
@@ -195,7 +201,9 @@ public class RewindManager : MonoBehaviour
 
     private void StartSecondPart()
     {
+
         inputs = toTrack.getListInputs();
+
 
         if (GhostPrefab != null)
         {
@@ -306,7 +314,7 @@ public class RewindManager : MonoBehaviour
         OldPrefab = Instantiate(_initOldPrefab, _initPosOld, Quaternion.identity);
         positions_old_p = new List<Vector3>();
 
-        
+
     }
     private void StartThirdPartTutorial()
     {
@@ -327,9 +335,9 @@ public class RewindManager : MonoBehaviour
             Destroy(YoungPrefab);
         }
 
-        
+
         index = 0;
-        GhostPrefab = Instantiate(_initGhostPrefab, positions_young_p[0], Quaternion.identity);
+        GhostPrefab = Instantiate(_initGhostPrefab, _initPosYoung, Quaternion.identity);
 
     }
 
