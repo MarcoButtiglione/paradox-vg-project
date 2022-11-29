@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7200674910508632158}
   - component: {fileID: 6185352657245017620}
   - component: {fileID: 2693446800758267203}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Collectable
   m_TagString: Collectable
   m_Icon: {fileID: 0}
@@ -158,6 +158,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: collectibleShine
       objectReference: {fileID: 0}
+    - target: {fileID: -3888481672020999207, guid: c40682a5ada8e4daa8125f19fb82aa8c, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8742538545776668643, guid: c40682a5ada8e4daa8125f19fb82aa8c, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -252,6 +256,10 @@ PrefabInstance:
     - target: {fileID: -3888481672020999207, guid: 8d2566f239a704d99b6e75b2a9a43a3b, type: 3}
       propertyPath: m_Name
       value: collectible
+      objectReference: {fileID: 0}
+    - target: {fileID: -3888481672020999207, guid: 8d2566f239a704d99b6e75b2a9a43a3b, type: 3}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8742538545776668643, guid: 8d2566f239a704d99b6e75b2a9a43a3b, type: 3}
       propertyPath: m_RootOrder
