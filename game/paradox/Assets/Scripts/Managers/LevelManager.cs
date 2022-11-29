@@ -14,15 +14,15 @@ public class LevelManager : MonoBehaviour
     private GameObject anim;
     //private Scene _nextScene;
 
-    
+
     //[SerializeField] private GameObject _loaderCanvas;
     //[SerializeField] private Image _progressBar;
     //private float _target;
-    
+
 
     private void Awake()
     {
-        Instantiate(startAnimation, startAnimation.transform.position, Quaternion.identity);
+
         if (Instance == null)
         {
             Instance = this;
@@ -34,6 +34,10 @@ public class LevelManager : MonoBehaviour
         }
 
         _currentLevel = SceneManager.GetActiveScene().buildIndex;
+        if (_currentLevel != 0)
+        {
+            Instantiate(startAnimation, startAnimation.transform.position, Quaternion.identity);
+        }
     }
 
 
@@ -43,23 +47,23 @@ public class LevelManager : MonoBehaviour
         _target = 0;
         _progressBar.fillAmount = 0;
         */
-        
+
         Instantiate(endAnimation, endAnimation.transform.position, Quaternion.identity);
-        StartCoroutine("EndLevel",level);
-        
+        StartCoroutine("EndLevel", level);
+
         //_loaderCanvas.SetActive(true);
-        
-        
+
+
         /*do
         {
             //_target = scene.progress;
         } while (scene.progress<0.9f);
         */
-        
+
         //scene.allowSceneActivation = true;
-       
+
         //_loaderCanvas.SetActive(false);
-        
+
     }
 
     /*
@@ -99,13 +103,14 @@ public class LevelManager : MonoBehaviour
         return false;
     }
 
-    private IEnumerator EndLevel(int level){
+    private IEnumerator EndLevel(int level)
+    {
         yield return new WaitForSecondsRealtime(0.5f);
         var scene = SceneManager.LoadSceneAsync(level);
-        
+
     }
 
- }
+}
 
 
 
