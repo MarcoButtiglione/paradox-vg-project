@@ -2667,6 +2667,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: platform2 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 7012661797553001583, guid: beb164faae9e757489a9c1ce4c394d68, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: beb164faae9e757489a9c1ce4c394d68, type: 3}
 --- !u!4 &1174336743 stripped
@@ -3046,8 +3050,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e03d9916ef98fc4aa524e91a7bc10b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ourScreenSize: 0
   Camera: {fileID: 1386635246}
-  Old_Player: {fileID: 1567877408}
   isProcessing: 0
 --- !u!1001 &1358016574
 PrefabInstance:

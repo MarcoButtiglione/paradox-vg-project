@@ -4286,8 +4286,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e03d9916ef98fc4aa524e91a7bc10b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ourScreenSize: 0
   Camera: {fileID: 989591988}
-  Old_Player: {fileID: 211232664}
   isProcessing: 0
 --- !u!4 &1292762454 stripped
 Transform:
@@ -4506,6 +4506,22 @@ PrefabInstance:
       propertyPath: _initYoungState
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5068322555513041092, guid: 7f208885bf8d4d347805ff027af3a090, type: 3}
+      propertyPath: _functioningYoung
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5068322555513041092, guid: 7f208885bf8d4d347805ff027af3a090, type: 3}
+      propertyPath: _intermittentPeriod
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5068322555513041092, guid: 7f208885bf8d4d347805ff027af3a090, type: 3}
+      propertyPath: _intermittentStartingDelay
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5068322555513041092, guid: 7f208885bf8d4d347805ff027af3a090, type: 3}
+      propertyPath: _startingIntermittentState
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5068322555513041093, guid: 7f208885bf8d4d347805ff027af3a090, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -4573,6 +4589,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1925747280}
     m_Modifications:
+    - target: {fileID: 5068322555513041092, guid: 1275d6d0c96d8744c9b6a9b1150c75d5, type: 3}
+      propertyPath: _initYoungState
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5068322555513041093, guid: 1275d6d0c96d8744c9b6a9b1150c75d5, type: 3}
       propertyPath: m_RootOrder
       value: 9
@@ -4789,6 +4809,18 @@ PrefabInstance:
     - target: {fileID: 5068322555513041092, guid: f0914a8528694dc4d9aa4e09a186dd3d, type: 3}
       propertyPath: _initYoungState
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5068322555513041092, guid: f0914a8528694dc4d9aa4e09a186dd3d, type: 3}
+      propertyPath: _functioningYoung
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5068322555513041092, guid: f0914a8528694dc4d9aa4e09a186dd3d, type: 3}
+      propertyPath: _intermittentPeriod
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5068322555513041092, guid: f0914a8528694dc4d9aa4e09a186dd3d, type: 3}
+      propertyPath: _intermittentStartingDelay
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5068322555513041093, guid: f0914a8528694dc4d9aa4e09a186dd3d, type: 3}
       propertyPath: m_RootOrder
@@ -6817,7 +6849,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2519622324965998791, guid: beb164faae9e757489a9c1ce4c394d68, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2519622324965998791, guid: beb164faae9e757489a9c1ce4c394d68, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6825,7 +6857,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2519622324965998791, guid: beb164faae9e757489a9c1ce4c394d68, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.3022063
+      value: -3.47
       objectReference: {fileID: 0}
     - target: {fileID: 2519622324965998791, guid: beb164faae9e757489a9c1ce4c394d68, type: 3}
       propertyPath: m_LocalPosition.z

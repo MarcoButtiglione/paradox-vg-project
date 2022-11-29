@@ -1129,6 +1129,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 512458317}
     m_Modifications:
+    - target: {fileID: 5068322555513041092, guid: 7f208885bf8d4d347805ff027af3a090, type: 3}
+      propertyPath: _initYoungState
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5068322555513041093, guid: 7f208885bf8d4d347805ff027af3a090, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -4844,8 +4848,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e03d9916ef98fc4aa524e91a7bc10b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ourScreenSize: 0
   Camera: {fileID: 1501440101}
-  Old_Player: {fileID: 2053709873}
   isProcessing: 0
 --- !u!1 &1988552742
 GameObject:
