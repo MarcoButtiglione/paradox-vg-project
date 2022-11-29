@@ -85,7 +85,7 @@ public class SendToGoogle : MonoBehaviour {
         WWWForm form = new WWWForm();
 
         form.AddField("entry.924865638", videogame_name);
-        form.AddField("entry.924865638", feedback);
+        form.AddField("entry.158597114", feedback);
 
         UnityWebRequest www = UnityWebRequest.Post(URL, form);
 
