@@ -1141,8 +1141,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e03d9916ef98fc4aa524e91a7bc10b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ourScreenSize: 0
   Camera: {fileID: 1187406408}
-  Old_Player: {fileID: 921006238}
   isProcessing: 0
 --- !u!1001 &428700516
 PrefabInstance:
@@ -3407,6 +3407,10 @@ PrefabInstance:
       propertyPath: _initOldStateOFF
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4450804269978877522, guid: 911e4f79862901749a4ef8f989e8e2fb, type: 3}
+      propertyPath: _laserDecoration
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4450804269978877526, guid: 911e4f79862901749a4ef8f989e8e2fb, type: 3}
       propertyPath: m_Name
       value: LaserTurret
@@ -4596,7 +4600,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7841097106706830152, guid: 7c8186723316a664d93458608f9b4c3f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.4803398
+      value: 1.451
       objectReference: {fileID: 0}
     - target: {fileID: 7841097106706830152, guid: 7c8186723316a664d93458608f9b4c3f, type: 3}
       propertyPath: m_LocalPosition.z
