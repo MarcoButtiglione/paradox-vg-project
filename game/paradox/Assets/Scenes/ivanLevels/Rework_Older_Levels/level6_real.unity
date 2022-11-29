@@ -1731,7 +1731,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 553465703770180407, guid: 153c9de19477d264795b3147ff7bbc05, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 153c9de19477d264795b3147ff7bbc05, type: 3}
@@ -4073,8 +4073,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e03d9916ef98fc4aa524e91a7bc10b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ourScreenSize: 2
   Camera: {fileID: 1093535051}
-  Old_Player: {fileID: 1771613599}
   isProcessing: 0
 --- !u!1 &1605438224
 GameObject:

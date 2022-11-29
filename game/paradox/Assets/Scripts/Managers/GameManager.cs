@@ -51,7 +51,6 @@ public class GameManager : MonoBehaviour
             switch (newState)
             {
                 case GameState.StartingYoungTurn:
-                    
                         Time.timeScale = 0f;
                     break;
                 case GameState.YoungPlayerTurn:
@@ -66,7 +65,7 @@ public class GameManager : MonoBehaviour
                 case GameState.SecondPart:
                     break;
                 case GameState.StartingThirdPart:
-                    GameObject.Find("Plat_5").SetActive(false);
+                    GameObject.Find("DisappearingPlatform 0").GetComponent<ActivableController>().SwitchState();
                     UpdateGameState(GameState.ThirdPart);
                     break;
                 case GameState.ThirdPart:
@@ -84,7 +83,6 @@ public class GameManager : MonoBehaviour
                 case GameState.GameOverMenu:
                     break;
                 case GameState.LevelCompleted:
-                    
                     UpdateGameState(GameState.NextLevel);
                     break;
                 case GameState.NextLevel:
@@ -121,7 +119,6 @@ public class GameManager : MonoBehaviour
                 case GameState.GameOverMenu:
                     break;
                 case GameState.LevelCompleted:
-                    
                     UpdateGameState(GameState.NextLevel);
                     break;
                 case GameState.NextLevel:
