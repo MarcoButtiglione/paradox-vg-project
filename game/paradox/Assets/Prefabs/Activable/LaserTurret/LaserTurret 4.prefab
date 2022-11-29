@@ -261,7 +261,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 74d02ecf7bdfef24cb40b62d2f5712b5, type: 2}
+  - {fileID: 2100000, guid: 3e026698af4ed7e4fb9cc1840a260723, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -352,7 +352,7 @@ GameObject:
   - component: {fileID: 4450804269978877523}
   - component: {fileID: 4450804269978877522}
   m_Layer: 0
-  m_Name: LaserTurret
+  m_Name: LaserTurret 4
   m_TagString: Untagged
   m_Icon: {fileID: -5938655980376293919, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -436,9 +436,9 @@ MonoBehaviour:
   _initOldStateOFF: 0
   _laserFoot: {fileID: 7596627618426224336}
   _laserWing: {fileID: 5032402016942094039}
-  _spriteOff: {fileID: 3286163911610860551, guid: 4a342144fc3474b52b116b95a1b7d410, type: 3}
-  _spriteOn1: {fileID: 3286163911610860551, guid: a9212c984f6744ebf9a12685b25089ae, type: 3}
-  _spriteOn2: {fileID: 3286163911610860551, guid: 038e272fa1ec0481eb693cf935f24aab, type: 3}
+  _spriteOff: {fileID: 3286163911610860551, guid: 884d51b1902b74fdda8813b6bdbefe04, type: 3}
+  _spriteOn1: {fileID: 3286163911610860551, guid: 530b45138a09849e5a5f0cedae4b9203, type: 3}
+  _spriteOn2: {fileID: 3286163911610860551, guid: 14cd81c8ab59947d1a465e996cd808c5, type: 3}
 --- !u!1001 &1143906049575138574
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -612,6 +612,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4450804268643441984}
     m_Modifications:
+    - target: {fileID: -7871556540511652807, guid: 4a342144fc3474b52b116b95a1b7d410, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 3286163911610860551, guid: 884d51b1902b74fdda8813b6bdbefe04, type: 3}
     - target: {fileID: -7871556540511652807, guid: 4a342144fc3474b52b116b95a1b7d410, type: 3}
       propertyPath: m_SortingOrder
       value: -1
