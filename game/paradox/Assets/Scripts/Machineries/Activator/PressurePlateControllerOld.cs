@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PressurePlateController : MonoBehaviour
+public class PressurePlateControllerOld : MonoBehaviour
 {
     [SerializeField]private float _plateMovement = 0.05f;
     [SerializeField] private GameObject[] _objToActivate;
