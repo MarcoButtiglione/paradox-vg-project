@@ -480,6 +480,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1976278662}
     m_Modifications:
+    - target: {fileID: 4790573432777689641, guid: 844064862952a4d429924c467cb759f7, type: 3}
+      propertyPath: _objToActivate.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4790573432777689641, guid: 844064862952a4d429924c467cb759f7, type: 3}
+      propertyPath: _objToActivate.Array.data[0]
+      value: 
+      objectReference: {fileID: 1930008822}
     - target: {fileID: 4790573432777690069, guid: 844064862952a4d429924c467cb759f7, type: 3}
       propertyPath: m_Name
       value: Button 7
@@ -6689,6 +6697,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1926270584}
   m_CullTransparentMesh: 1
+--- !u!1 &1930008822 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5068322555513041094, guid: 1275d6d0c96d8744c9b6a9b1150c75d5, type: 3}
+  m_PrefabInstance: {fileID: 1473018171}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1976278661
 GameObject:
   m_ObjectHideFlags: 0
@@ -6814,7 +6827,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 712568230056313179, guid: 87a3ca7b69188b34ead20024f81774fe, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.46
+      value: 4.67
       objectReference: {fileID: 0}
     - target: {fileID: 712568230056313179, guid: 87a3ca7b69188b34ead20024f81774fe, type: 3}
       propertyPath: m_LocalPosition.z
