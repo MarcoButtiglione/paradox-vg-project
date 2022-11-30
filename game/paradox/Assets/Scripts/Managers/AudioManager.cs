@@ -1,6 +1,8 @@
 using System;
 using UnityEngine.Audio;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 public class AudioManager : MonoBehaviour
 {
@@ -34,6 +36,11 @@ public class AudioManager : MonoBehaviour
     private void Start()
     {
         Play("Theme");
+        SceneManager.activeSceneChanged += ChangedActiveScene;
+    }
+    private void ChangedActiveScene(Scene current, Scene next)
+    {
+        Stop("Jetpack");
     }
 
     /*

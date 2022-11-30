@@ -37,6 +37,8 @@ public class OldController2D : MonoBehaviour
 
     private bool _wasJetpack = false;
 
+    private bool _firstDash = true;
+
     private void Awake()
     {
         m_Rigidbody2D = GetComponent<Rigidbody2D>();
@@ -61,13 +63,14 @@ public class OldController2D : MonoBehaviour
             if (colliders[i].gameObject != gameObject)
             {
                 m_Grounded = true;
+                _firstDash = true;
                 if (!wasGrounded)
                     OnLandEvent.Invoke();
             }
         }
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         AudioManager a = FindObjectOfType<AudioManager>();
         if (a)
@@ -171,8 +174,9 @@ public class OldController2D : MonoBehaviour
 
         }
 
-         if (m_Grounded && dash)
-        {
+         if (!m_Grounded && dash && _firstDash)
+         {
+             _firstDash = false;
             // Add a horizontal force to the player.
             dash = false;
             m_Rigidbody2D.AddForce(new Vector2(move*m_DashForce, 0f));

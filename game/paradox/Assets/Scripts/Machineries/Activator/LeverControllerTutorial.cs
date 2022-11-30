@@ -17,7 +17,8 @@ public class LeverControllerTutorial : MonoBehaviour
     [SerializeField] private Sprite _spriteOn;
 
     [SerializeField] private GameObject questionMarks;
-    
+
+    private bool _firstTime = true;
     private bool _isActive=false;
     
     //-------------------------------
@@ -133,7 +134,6 @@ public class LeverControllerTutorial : MonoBehaviour
 
     IEnumerator activatePlatform()
     {
-
         //TODO
         //Activate canvas in second part 
 
@@ -148,6 +148,7 @@ public class LeverControllerTutorial : MonoBehaviour
         }
 
         yield return new WaitForSecondsRealtime(2.3f);
+        /*
 
         _isActive = !_isActive;
         if (_isActive)
@@ -158,9 +159,16 @@ public class LeverControllerTutorial : MonoBehaviour
         {
             SetInactive();
         }
-        questionMarks.SetActive(false);
+        */ 
         
-        GameManager.Instance.UpdateGameState(GameState.StartingOldTurn);
+        questionMarks.SetActive(false);
+
+        if (_firstTime)
+        {
+            _firstTime = false;
+            GameManager.Instance.UpdateGameState(GameState.StartingOldTurn);
+        }
+        
 
     }
    
