@@ -17,6 +17,7 @@ public class TipManager : MonoBehaviour
         switch (state)
         {
             case GameState.YoungPlayerTurn:
+                _firstTimeOld = true;
                 this.gameObject.SetActive(_initYoungState);
                 break;
             case GameState.OldPlayerTurn:
