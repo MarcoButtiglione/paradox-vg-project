@@ -1,7 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VectorGraphics.Editor;
+// It was ''Unity.VectorGraphics.Editor;'' but it made the game not buildable 
+using Unity.VectorGraphics;
 using Unity.VisualScripting;
 using UnityEngine;
 
