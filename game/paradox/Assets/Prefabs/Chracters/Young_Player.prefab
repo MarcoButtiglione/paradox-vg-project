@@ -46,6 +46,8 @@ GameObject:
   - component: {fileID: -8533912168925430660}
   - component: {fileID: -4811527521465688718}
   - component: {fileID: 5336099704751671438}
+  - component: {fileID: 2091476421443953048}
+  - component: {fileID: 3374249109712113231}
   m_Layer: 7
   m_Name: Young_Player
   m_TagString: Young
@@ -223,6 +225,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c74ab72acfaa00a4fa2ae5976d484aa0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &2091476421443953048
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5809052076800437296}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b9c1bd3b0a88e4bfda4cbda74f7de846, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!111 &3374249109712113231
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5809052076800437296}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: fc6ae559075e952469e7691f7f36975a, type: 2}
+  - {fileID: 7400000, guid: 568d7578132d6f4439ada1c3d25495e6, type: 2}
+  - {fileID: 7400000, guid: c3aacd396264c364b878ff0874449e37, type: 2}
+  - {fileID: 7400000, guid: 58cc147cf690c3247a55a22a2c472007, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &9207807595056581300
 GameObject:
   m_ObjectHideFlags: 0
