@@ -100,6 +100,7 @@ GameObject:
   - component: {fileID: 6062099510787593155}
   - component: {fileID: -4137090857806088528}
   - component: {fileID: 2213294044065168949}
+  - component: {fileID: 6324941746645111010}
   m_Layer: 7
   m_Name: Old_Player
   m_TagString: Old
@@ -300,6 +301,28 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!111 &6324941746645111010
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4628769056619335621}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: 770f8a8f88c2c54489515cdf5e03a231, type: 2}
+  - {fileID: 7400000, guid: 61fae709249c5034c8dc0d4ae41ba66a, type: 2}
+  - {fileID: 7400000, guid: fd68c880bd70830449f7b920f722e35e, type: 2}
+  - {fileID: 7400000, guid: df1cd0ac3d927de45b18d66f8c163b7f, type: 2}
+  - {fileID: 7400000, guid: db22adb829eb0904bbbf6a556bd2e08f, type: 2}
+  - {fileID: 7400000, guid: bec66a72b8f6320499dafa064508e7d3, type: 2}
+  - {fileID: 7400000, guid: 23176906361e7fe40a42d8147accad3b, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &5169855658321381213
 GameObject:
   m_ObjectHideFlags: 0
