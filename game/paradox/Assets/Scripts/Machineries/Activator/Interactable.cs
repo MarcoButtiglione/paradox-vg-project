@@ -5,15 +5,18 @@ using UnityEngine;
 using UnityEngine.Events;
 
 public class Interactable : MonoBehaviour
-{ 
+{
+
+    Animator range_Animator;
+
     private bool _isInRange;
     [SerializeField] private KeyCode interactKey;
     [SerializeField] private UnityEvent interactAction;
-     
+
     // Start is called before the first frame update
     void Start()
     {
-        
+      range_Animator = gameObject.GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -25,7 +28,11 @@ public class Interactable : MonoBehaviour
             {
                 interactAction.Invoke();
             }
-            
+
+        }
+        else
+        {
+
         }
     }
 
@@ -34,6 +41,7 @@ public class Interactable : MonoBehaviour
         if (col.gameObject.CompareTag("Old"))
         {
             _isInRange = true;
+            range_Animator.SetBool("inRange", true);
         }
     }
 
@@ -42,6 +50,7 @@ public class Interactable : MonoBehaviour
         if (col.gameObject.CompareTag("Old"))
         {
             _isInRange = false;
+            range_Animator.SetBool("inRange", false);
         }
     }
 }
