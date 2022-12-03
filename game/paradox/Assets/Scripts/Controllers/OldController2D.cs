@@ -24,6 +24,8 @@ public class OldController2D : MonoBehaviour
     private bool m_FacingRight = true;  // For determining which way the player is currently facing.
     private Vector3 m_Velocity = Vector3.zero;
 
+    private Animator _animator;
+
     [Header("Events")]
     [Space]
 
@@ -41,6 +43,7 @@ public class OldController2D : MonoBehaviour
 
     private void Awake()
     {
+        _animator = gameObject.GetComponent<Animator>();
         m_Rigidbody2D = GetComponent<Rigidbody2D>();
 
         if (OnLandEvent == null)
@@ -64,9 +67,18 @@ public class OldController2D : MonoBehaviour
             {
                 m_Grounded = true;
                 _firstDash = true;
+                _animator.SetBool("IsHadDash",false);
                 if (!wasGrounded)
                     OnLandEvent.Invoke();
             }
+        }
+        if (wasGrounded && !m_Grounded)
+        {
+            _animator.SetBool("IsFalling",true);
+        }
+        if (!wasGrounded && m_Grounded)
+        {
+            _animator.SetBool("IsFalling",false);
         }
     }
 
@@ -80,6 +92,7 @@ public class OldController2D : MonoBehaviour
 
     public void Move(float move, bool crouch, bool jump, bool jet, bool dash)
     {
+        
         bool playJet = false;
         // If crouching, check to see if the character can stand up
         if (!crouch)
@@ -153,6 +166,7 @@ public class OldController2D : MonoBehaviour
             if (a)
                 a.Play("Jump");
             //---------------------------
+            _animator.SetBool("IsFalling",true);
 
         }
         else if (!m_Grounded && jet && !jump)
@@ -169,6 +183,7 @@ public class OldController2D : MonoBehaviour
                 if (a)
                     a.Play("Jetpack");
                 //---------------------------
+                _animator.SetBool("IsUsingJet",true);
             }
             
 
@@ -177,6 +192,7 @@ public class OldController2D : MonoBehaviour
          if (!m_Grounded && dash && _firstDash)
          {
              _firstDash = false;
+             _animator.SetBool("IsHadDash",true);
             // Add a horizontal force to the player.
             dash = false;
             m_Rigidbody2D.AddForce(new Vector2(move*m_DashForce, 0f));
@@ -193,8 +209,13 @@ public class OldController2D : MonoBehaviour
              _wasJetpack = false;
              AudioManager a = FindObjectOfType<AudioManager>();
              if (a)
+             {
                  a.Stop("Jetpack");
+                 _animator.SetBool("IsUsingJet",false);
+             }
+                 
          }
+         _animator.SetFloat("HorSpeed",Math.Abs(m_Rigidbody2D.velocity.x));
     }
 
 
@@ -202,6 +223,7 @@ public class OldController2D : MonoBehaviour
     {
         // Switch the way the player is labelled as facing.
         m_FacingRight = !m_FacingRight;
+        _animator.SetBool("IsRight",m_FacingRight);
 
         // Multiply the player's x local scale by -1.
         Vector3 theScale = transform.localScale;

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 public class RewindManager : MonoBehaviour
@@ -271,6 +272,7 @@ public class RewindManager : MonoBehaviour
                 GameManager.Instance.UpdateGameState(GameState.Paradox);
                 return;
             }
+            GhostPrefab.GetComponent<Animator>().SetFloat("Speed",Math.Abs(inputs[index].getHorizontal()));
             GhostPrefab.GetComponent<CharacterController2D>().Move(inputs[index].getHorizontal(), inputs[index].getCrouch(), inputs[index].getJump());
             index++;
         }
@@ -287,6 +289,7 @@ public class RewindManager : MonoBehaviour
                 GameManager.Instance.UpdateGameState(GameState.StartingSecondPart);
                 return;
             }
+            GhostPrefab.GetComponent<Animator>().SetFloat("Speed",Math.Abs(inputs[index].getHorizontal()));
             GhostPrefab.GetComponent<CharacterController2D>().Move(inputs[index].getHorizontal(), inputs[index].getCrouch(), inputs[index].getJump());
             index++;
         }

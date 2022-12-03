@@ -29,10 +29,14 @@ public class CharacterController2D : MonoBehaviour
 
     public BoolEvent OnCrouchEvent;
     private bool m_wasCrouching = false;
+    private Animator _animator;
+
 
     private void Awake()
     {
         m_Rigidbody2D = GetComponent<Rigidbody2D>();
+        _animator = gameObject.GetComponent<Animator>();
+
 
         if (OnLandEvent == null)
             OnLandEvent = new UnityEvent();
@@ -58,6 +62,18 @@ public class CharacterController2D : MonoBehaviour
                     OnLandEvent.Invoke();
             }
         }
+
+        if (wasGrounded && !m_Grounded)
+        {
+            _animator.SetBool("IsGrounded",false);
+        }
+        if (!wasGrounded && m_Grounded)
+        {
+            _animator.SetBool("IsGrounded",true);
+        }
+        
+        _animator.SetFloat("VerticalSpeed",m_Rigidbody2D.velocity.y);
+        
     }
 
 
@@ -135,6 +151,11 @@ public class CharacterController2D : MonoBehaviour
             if(a)
                 a.Play("Jump");
             //---------------------------
+            if (!m_Grounded)
+            {
+                _animator.SetBool("IsGrounded",false);
+            }
+            
             
         }
     }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public CharacterController2D controller;
+    private Animator _animator;
     private float horizontalMove = 0f;
     [SerializeField] private float runSpeed = 40f;
     private bool jump = false;
@@ -14,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Start(){
         inputs = new List<TypeOfInputs>();
+        _animator = gameObject.GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -21,6 +24,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if(GameManager.Instance.State == GameState.YoungPlayerTurn){
         horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
+        _animator.SetFloat("Speed",Math.Abs(horizontalMove));
         if (Input.GetButtonDown("Jump"))
         {
             jump = true;
