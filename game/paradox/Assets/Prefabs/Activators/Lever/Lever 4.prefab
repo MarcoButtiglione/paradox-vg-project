@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7841097106706830155}
   - component: {fileID: 7841097106706830149}
   - component: {fileID: 7841097106706830154}
+  - component: {fileID: 4503587947804577866}
   m_Layer: 2
   m_Name: Lever 4
   m_TagString: Untagged
@@ -158,3 +159,23 @@ MonoBehaviour:
   _initOldState: 0
   _spriteOff: {fileID: 3286163911610860551, guid: c0cf2503e785e9847af114c3699e8f9b, type: 3}
   _spriteOn: {fileID: 3286163911610860551, guid: caf75188c51f855448cd49a66a33694b, type: 3}
+--- !u!95 &4503587947804577866
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7841097106706830153}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9be43a24086d64573ae97d1ecef2dcc5, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 2
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

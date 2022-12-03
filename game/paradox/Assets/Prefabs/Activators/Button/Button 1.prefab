@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4790573432777689642}
   - component: {fileID: 4790573432777690071}
   - component: {fileID: 4790573432777689641}
+  - component: {fileID: 4232152974634676714}
   m_Layer: 2
   m_Name: Button 1
   m_TagString: Untagged
@@ -159,3 +160,23 @@ MonoBehaviour:
   _initOldState: 0
   _spriteOff: {fileID: 3286163911610860551, guid: 1dffc6c8f6aac0945b99dfec741f1d74, type: 3}
   _spriteOn: {fileID: 3286163911610860551, guid: a024e0a3e27506b418ebdfc569e4d938, type: 3}
+--- !u!95 &4232152974634676714
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4790573432777690069}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9be43a24086d64573ae97d1ecef2dcc5, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 2
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
