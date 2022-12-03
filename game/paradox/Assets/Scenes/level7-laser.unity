@@ -2276,7 +2276,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5068322555513041092, guid: 5d093cc4113e78d409f187a3b4c1b22c, type: 3}
       propertyPath: _initOldStateOFF
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5068322555513041092, guid: 5d093cc4113e78d409f187a3b4c1b22c, type: 3}
+      propertyPath: _functioningYoung
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5068322555513041092, guid: 5d093cc4113e78d409f187a3b4c1b22c, type: 3}
+      propertyPath: _intermittentPeriod
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5068322555513041092, guid: 5d093cc4113e78d409f187a3b4c1b22c, type: 3}
+      propertyPath: _intermittentStartingDelay
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5068322555513041093, guid: 5d093cc4113e78d409f187a3b4c1b22c, type: 3}
       propertyPath: m_RootOrder
@@ -3097,23 +3109,23 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4450804268068826283, guid: 911e4f79862901749a4ef8f989e8e2fb, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4450804268068826283, guid: 911e4f79862901749a4ef8f989e8e2fb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.31
+      value: -2.94
       objectReference: {fileID: 0}
     - target: {fileID: 4450804268242216642, guid: 911e4f79862901749a4ef8f989e8e2fb, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4450804268242216642, guid: 911e4f79862901749a4ef8f989e8e2fb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.06
+      value: 2.73
       objectReference: {fileID: 0}
     - target: {fileID: 4450804269978877522, guid: 911e4f79862901749a4ef8f989e8e2fb, type: 3}
       propertyPath: speed
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4450804269978877522, guid: 911e4f79862901749a4ef8f989e8e2fb, type: 3}
       propertyPath: _laserType
@@ -3636,6 +3648,26 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5068322555513041092, guid: 5d093cc4113e78d409f187a3b4c1b22c, type: 3}
       propertyPath: _initYoungState
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5068322555513041092, guid: 5d093cc4113e78d409f187a3b4c1b22c, type: 3}
+      propertyPath: _initOldStateOFF
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5068322555513041092, guid: 5d093cc4113e78d409f187a3b4c1b22c, type: 3}
+      propertyPath: _functioningYoung
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5068322555513041092, guid: 5d093cc4113e78d409f187a3b4c1b22c, type: 3}
+      propertyPath: _intermittentPeriod
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5068322555513041092, guid: 5d093cc4113e78d409f187a3b4c1b22c, type: 3}
+      propertyPath: _intermittentStartingDelay
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5068322555513041092, guid: 5d093cc4113e78d409f187a3b4c1b22c, type: 3}
+      propertyPath: _startingIntermittentState
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5068322555513041093, guid: 5d093cc4113e78d409f187a3b4c1b22c, type: 3}
