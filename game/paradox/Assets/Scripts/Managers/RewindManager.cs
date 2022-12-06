@@ -284,7 +284,10 @@ public class RewindManager : MonoBehaviour
 
         if (index < inputs.Count)
         {
-            if (Vector2.Distance(new Vector2(GhostPrefab.transform.position.x, GhostPrefab.transform.position.y), new Vector2(positions_young_p[index].x, positions_young_p[index].y)) > tresHold)
+            //This part was changed
+            //We confront the actual position of the ghost with the previous one of the real
+            index++;
+            if (Vector2.Distance(new Vector2(GhostPrefab.transform.position.x, GhostPrefab.transform.position.y), new Vector2(positions_young_p[index-1].x, positions_young_p[index-1].y)) > tresHold)
             {
                 Destroy(GhostPrefab);
                 Destroy(WorkerPrefab);
@@ -294,16 +297,18 @@ public class RewindManager : MonoBehaviour
             WorkerPrefab.transform.position= new Vector3(positions_young_p[index].x,positions_young_p[index].y,WorkerPrefab.transform.position.z);
             GhostPrefab.GetComponent<Animator>().SetFloat("Speed",Math.Abs(inputs[index].getHorizontal()));
             GhostPrefab.GetComponent<CharacterController2D>().Move(inputs[index].getHorizontal(), inputs[index].getCrouch(), inputs[index].getJump());
-            index++;
+            //index++;
         }
 
     }
     private void MoveOnlyGhost()
     {
-
+        //This part was changed
+        //We confront the actual position of the ghost with the previous one of the real
+        index++;
         if (index < inputs.Count)
         {
-            if (Vector2.Distance(new Vector2(GhostPrefab.transform.position.x, GhostPrefab.transform.position.y), new Vector2(positions_young_p[index].x, positions_young_p[index].y)) > tresHold)
+            if (Vector2.Distance(new Vector2(GhostPrefab.transform.position.x, GhostPrefab.transform.position.y), new Vector2(positions_young_p[index-1].x, positions_young_p[index-1].y)) > tresHold)
             {
                 Destroy(GhostPrefab);
                 Destroy(WorkerPrefab);
@@ -313,7 +318,7 @@ public class RewindManager : MonoBehaviour
             WorkerPrefab.transform.position= new Vector3(positions_young_p[index].x,positions_young_p[index].y,WorkerPrefab.transform.position.z);
             GhostPrefab.GetComponent<Animator>().SetFloat("Speed",Math.Abs(inputs[index].getHorizontal()));
             GhostPrefab.GetComponent<CharacterController2D>().Move(inputs[index].getHorizontal(), inputs[index].getCrouch(), inputs[index].getJump());
-            index++;
+            //index++;
         }
 
     }

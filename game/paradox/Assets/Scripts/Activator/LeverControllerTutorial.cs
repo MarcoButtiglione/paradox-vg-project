@@ -18,7 +18,7 @@ public class LeverControllerTutorial : MonoBehaviour
 
     [SerializeField] private GameObject questionMarks;
 
-    private bool _firstTime = true;
+    private bool _firstTime=true;
     private bool _isActive=false;
     
     //-------------------------------
@@ -40,6 +40,7 @@ public class LeverControllerTutorial : MonoBehaviour
         }
         if (state == GameState.StartingOldTurn)
         {
+            _firstTime = true;
             InitOld();
         }
     }
