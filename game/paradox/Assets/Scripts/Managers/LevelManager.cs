@@ -22,6 +22,8 @@ public class LevelManager : MonoBehaviour
 
     private void Awake()
     {
+        //IF WE WANT TO ESTABLIH A FRAMERATE WE COULD PUT IT HERE
+        //Application.targetFrameRate = 60;
 
         if (Instance == null)
         {

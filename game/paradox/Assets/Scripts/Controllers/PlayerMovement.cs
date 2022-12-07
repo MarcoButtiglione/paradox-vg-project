@@ -12,11 +12,13 @@ public class PlayerMovement : MonoBehaviour
     private bool jump = false;
     private bool crouch = false;
     private List<TypeOfInputs> inputs;
+    private List<Vector3> positions_young_p;
     
 
     void Start(){
         inputs = new List<TypeOfInputs>();
         _animator = gameObject.GetComponent<Animator>();
+        positions_young_p = new List<Vector3>();
     }
 
     // Update is called once per frame
@@ -45,7 +47,12 @@ public class PlayerMovement : MonoBehaviour
     {
         controller.Move(horizontalMove * Time.fixedDeltaTime, crouch, jump);
         inputs.Insert(inputs.Count, new TypeOfInputs(horizontalMove * Time.fixedDeltaTime, crouch, jump));
+        positions_young_p.Insert(positions_young_p.Count, transform.position);
         jump = false;
+        
+        //Debug.Log("DeltaTimeMovement: " + Time.fixedDeltaTime);
+        //Temporary, trying to synchronize this and RewindManager
+        //new WaitForEndOfFrame();
     }
 
     public float getHorizontal()
@@ -65,5 +72,9 @@ public class PlayerMovement : MonoBehaviour
 
     public List<TypeOfInputs> getListInputs(){
         return inputs;
+    }
+
+    public List<Vector3> getPosYoung(){
+        return positions_young_p;
     }
 }
