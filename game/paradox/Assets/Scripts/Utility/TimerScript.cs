@@ -7,6 +7,8 @@ public class TimerScript : MonoBehaviour
     private TMP_Text _timerText;
     [SerializeField] private TimerLevelsParameters _timerLevelsParameters;
     private float TimeLeft;
+    private float _countdown = 5.0f;
+    private bool _countdownStarted = false;
 
     //Event managment 
     private void Awake()
@@ -28,10 +30,21 @@ public class TimerScript : MonoBehaviour
         {
             gameObject.SetActive(true);
             TimeLeft = _timerLevelsParameters.timerLevel;
+            if (_countdownStarted)
+            {
+                _countdownStarted = false;
+                stopCountdown();
+            }
+            
             updateTimer(TimeLeft);
         }
         else if (state == GameState.StartingOldTurn || state == GameState.StartingThirdPart)
         {
+            if (_countdownStarted)
+            {
+                _countdownStarted = false;
+                stopCountdown();
+            }
             gameObject.SetActive(false);
         }
     }
@@ -40,6 +53,11 @@ public class TimerScript : MonoBehaviour
     {
         if (GameManager.Instance.State == GameState.YoungPlayerTurn)
         {
+            if (TimeLeft < _countdown && !_countdownStarted)
+            {
+                _countdownStarted = true;
+                playCountdown();
+            }
             if (TimeLeft > 0)
             {
                 TimeLeft -= Time.deltaTime;
@@ -48,11 +66,30 @@ public class TimerScript : MonoBehaviour
             else
             {
                 TimeLeft = 0;
+                _countdownStarted = false;
                 //GAME OVER
                 GameManager.Instance.UpdateGameState(GameState.StartingYoungTurn);
             }
         }
 
+    }
+
+    private void playCountdown()
+    {
+        AudioManager a = FindObjectOfType<AudioManager>();
+        if (a)
+        {
+            a.Play("Countdown");
+        }
+    }
+
+    private void stopCountdown()
+    {
+        AudioManager a = FindObjectOfType<AudioManager>();
+        if (a)
+        {
+            a.Stop("Countdown");
+        }
     }
 
     void updateTimer(float currentTime)
