@@ -72,6 +72,12 @@ public class PressurePlateController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D col)
     {
+        if (col.gameObject.CompareTag("Young"))
+        {
+            //Play the error sound-----
+            FindObjectOfType<AudioManager>().Play("Error");
+            //------------------------
+        }
         if (col.gameObject.CompareTag("Old"))
         {
             SetActive();
