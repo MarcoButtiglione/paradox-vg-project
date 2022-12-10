@@ -249,7 +249,7 @@ public class LaserTurretController : MonoBehaviour
     // Check if the laser ray is hitting the player/ghost
     private void CheckCollision(Collider2D col)
     {
-        if (_laserRay.activeSelf)
+        if (_laserRay.activeSelf && GameManager.Instance.State!=GameState.Paradox)
         {
             if (col.gameObject.CompareTag("Young"))
             {

@@ -6,6 +6,7 @@ public class RewindManager : MonoBehaviour
     //Ghost
     public GameObject _initGhostPrefab;
     private GameObject GhostPrefab;
+    private Rigidbody2D rigidbodyGhost;
 
     //DebugWorker
     public GameObject _initWorker;
@@ -85,6 +86,10 @@ public class RewindManager : MonoBehaviour
         {
             StartSecondPartTutorial();
         }
+        /*else if (state == GameState.ThirdPart)
+        {
+            rigidbodyGhost.bodyType = RigidbodyType2D.Dynamic;
+        }*/
         else if (state == GameState.StartingThirdPart)
         {
             StartThirdPartTutorial();
@@ -92,6 +97,10 @@ public class RewindManager : MonoBehaviour
         else if (state == GameState.StartingOldTurn)
         {
             StartSecondPart();
+        }
+        else if (state == GameState.OldPlayerTurn)
+        {
+            rigidbodyGhost.bodyType = RigidbodyType2D.Dynamic;
         }
         else if (state == GameState.Paradox)
         {
@@ -206,6 +215,8 @@ public class RewindManager : MonoBehaviour
 
         if (GameManager.Instance.State == GameState.OldPlayerTurn)
         {
+            Debug.Log(" Delta position x:" + (GhostPrefab.transform.position.x - positions_young_p[index].x));
+            Debug.Log(" Delta position y :" + (GhostPrefab.transform.position.y - positions_young_p[index].y));
             if (Vector2.Distance(new Vector2(GhostPrefab.transform.position.x, GhostPrefab.transform.position.y), new Vector2(positions_young_p[index].x, positions_young_p[index].y)) > tresHold)
             {
                 Destroy(GhostPrefab);
@@ -276,6 +287,8 @@ public class RewindManager : MonoBehaviour
 
         //Init Ghost
         GhostPrefab = Instantiate(_initGhostPrefab, _initPosYoung, Quaternion.identity);
+        rigidbodyGhost = GhostPrefab.GetComponent<Rigidbody2D>();
+        rigidbodyGhost.bodyType = RigidbodyType2D.Static;
         //-------------
 
         //Init Worker
@@ -418,6 +431,8 @@ public class RewindManager : MonoBehaviour
 
         index = 0;
         GhostPrefab = Instantiate(_initGhostPrefab, _initPosYoung, Quaternion.identity);
+        //rigidbodyGhost = GhostPrefab.GetComponent<Rigidbody2D>();
+        //rigidbodyGhost.bodyType = RigidbodyType2D.Static;
         WorkerPrefab = Instantiate(_initWorker, _initPosYoung, Quaternion.identity);
 
     }
