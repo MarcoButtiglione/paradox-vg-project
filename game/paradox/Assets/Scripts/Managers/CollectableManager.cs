@@ -53,7 +53,7 @@ public class CollectableManager : MonoBehaviour
             }
             else
             {
-                countText.text = "Chips: 0/3";
+                countText.text = "Chips: 0/" + _numberToCollect;
             }
         }
     }
