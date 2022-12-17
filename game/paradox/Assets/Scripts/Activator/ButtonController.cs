@@ -21,6 +21,7 @@ public class ButtonController : MonoBehaviour
     [SerializeField] private Sprite _spriteOff;
     [SerializeField] private Sprite _spriteOn;
     private SpriteRenderer _spriteRenderer;
+    private GameState _state;
 
 
     //-------------------------------
@@ -37,6 +38,7 @@ public class ButtonController : MonoBehaviour
     }
     private void GameManagerOnGameStateChanged(GameState state)
     {
+        _state = state;
         if (state == GameState.StartingYoungTurn)
         {
             InitYoung();
@@ -116,13 +118,19 @@ public class ButtonController : MonoBehaviour
     {
         if (!_isActive)
         {
-            SetActive();
-            //Play the click sound-----
-            FindObjectOfType<AudioManager>().Play("Click");
-            //------------------------
-            yield return new WaitForSeconds(_timer);
-            SetInactive();
+            if (_state == GameState.YoungPlayerTurn)
+            {
+                FindObjectOfType<AudioManager>().Play("Error");
+            }
+            else
+            {
+                SetActive();
+                //Play the click sound-----
+                FindObjectOfType<AudioManager>().Play("Click");
+                //------------------------
+                yield return new WaitForSeconds(_timer);
+                SetInactive();
+            }
         }
-        
     }
 }

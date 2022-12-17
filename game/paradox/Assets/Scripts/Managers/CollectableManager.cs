@@ -2,7 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CollectableManager : MonoBehaviour
 {
@@ -13,6 +15,7 @@ public class CollectableManager : MonoBehaviour
     private int _numberToCollect;
     private GameObject _door;
     private CollisionCheckEndLevel _doorActivate;
+    public TMP_Text countText;
 
     private void Awake()
     {
@@ -43,6 +46,15 @@ public class CollectableManager : MonoBehaviour
             {
                 _doorActivate.DisableDoor();
             }
+
+            if (state == GameState.StartingOldTurn)
+            {
+               countText.text = ""; 
+            }
+            else
+            {
+                countText.text = "Chips: 0/" + _numberToCollect;
+            }
         }
     }
     public void Start()
@@ -66,15 +78,26 @@ public class CollectableManager : MonoBehaviour
     public void AddCollectableCount(string tag)
     {
         if (tag == "Young")
+        { 
             youngCollectable = youngCollectable + 1;
+            SetCountText();
+        }
         else if (tag == "Ghost")
+        {
             ghostCollectable = ghostCollectable + 1;
+        }
+        
         if (youngCollectable == _numberToCollect || ghostCollectable == _numberToCollect)
         {
             _doorActivate.ActivateDoor();
         }
     }
-
+    
+    void SetCountText ()
+    {
+        countText.text = "Chips: " + youngCollectable + "/" + _numberToCollect;
+    }
+    
     public int GetYoungCollectableCount()
     {
         return youngCollectable;

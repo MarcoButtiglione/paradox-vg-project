@@ -30,14 +30,14 @@ public class Interactable : MonoBehaviour
             }
 
         }
-        else
-        {
-
-        }
     }
 
     private void OnTriggerEnter2D(Collider2D col)
     {
+        if (col.gameObject.CompareTag("Young"))
+        {
+            _isInRange = true;
+        }
         if (col.gameObject.CompareTag("Old"))
         {
             _isInRange = true;
