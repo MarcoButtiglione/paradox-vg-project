@@ -21,6 +21,10 @@ public class DisappearingPlatformController : MonoBehaviour
     [Range(0.0f, 10.0f)]
     [SerializeField]
     private float _intermittentStartingDelay = 1f;
+
+    [Range(0.0f, 10.0f)]
+    [SerializeField]
+    private float _intermittentStartingDelayOld = 0f;
     //The starting state when it is intermitent
     [SerializeField] private bool _startingIntermittentState;
 
@@ -94,6 +98,7 @@ public class DisappearingPlatformController : MonoBehaviour
                 }
                 else
                 {
+                    //Debug.Log("Set Inactive");
                     SetInactive();
                 }
 
@@ -135,7 +140,7 @@ public class DisappearingPlatformController : MonoBehaviour
                 {
                     SetInactive();
                 }
-                InvokeRepeating("Intermittent", _intermittentPeriodOld / 2 + _intermittentStartingDelay, _intermittentPeriodOld / 2);
+                InvokeRepeating("Intermittent", _intermittentPeriodOld / 2 + _intermittentStartingDelayOld, _intermittentPeriodOld / 2);
             }
             else if (_initOldStateOFF == DisappearingState.Inactive)
             {
@@ -169,12 +174,12 @@ public class DisappearingPlatformController : MonoBehaviour
                 {
                     _isIntermittent = false;
                     CancelInvoke();
-                    SetInactive();
+                    //SetInactive();
                 }
                 else
                 {
                     _isIntermittent = true;
-                    SetActive();
+                    //SetActive();
                     InvokeRepeating("Intermittent", _intermittentPeriodYoung / 2, _intermittentPeriodYoung / 2);
                 }
             }
@@ -210,6 +215,12 @@ public class DisappearingPlatformController : MonoBehaviour
         }
         else
         {
+            //This function was called when I was on the platform with the Old
+            //And restarted the level. It was called together with the initialization function, so one
+            //time more then needed.
+
+            //Debug.Log("Non dovevo entrare");
+            /*
             if (_isActive)
             {
                 SetInactive();
@@ -217,7 +228,7 @@ public class DisappearingPlatformController : MonoBehaviour
             else
             {
                 SetActive();
-            }
+            }*/
         }
 
     }
