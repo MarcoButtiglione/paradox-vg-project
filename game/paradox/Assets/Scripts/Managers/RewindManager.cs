@@ -215,8 +215,8 @@ public class RewindManager : MonoBehaviour
 
         if (GameManager.Instance.State == GameState.OldPlayerTurn)
         {
-            Debug.Log(" Delta position x:" + (GhostPrefab.transform.position.x - positions_young_p[index].x));
-            Debug.Log(" Delta position y :" + (GhostPrefab.transform.position.y - positions_young_p[index].y));
+            //Debug.Log(" Delta position x:" + (GhostPrefab.transform.position.x - positions_young_p[index].x));
+            //Debug.Log(" Delta position y :" + (GhostPrefab.transform.position.y - positions_young_p[index].y));
             if (Vector2.Distance(new Vector2(GhostPrefab.transform.position.x, GhostPrefab.transform.position.y), new Vector2(positions_young_p[index].x, positions_young_p[index].y)) > tresHold)
             {
                 Destroy(GhostPrefab);

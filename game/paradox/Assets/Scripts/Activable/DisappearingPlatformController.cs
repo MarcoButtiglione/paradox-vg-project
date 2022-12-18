@@ -7,29 +7,37 @@ using UnityEngine;
 public class DisappearingPlatformController : MonoBehaviour
 {
     //[SerializeField] private DisappearingFunctioning _function;
-    
+
     [SerializeField] private DisappearingFunctioning _functioningYoung;
     [SerializeField] private DisappearingFunctioning _functioningOld;
 
     [Tooltip("Set the period if function is 'Intermittent'. Set function 'Intermittent'.")]
     [Range(0.0f, 10.0f)]
     [SerializeField]
-    private float _intermittentPeriod = 1f;
+    private float _intermittentPeriodYoung = 1f;
+    [Range(0.0f, 10.0f)]
+    [SerializeField]
+    private float _intermittentPeriodOld = 1f;
     [Range(0.0f, 10.0f)]
     [SerializeField]
     private float _intermittentStartingDelay = 1f;
+
+    [Range(0.0f, 10.0f)]
+    [SerializeField]
+    private float _intermittentStartingDelayOld = 0f;
     //The starting state when it is intermitent
     [SerializeField] private bool _startingIntermittentState;
-    
+
 
     private bool _isIntermittent;
 
-    [Header("Initial state (Young/Old phase)")] [SerializeField]
+    [Header("Initial state (Young/Old phase)")]
+    [SerializeField]
     private DisappearingState _initYoungState;
 
     [SerializeField] private DisappearingState _initOldStateOFF;
 
-    [Header("Sprites")] [SerializeField] private Sprite _spriteOff;
+    [Header("Sprites")][SerializeField] private Sprite _spriteOff;
     [SerializeField] private Sprite _spriteOn;
     private SpriteRenderer _spriteRenderer;
     private Collider2D _collider2D;
@@ -84,15 +92,17 @@ public class DisappearingPlatformController : MonoBehaviour
             if (_initYoungState == DisappearingState.Active)
             {
                 _isIntermittent = true;
-                if(_startingIntermittentState){
+                if (_startingIntermittentState)
+                {
                     SetActive();
                 }
                 else
                 {
+                    //Debug.Log("Set Inactive");
                     SetInactive();
                 }
-                
-                InvokeRepeating("Intermittent", _intermittentPeriod / 2+_intermittentStartingDelay, _intermittentPeriod / 2);
+
+                InvokeRepeating("Intermittent", _intermittentPeriodYoung / 2 + _intermittentStartingDelay, _intermittentPeriodYoung / 2);
             }
             else if (_initYoungState == DisappearingState.Inactive)
             {
@@ -122,14 +132,15 @@ public class DisappearingPlatformController : MonoBehaviour
             if (_initOldStateOFF == DisappearingState.Active)
             {
                 _isIntermittent = true;
-                if(_startingIntermittentState){
+                if (_startingIntermittentState)
+                {
                     SetActive();
                 }
                 else
                 {
                     SetInactive();
                 }
-                InvokeRepeating("Intermittent", _intermittentPeriod / 2+_intermittentStartingDelay, _intermittentPeriod / 2);
+                InvokeRepeating("Intermittent", _intermittentPeriodOld / 2 + _intermittentStartingDelayOld, _intermittentPeriodOld / 2);
             }
             else if (_initOldStateOFF == DisappearingState.Inactive)
             {
@@ -144,7 +155,7 @@ public class DisappearingPlatformController : MonoBehaviour
 
     public void SwitchState()
     {
-        if (GameManager.Instance.State==GameState.YoungPlayerTurn)
+        if (GameManager.Instance.State == GameState.YoungPlayerTurn)
         {
             if (_functioningYoung == DisappearingFunctioning.Fixed)
             {
@@ -163,17 +174,17 @@ public class DisappearingPlatformController : MonoBehaviour
                 {
                     _isIntermittent = false;
                     CancelInvoke();
-                    SetInactive();
+                    //SetInactive();
                 }
                 else
                 {
                     _isIntermittent = true;
-                    SetActive();
-                    InvokeRepeating("Intermittent", _intermittentPeriod / 2, _intermittentPeriod / 2);
+                    //SetActive();
+                    InvokeRepeating("Intermittent", _intermittentPeriodYoung / 2, _intermittentPeriodYoung / 2);
                 }
             }
         }
-        else if (GameManager.Instance.State==GameState.OldPlayerTurn)
+        else if (GameManager.Instance.State == GameState.OldPlayerTurn)
         {
             if (_functioningOld == DisappearingFunctioning.Fixed)
             {
@@ -192,18 +203,24 @@ public class DisappearingPlatformController : MonoBehaviour
                 {
                     _isIntermittent = false;
                     CancelInvoke();
-                    SetInactive();
+                    //SetInactive();
                 }
                 else
                 {
                     _isIntermittent = true;
-                    SetActive();
-                    InvokeRepeating("Intermittent", _intermittentPeriod / 2, _intermittentPeriod / 2);
+                    //SetActive();
+                    InvokeRepeating("Intermittent", _intermittentPeriodOld / 2, _intermittentPeriodOld / 2);
                 }
             }
         }
         else
         {
+            //This function was called when I was on the platform with the Old
+            //And restarted the level. It was called together with the initialization function, so one
+            //time more then needed.
+
+            //Debug.Log("Non dovevo entrare");
+            /*
             if (_isActive)
             {
                 SetInactive();
@@ -211,9 +228,9 @@ public class DisappearingPlatformController : MonoBehaviour
             else
             {
                 SetActive();
-            }
+            }*/
         }
-        
+
     }
 
 
