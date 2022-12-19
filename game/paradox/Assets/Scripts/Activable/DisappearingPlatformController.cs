@@ -215,12 +215,13 @@ public class DisappearingPlatformController : MonoBehaviour
         }
         else
         {
+            if(LevelManager.Instance.IsTutorialLevel()){
             //This function was called when I was on the platform with the Old
             //And restarted the level. It was called together with the initialization function, so one
-            //time more then needed.
+            //time more then needed. NOW WE LIMIT IT TO TUTORIAL
 
             //Debug.Log("Non dovevo entrare");
-            /*
+            
             if (_isActive)
             {
                 SetInactive();
@@ -228,7 +229,8 @@ public class DisappearingPlatformController : MonoBehaviour
             else
             {
                 SetActive();
-            }*/
+            }
+            }
         }
 
     }
