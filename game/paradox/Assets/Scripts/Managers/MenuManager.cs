@@ -48,9 +48,13 @@ public class MenuManager : MonoBehaviour
     
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetButtonDown("Pause"))
         {
             GameManager.Instance.TriggerMenu();
+        }
+        else if (Input.GetButtonDown("Restart"))
+        {
+            GameManager.Instance.UpdateGameState(GameState.StartingYoungTurn);
         }
     }
     

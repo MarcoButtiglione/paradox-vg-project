@@ -12,6 +12,8 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private GameObject endAnimation;
     [SerializeField] private GameObject startAnimation;
     private GameObject anim;
+
+    private int _levelsFinished = 0;
     //private Scene _nextScene;
 
 
@@ -92,6 +94,8 @@ public class LevelManager : MonoBehaviour
     }
     public void PlayNextLevel()
     {
+        if (_currentLevel > _levelsFinished)
+            _levelsFinished = _currentLevel;
         PlayLevel(_currentLevel + 1);
     }
     public void RestartLevel()
@@ -110,6 +114,11 @@ public class LevelManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(0.5f);
         var scene = SceneManager.LoadSceneAsync(level);
 
+    }
+
+    public int getLevelsFinished()
+    {
+        return _levelsFinished;
     }
 
 }
