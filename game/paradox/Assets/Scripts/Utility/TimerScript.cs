@@ -7,7 +7,7 @@ public class TimerScript : MonoBehaviour
     private TMP_Text _timerText;
     [SerializeField] private TimerLevelsParameters _timerLevelsParameters;
     private float TimeLeft;
-    private float _countdown = 5.0f;
+    private float _countdown = 4.2f;
     private bool _countdownStarted = false;
 
     //Event managment 
