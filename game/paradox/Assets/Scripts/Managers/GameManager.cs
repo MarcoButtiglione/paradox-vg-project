@@ -158,6 +158,15 @@ public class GameManager : MonoBehaviour
     UpdateGameState(GameState.StartingYoungTurn);
     }
 
+    public bool IsPlayablePhase()
+    {
+        if (State is GameState.YoungPlayerTurn or GameState.SecondPart or GameState.ThirdPart or GameState.OldPlayerTurn)
+        {
+            return true;
+        }
+        return false;
+    }
+
 
 }
 
@@ -170,11 +179,13 @@ public enum GameState
 
     StartingSecondPart,
     SecondPart,
-    ThirdPart,
+    
     StartingThirdPart,
-
+    ThirdPart,
+    
     StartingOldTurn,
     OldPlayerTurn,
+    
     Paradox,
 
     PauseMenu,

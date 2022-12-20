@@ -110,7 +110,10 @@ public class ButtonController : MonoBehaviour
     
     public void TriggerButtom()
     {
-        StartCoroutine(TriggerButtomCor());
+        if (GameManager.Instance.IsPlayablePhase())
+        {
+            StartCoroutine(TriggerButtomCor());
+        }
     }
     
     
