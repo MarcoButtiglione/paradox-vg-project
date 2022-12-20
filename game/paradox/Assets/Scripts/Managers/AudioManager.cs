@@ -1,6 +1,7 @@
 using System;
 using UnityEngine.Audio;
 using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.SceneManagement;
 
 
@@ -70,12 +71,31 @@ public class AudioManager : MonoBehaviour
         }
         s.source.Stop();
     }
-    public void SetVolume(float volume)
+
+    public void SetEffectVolume(float volume)
+    {
+        foreach (Sound s in sounds)
+        {
+            if (s.name != "Theme")
+            {
+                s.source.volume = s.volume * volume;
+            }
+        }
+        Debug.Log("Master volume: " + volume);
+    }
+
+    public void SetThemeVolume(float volume)
+    {
+        Sound s = Array.Find(sounds,sound=>sound.name == "Theme");
+        s.source.volume = s.volume * volume;
+        Debug.Log("Theme volume: " + volume);
+    }
+    public void SetMasterVolume(float volume)
     {
         foreach (Sound s in sounds)
         {
             s.source.volume = s.volume * volume;
         }
-        Debug.Log(volume);
+        Debug.Log("Master volume: " + volume);
     }
 }
