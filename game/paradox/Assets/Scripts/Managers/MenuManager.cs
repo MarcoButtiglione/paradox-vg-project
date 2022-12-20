@@ -48,7 +48,7 @@ public class MenuManager : MonoBehaviour
     
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetButtonDown("Pause"))
         {
             GameManager.Instance.TriggerMenu();
         }
