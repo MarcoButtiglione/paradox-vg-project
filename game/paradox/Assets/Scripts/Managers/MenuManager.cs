@@ -52,6 +52,10 @@ public class MenuManager : MonoBehaviour
         {
             GameManager.Instance.TriggerMenu();
         }
+        else if (Input.GetKeyDown(KeyCode.R))
+        {
+            GameManager.Instance.UpdateGameState(GameState.StartingYoungTurn);
+        }
     }
     
     public void ResumeGame()

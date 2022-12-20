@@ -29,7 +29,7 @@ public class AudioManager : MonoBehaviour
             s.source.loop = s.loop;
         }
     }
-
+    
     /*
      * Used only for the theme sound
      */
@@ -69,5 +69,13 @@ public class AudioManager : MonoBehaviour
             return;
         }
         s.source.Stop();
+    }
+    public void SetVolume(float volume)
+    {
+        foreach (Sound s in sounds)
+        {
+            s.source.volume = volume;
+        }
+        Debug.Log(volume);
     }
 }
