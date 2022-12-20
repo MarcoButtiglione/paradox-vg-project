@@ -74,7 +74,7 @@ public class AudioManager : MonoBehaviour
     {
         foreach (Sound s in sounds)
         {
-            s.source.volume = volume;
+            s.source.volume = s.volume * volume;
         }
         Debug.Log(volume);
     }
