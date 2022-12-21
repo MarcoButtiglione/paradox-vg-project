@@ -10,7 +10,8 @@ public class Interactable : MonoBehaviour
     Animator range_Animator;
 
     private bool _isInRange;
-    [SerializeField] private KeyCode interactKey;
+    //NOT USED NOW
+    //[SerializeField] private KeyCode interactKey;
     [SerializeField] private UnityEvent interactAction;
 
     // Start is called before the first frame update
@@ -24,7 +25,7 @@ public class Interactable : MonoBehaviour
     {
         if (_isInRange)
         {
-            if (Input.GetKeyDown(interactKey))
+            if (Input.GetButtonDown("Interact"))
             {
                 interactAction.Invoke();
             }

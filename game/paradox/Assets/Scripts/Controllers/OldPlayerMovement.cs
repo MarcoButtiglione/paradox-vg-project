@@ -68,7 +68,7 @@ public class OldPlayerMovement : MonoBehaviour
             crouch = false;
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        if (Input.GetButtonUp("Dash"))
         {
             _animator.SetBool("IsDashing",true);
             dash = true;
