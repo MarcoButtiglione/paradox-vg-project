@@ -350,7 +350,7 @@ public class RewindManager : MonoBehaviour
             //Debug.Log("MoveGhost: " + Time.fixedDeltaTime);
             WorkerPrefab.transform.position = new Vector3(positions_young_p[index].x, positions_young_p[index].y, WorkerPrefab.transform.position.z);
             GhostPrefab.GetComponent<Animator>().SetFloat("Speed", Math.Abs(inputs[index].getHorizontal()));
-            GhostPrefab.GetComponent<CharacterController2D>().Move(inputs[index].getHorizontal(), inputs[index].getCrouch(), inputs[index].getJump());
+            GhostPrefab.GetComponent<CharacterController2D>().Move(inputs[index].getHorizontal(), inputs[index].getCrouch(), inputs[index].getJump(),inputs[index].getHoldJump());
             index++;
         }
 
@@ -371,7 +371,7 @@ public class RewindManager : MonoBehaviour
             }*/
             WorkerPrefab.transform.position = new Vector3(positions_young_p[index].x, positions_young_p[index].y, WorkerPrefab.transform.position.z);
             GhostPrefab.GetComponent<Animator>().SetFloat("Speed", Math.Abs(inputs[index].getHorizontal()));
-            GhostPrefab.GetComponent<CharacterController2D>().Move(inputs[index].getHorizontal(), inputs[index].getCrouch(), inputs[index].getJump());
+            GhostPrefab.GetComponent<CharacterController2D>().Move(inputs[index].getHorizontal(), inputs[index].getCrouch(), inputs[index].getJump(),inputs[index].getHoldJump());
             index++;
         }
 

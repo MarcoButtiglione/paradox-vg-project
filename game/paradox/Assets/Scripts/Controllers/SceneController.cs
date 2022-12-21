@@ -183,7 +183,7 @@ public class SceneController : MonoBehaviour
 
     void setInputs()
     {
-        structInputs = new TypeOfInputs(toTrack.getHorizontal(), toTrack.getCrouch(), jump);
+        structInputs = new TypeOfInputs(toTrack.getHorizontal(), toTrack.getCrouch(), jump,false);
         jump = false;
         inputs.Insert(inputs.Count, structInputs);
     }
@@ -219,7 +219,7 @@ public class SceneController : MonoBehaviour
             }
 
 
-            GhostPrefab.GetComponent<CharacterController2D>().Move(inputs[index].getHorizontal() * Time.fixedDeltaTime, inputs[index].getCrouch(), inputs[index].getJump());
+            GhostPrefab.GetComponent<CharacterController2D>().Move(inputs[index].getHorizontal() * Time.fixedDeltaTime, inputs[index].getCrouch(), inputs[index].getJump(),false);
             index++;
         }
         else

@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     private float horizontalMove = 0f;
     [SerializeField] private float runSpeed = 40f;
     private bool jump = false;
+    private bool holdJump = false;
     private bool crouch = false;
     private List<TypeOfInputs> inputs;
     private List<Vector3> positions_young_p;
@@ -24,12 +25,17 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(GameManager.Instance.State == GameState.YoungPlayerTurn){
+        if (GameManager.Instance.State != GameState.YoungPlayerTurn) return;
         horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
         _animator.SetFloat("Speed",Math.Abs(horizontalMove));
         if (Input.GetButtonDown("Jump"))
         {
             jump = true;
+            holdJump = true;
+        }
+        if (Input.GetButtonUp("Jump"))
+        {
+            holdJump = false;
         }
 
         if (Input.GetButtonDown("Crouch"))
@@ -40,13 +46,12 @@ public class PlayerMovement : MonoBehaviour
         {
             crouch = false;
         }
-        }
     }
 
     void FixedUpdate()
     {
-        controller.Move(horizontalMove * Time.fixedDeltaTime, crouch, jump);
-        inputs.Insert(inputs.Count, new TypeOfInputs(horizontalMove * Time.fixedDeltaTime, crouch, jump));
+        controller.Move(horizontalMove * Time.fixedDeltaTime, crouch, jump,holdJump);
+        inputs.Insert(inputs.Count, new TypeOfInputs(horizontalMove * Time.fixedDeltaTime, crouch, jump,holdJump));
         positions_young_p.Insert(positions_young_p.Count, transform.position);
         jump = false;
         
