@@ -8,8 +8,13 @@ public class Statistics : MonoBehaviour
     //NOT NEEDED FOR NOW
     //private float _bestTime;
     private int _counterRetry;
-    private int _counterParadox;
+    private int _counterParadoxRun;
+    private int _counterParadoxOverall;
+    private int _numOfStars;
     private bool _firstTimeYoung = true;
+
+    private float _timeForLevel;
+    private float _score;
 
     //Event managment 
     private void Awake()
@@ -21,9 +26,11 @@ public class Statistics : MonoBehaviour
     private void Start()
     {
         _counterRetry = 0;
-        _counterParadox = 0;
+        _counterParadoxRun = 0;
+        _counterParadoxOverall = 0;
         _completionTime = 0;
         _overallTime = 0;
+        _timeForLevel = GameObject.Find("Canvases").GetComponentInChildren<TimerScript>().getTimer();
     }
 
     private void OnDestroy()
@@ -43,22 +50,44 @@ public class Statistics : MonoBehaviour
             }
             else
             {
-                _counterRetry ++;
+                _counterRetry++;
+                _counterParadoxRun = 0;
             }
         }
         else if (state == GameState.Paradox)
         {
-            _counterParadox ++;
+            _counterParadoxRun++;
+            _counterParadoxOverall++;
         }
-        else if( state == GameState.LevelCompleted ){
+        else if (state == GameState.LevelCompleted)
+        {
+
+            _score = _completionTime - 1 * (5 - _counterParadoxRun);
 
             TimeSpan timeSpanOverall = TimeSpan.FromSeconds(_overallTime);
             TimeSpan timeSpanCompletion = TimeSpan.FromSeconds(_completionTime);
 
             Debug.Log("Number of retrial young: " + _counterRetry);
-            Debug.Log("Number of paradoxes caused: " + _counterParadox);
+            Debug.Log("Number of paradoxes caused: " + _counterParadoxRun);
             Debug.Log("CompletionTime: " + timeSpanCompletion.ToString(@"mm\:ss\:ff"));
             Debug.Log("OverallTime: " + timeSpanOverall.ToString(@"mm\:ss\:ff"));
+            Debug.Log("TimerForLevel: " + _timeForLevel);
+
+            if (_score < _timeForLevel / 3)
+            {
+                _numOfStars = 3;
+            }
+            else if (_score < _timeForLevel / 2)
+            {
+                _numOfStars = 2;
+            }
+            else if (_score < _timeForLevel)
+            {
+                _numOfStars = 1;
+            }
+            else { _numOfStars = 0; }
+
+            Debug.Log("NumberOfStars: " + _numOfStars);
         }
     }
 
