@@ -30,7 +30,6 @@ public class Statistics : MonoBehaviour
         _counterParadoxOverall = 0;
         _completionTime = 0;
         _overallTime = 0;
-        _timeForLevel = GameObject.Find("Canvases").GetComponentInChildren<TimerScript>().getTimer();
     }
 
     private void OnDestroy()
@@ -46,6 +45,7 @@ public class Statistics : MonoBehaviour
             _completionTime = 0;
             if (_firstTimeYoung)
             {
+                _timeForLevel = GameObject.Find("Canvases").GetComponentInChildren<TimerScript>().getTimer();
                 _firstTimeYoung = false;
             }
             else
@@ -67,17 +67,11 @@ public class Statistics : MonoBehaviour
             TimeSpan timeSpanOverall = TimeSpan.FromSeconds(_overallTime);
             TimeSpan timeSpanCompletion = TimeSpan.FromSeconds(_completionTime);
 
-            Debug.Log("Number of retrial young: " + _counterRetry);
-            Debug.Log("Number of paradoxes caused: " + _counterParadoxRun);
-            Debug.Log("CompletionTime: " + timeSpanCompletion.ToString(@"mm\:ss\:ff"));
-            Debug.Log("OverallTime: " + timeSpanOverall.ToString(@"mm\:ss\:ff"));
-            Debug.Log("TimerForLevel: " + _timeForLevel);
-
             if (_score < _timeForLevel / 3)
             {
                 _numOfStars = 3;
             }
-            else if (_score < _timeForLevel / 2)
+            else if (_score < (_timeForLevel / 3) * 2)
             {
                 _numOfStars = 2;
             }
@@ -87,7 +81,8 @@ public class Statistics : MonoBehaviour
             }
             else { _numOfStars = 0; }
 
-            Debug.Log("NumberOfStars: " + _numOfStars);
+            Debug.Log(_counterRetry + " " + _counterParadoxRun + " " + timeSpanCompletion.ToString(@"mm\:ss\:ff") + " " + timeSpanOverall.ToString(@"mm\:ss\:ff") + " " + _numOfStars);
+
         }
     }
 
@@ -105,6 +100,31 @@ public class Statistics : MonoBehaviour
             _overallTime += Time.deltaTime;
         }
 
+    }
+
+    public int GetStars()
+    {
+        return _numOfStars;
+    }
+    public float GetCompletionTime()
+    {
+        return _completionTime;
+    }
+    public float GetOverallTime()
+    {
+        return _overallTime;
+    }
+    public int GetRetrial()
+    {
+        return _counterRetry;
+    }
+    public int GetParadoxes()
+    {
+        return _counterParadoxOverall;
+    }
+    public int GetParadoxesRun()
+    {
+        return _counterParadoxRun;
     }
 
 
