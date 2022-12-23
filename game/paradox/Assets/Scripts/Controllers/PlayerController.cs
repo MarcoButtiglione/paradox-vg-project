@@ -43,7 +43,7 @@ namespace TarodevController
         private void Update()
         {
             if (!_active) return;
-            if (GameManager.Instance.State == GameState.YoungPlayerTurn)
+            if (GameManager.Instance.State == GameState.YoungPlayerTurn && Time.timeScale!=0)
             {
                 // Calculate velocity
                 Velocity = (transform.position - _lastPosition) / Time.deltaTime;

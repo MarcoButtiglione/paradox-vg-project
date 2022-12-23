@@ -45,7 +45,7 @@ namespace TarodevController
         private void Update()
         {
             if (!_active) return;
-            if (GameManager.Instance.State == GameState.OldPlayerTurn)
+            if (GameManager.Instance.State == GameState.OldPlayerTurn && Time.timeScale!=0)
             {
                 // Calculate velocity
                 Velocity = (transform.position - _lastPosition) / Time.deltaTime;
@@ -62,6 +62,9 @@ namespace TarodevController
 
                 MoveCharacter(); // Actually perform the axis movement
                 CheckPosition();
+            }
+            if (GameManager.Instance.State == GameState.Paradox){
+                index = 0;
             }
         }
 
