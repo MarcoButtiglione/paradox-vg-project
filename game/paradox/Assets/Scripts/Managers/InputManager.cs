@@ -27,6 +27,7 @@ public class InputManager : MonoBehaviour
 
         if (GameManager.Instance.State == GameState.StartingOldTurn && !PostProcessingManager.Instance.isProcessing)
         {
+            Time.timeScale = 0f;
             if (Input.anyKey)
             {
                 GameManager.Instance.UpdateGameState(GameState.OldPlayerTurn);

@@ -7,12 +7,12 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     public GameState State;
     public GameState PreviousGameState;
-    
+
 
     public static event Action<GameState> OnGameStateChanged;
 
     private bool isTutorial;
-   
+
 
     private void Awake()
     {
@@ -52,7 +52,7 @@ public class GameManager : MonoBehaviour
             switch (newState)
             {
                 case GameState.StartingYoungTurn:
-                        Time.timeScale = 0f;
+                    Time.timeScale = 0f;
                     break;
                 case GameState.YoungPlayerTurn:
                     Time.timeScale = 1f;
@@ -64,6 +64,7 @@ public class GameManager : MonoBehaviour
                     }
                     break;
                 case GameState.SecondPart:
+                    Time.timeScale = 1f;
                     break;
                 case GameState.StartingThirdPart:
                     GameObject.Find("DisappearingPlatform 0").GetComponent<ActivableController>().SwitchState();
@@ -72,7 +73,7 @@ public class GameManager : MonoBehaviour
                 case GameState.ThirdPart:
                     break;
                 case GameState.StartingOldTurn:
-                    Time.timeScale = 0f;
+                    //Time.timeScale = 0f;
                     break;
                 case GameState.OldPlayerTurn:
                     Time.timeScale = 1f;
@@ -98,18 +99,18 @@ public class GameManager : MonoBehaviour
             switch (newState)
             {
                 case GameState.StartingYoungTurn:
-                    
-                        Time.timeScale = 0f;
+
+                    Time.timeScale = 0f;
                     break;
                 case GameState.YoungPlayerTurn:
                     Time.timeScale = 1f;
                     break;
                 case GameState.StartingOldTurn:
-                    if (PreviousGameState != GameState.YoungPlayerTurn)
+                    /*if (PreviousGameState != GameState.YoungPlayerTurn)
                     {
                         Time.timeScale = 0f;
                     }
-                    break;
+                    break;*/
                 case GameState.OldPlayerTurn:
                     Time.timeScale = 1f;
                     break;
@@ -153,9 +154,10 @@ public class GameManager : MonoBehaviour
         return isTutorial;
     }
 
-    IEnumerator WaitToStart(){
-    yield return new WaitForSecondsRealtime(0.1f);
-    UpdateGameState(GameState.StartingYoungTurn);
+    IEnumerator WaitToStart()
+    {
+        yield return new WaitForSecondsRealtime(0.1f);
+        UpdateGameState(GameState.StartingYoungTurn);
     }
 
 

@@ -96,7 +96,7 @@ public class PostProcessingManager : MonoBehaviour
         _vignette.intensity.value = 0f;
 
         isProcessing = false;
-        Time.timeScale = 1;
+        //Time.timeScale = 1;
 
         if (GameManager.Instance.IsTutorial())
         {
