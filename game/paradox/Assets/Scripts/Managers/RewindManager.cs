@@ -44,8 +44,6 @@ public class RewindManager : MonoBehaviour
     //private bool jump = false;
 
     private int index;
-    private int indexJumping = 30;
-    private bool isJumping = false;
     private int _reloadSpeed;
 
     [SerializeField]
@@ -228,12 +226,14 @@ public class RewindManager : MonoBehaviour
 
         if (GameManager.Instance.State == GameState.OldPlayerTurn)
         {
-           
+            //Debug.Log("Ghost grounded: "+GhostPrefab.GetComponent<CharacterController2D>().GetGrounded()+" "+index);
+            //Debug.Log("Young was grounded: "+youngWasGrounded[index]+" "+index);
+
             //Debug.Log(" Delta position x:" + (GhostPrefab.transform.position.x - positions_young_p[index].x));
             //Debug.Log(" Delta position y :" + (GhostPrefab.transform.position.y - positions_young_p[index].y));
-            if (index > 2)
+            if (index > 1)
             {
-                if ((youngWasGrounded[index - 2] && !GhostPrefab.GetComponent<CharacterController2D>().GetGrounded()))
+                if ((youngWasGrounded[index - 1] && !GhostPrefab.GetComponent<CharacterController2D>().GetGrounded()))
                 {
                     Destroy(GhostPrefab);
                     Destroy(WorkerPrefab);
@@ -241,7 +241,7 @@ public class RewindManager : MonoBehaviour
                     return;
                 }
             }
-            
+
         }
         else if (GameManager.Instance.State == GameState.ThirdPart)
         {
@@ -276,12 +276,12 @@ public class RewindManager : MonoBehaviour
 
     private void StartSecondPart()
     {
-        indexJumping = 30;
-        isJumping = false;
+        
 
         inputs = toTrack.getListInputs();
         positions_young_p = toTrack.getPosYoung();
         youngWasGrounded = toTrack.getGroundedYoung();
+        Debug.Log(inputs.Count +" "+ positions_young_p.Count + " " + youngWasGrounded.Count);
 
 
         if (GhostPrefab != null)
@@ -374,6 +374,11 @@ public class RewindManager : MonoBehaviour
             GhostPrefab.GetComponent<Animator>().SetFloat("Speed", Math.Abs(inputs[index].getHorizontal()));
             GhostPrefab.transform.position = new Vector3(positions_young_p[index].x, positions_young_p[index].y, GhostPrefab.transform.position.z);
             index++;
+        }
+        else
+        {
+            index--;
+            GameManager.Instance.UpdateGameState(GameState.LevelCompleted);
         }
 
     }
