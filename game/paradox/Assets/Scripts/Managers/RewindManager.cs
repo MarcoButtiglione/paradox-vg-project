@@ -45,6 +45,7 @@ public class RewindManager : MonoBehaviour
     
 
     private static readonly int Speed = Animator.StringToHash("Speed");
+    private static readonly int VerticalSpeed = Animator.StringToHash("VerticalSpeed");
 
 
     //Event management 
@@ -201,6 +202,11 @@ public class RewindManager : MonoBehaviour
         {
             //_worker.transform.position = new Vector3(_positionsYoungP[_index].x, _positionsYoungP[_index].y, _worker.transform.position.z);
             _animatorGhost.SetFloat(Speed, Math.Abs(_inputs[_index].getHorizontal()));
+            if (_index > 0)
+            {
+                _animatorGhost.SetFloat(VerticalSpeed,(_positionsYoungP[_index].y-_positionsYoungP[_index-1].y)/Time.fixedDeltaTime);
+            }
+            _controllerGhost.Move(_inputs[_index].getHorizontal(),false,false,false);
             _ghost.transform.position = new Vector3(_positionsYoungP[_index].x, _positionsYoungP[_index].y, _ghost.transform.position.z);
             _index++;
         }
