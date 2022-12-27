@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,82 +6,77 @@ public class PlayerMovement : MonoBehaviour
 {
     public CharacterController2D controller;
     private Animator _animator;
-    private float horizontalMove = 0f;
+    private float _horizontalMove;
     [SerializeField] private float runSpeed = 40f;
-    private bool jump = false;
-    private bool crouch = false;
-    private List<TypeOfInputs> inputs;
-    private List<Vector3> positions_young_p;
-    private List<bool> young_was_grounded;
-    
+    private bool _jump;
+    private bool _crouch;
+    private List<TypeOfInputs> _inputs;
+    private List<Vector3> _positionsYoungP;
+    private List<bool> _youngWasGrounded;
+    private static readonly int Speed = Animator.StringToHash("Speed");
 
-    void Start(){
-        inputs = new List<TypeOfInputs>();
+
+    private void Start(){
+        _inputs = new List<TypeOfInputs>();
         _animator = gameObject.GetComponent<Animator>();
-        positions_young_p = new List<Vector3>();
-        young_was_grounded = new List<bool>();
+        _positionsYoungP = new List<Vector3>();
+        _youngWasGrounded = new List<bool>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(GameManager.Instance.State == GameState.YoungPlayerTurn){
-        horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
-        _animator.SetFloat("Speed",Math.Abs(horizontalMove));
+        if (GameManager.Instance.State != GameState.YoungPlayerTurn) return;
+        _horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
+        _animator.SetFloat(Speed,Math.Abs(_horizontalMove));
         if (Input.GetButtonDown("Jump") && controller.GetGrounded())
         {
-            jump = true;
+            _jump = true;
         }
 
         if (Input.GetButtonDown("Crouch"))
         {
-            crouch = true;
+            _crouch = true;
         }
         else if (Input.GetButtonUp("Crouch"))
         {
-            crouch = false;
-        }
+            _crouch = false;
         }
     }
 
     void FixedUpdate()
     {
-        if(GameManager.Instance.State == GameState.YoungPlayerTurn){
-        controller.Move(horizontalMove * Time.fixedDeltaTime, crouch, jump);
-        inputs.Insert(inputs.Count, new TypeOfInputs(horizontalMove * Time.fixedDeltaTime, crouch, jump));
-        positions_young_p.Insert(positions_young_p.Count, transform.position);
-        young_was_grounded.Insert(young_was_grounded.Count,controller.GetGrounded());
-        jump = false;
-        }
-        
-        //Debug.Log("DeltaTimeMovement: " + Time.fixedDeltaTime);
-        //Temporary, trying to synchronize this and RewindManager
-        //new WaitForEndOfFrame();
+        if (GameManager.Instance.State != GameState.YoungPlayerTurn) return;
+        controller.Move(_horizontalMove * Time.fixedDeltaTime, _crouch, _jump);
+        _inputs.Insert(_inputs.Count, new TypeOfInputs(_horizontalMove * Time.fixedDeltaTime, _crouch, _jump));
+        _positionsYoungP.Insert(_positionsYoungP.Count, transform.position);
+        _youngWasGrounded.Insert(_youngWasGrounded.Count,controller.GetGrounded());
+        _jump = false;
     }
 
-    public float getHorizontal()
+    public float GetHorizontal()
     {
-        return horizontalMove * Time.fixedDeltaTime;
+        return _horizontalMove * Time.fixedDeltaTime;
     }
 
-    public bool getJump()
+    public bool GetJump()
     {
-        return jump;
+        return _jump;
     }
 
-    public bool getCrouch()
+    public bool GetCrouch()
     {
-        return crouch;
+        return _crouch;
     }
 
-    public List<TypeOfInputs> getListInputs(){
-        return inputs;
+    public List<TypeOfInputs> GetListInputs(){
+        return _inputs;
     }
 
-    public List<Vector3> getPosYoung(){
-        return positions_young_p;
+    public List<Vector3> GetPosYoung(){
+        return _positionsYoungP;
     }
-    public List<bool> getGroundedYoung(){
-        return young_was_grounded;
+    public List<bool> GetGroundedYoung(){
+        return _youngWasGrounded;
     }
 }

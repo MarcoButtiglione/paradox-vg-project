@@ -11,24 +11,19 @@ public class GameManager : MonoBehaviour
 
     public static event Action<GameState> OnGameStateChanged;
 
-    private bool isTutorial;
+    private bool _isTutorial;
 
 
     private void Awake()
     {
         Instance = this;
-        LevelManager l = LevelManager.Instance;
-        if (l)
-        {
-            isTutorial = l.IsTutorialLevel();
-        }
-        else
-        { isTutorial = false; }
+        var l = LevelManager.Instance;
+        _isTutorial = l && l.IsTutorialLevel();
     }
 
     private void Start()
     {
-        StartCoroutine("WaitToStart");
+        StartCoroutine(nameof(WaitToStart));
     }
 
     private void OnDestroy()
@@ -42,12 +37,12 @@ public class GameManager : MonoBehaviour
      */
     public void UpdateGameState(GameState newState)
     {
-        Debug.Log("Current State: " + newState + " ----- IsTutorial: " + isTutorial);
+        Debug.Log("Current State: " + newState + " ----- IsTutorial: " + _isTutorial);
 
         PreviousGameState = State;
         State = newState;
 
-        if (isTutorial)
+        if (_isTutorial)
         {
             switch (newState)
             {
@@ -151,7 +146,7 @@ public class GameManager : MonoBehaviour
 
     public bool IsTutorial()
     {
-        return isTutorial;
+        return _isTutorial;
     }
 
     IEnumerator WaitToStart()

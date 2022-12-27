@@ -105,7 +105,7 @@ public class SceneController : MonoBehaviour
         //if (Input.GetKey(KeyCode.Return))
         //StartRewind();
 
-        jump = toTrack.getJump();
+        jump = toTrack.GetJump();
 
 
 
@@ -183,7 +183,7 @@ public class SceneController : MonoBehaviour
 
     void setInputs()
     {
-        structInputs = new TypeOfInputs(toTrack.getHorizontal(), toTrack.getCrouch(), jump);
+        structInputs = new TypeOfInputs(toTrack.GetHorizontal(), toTrack.GetCrouch(), jump);
         jump = false;
         inputs.Insert(inputs.Count, structInputs);
     }
