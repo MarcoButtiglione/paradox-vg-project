@@ -151,12 +151,15 @@ public class CharacterController2D : MonoBehaviour
                 Flip();
             }
         }
-        // If the player should jump...
+         // If the player should jump...
         if (m_Grounded && jump)
         {
+            _isJumping = true;
+            _jumpTimeCounter = _jumpTime;
             // Add a vertical force to the player.
             m_Grounded = false;
-            m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
+            m_Rigidbody2D.velocity = (new Vector2(m_Rigidbody2D.velocity.x,_jumpForce));
+            //m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
             _coyoteUsable = false;
             _timeLeftGrounded = float.MinValue;
             //Play the jump sound-------
@@ -172,11 +175,14 @@ public class CharacterController2D : MonoBehaviour
         // If the player should jump with COYOTE JUMP...
         if (!m_Grounded && _coyoteUsable && _timeLeftGrounded + _coyoteTimeThreshold > Time.fixedTime && jump)
         {
-            Debug.Log("COYOTE");
+            _isJumping = true;
+            _jumpTimeCounter = _jumpTime;
+            Debug.Log("coyote");
             // Add a vertical force to the player.
             m_Grounded = false;
             m_Rigidbody2D.velocity = (new Vector2(m_Rigidbody2D.velocity.x,0));
-            m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
+            m_Rigidbody2D.velocity = (new Vector2(m_Rigidbody2D.velocity.x,_jumpForce));
+            //m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
             _coyoteUsable = false;
             _timeLeftGrounded = float.MinValue;
             //Play the jump sound-------
@@ -188,6 +194,26 @@ public class CharacterController2D : MonoBehaviour
             {
                 _animator.SetBool("IsGrounded",false);
             }
+        }
+        
+        //If the player keeps pressing the jump key, the strength of the jump increases
+        if (holdJump && _isJumping)
+        {
+            if (_jumpTimeCounter>0)
+            {
+                m_Rigidbody2D.velocity = (new Vector2(m_Rigidbody2D.velocity.x,_jumpForce));
+                //m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
+                _jumpTimeCounter -= Time.fixedDeltaTime;
+            }
+            else
+            {
+                _isJumping = false;
+            }
+        }
+        //If the player releases the jump key while jumping you will stop the boost of the charged jump
+        if (!holdJump && _isJumping)
+        {
+            _isJumping = false;
         }
     }
 
