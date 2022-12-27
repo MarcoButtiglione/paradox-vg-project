@@ -154,7 +154,14 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(0.1f);
         UpdateGameState(GameState.StartingYoungTurn);
     }
-
+    public bool IsPlayablePhase()
+    {
+        if (State is GameState.YoungPlayerTurn or GameState.SecondPart or GameState.ThirdPart or GameState.OldPlayerTurn)
+        {
+            return true;
+        }
+        return false;
+    }
 
 }
 
@@ -167,11 +174,13 @@ public enum GameState
 
     StartingSecondPart,
     SecondPart,
-    ThirdPart,
+    
     StartingThirdPart,
-
+    ThirdPart,
+    
     StartingOldTurn,
     OldPlayerTurn,
+    
     Paradox,
 
     PauseMenu,
@@ -179,5 +188,6 @@ public enum GameState
     LevelCompleted,
     NextLevel
 }
+
 
 

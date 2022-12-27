@@ -48,6 +48,10 @@ public class Interactable : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D col)
     {
+        if (col.gameObject.CompareTag("Young"))
+        {
+            _isInRange = false;
+        }
         if (col.gameObject.CompareTag("Old"))
         {
             _isInRange = false;

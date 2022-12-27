@@ -31,6 +31,15 @@ public class CharacterController2D : MonoBehaviour
     private bool m_wasCrouching = false;
     private Animator _animator;
 
+    
+    private float _coyoteTimeThreshold = 0.05f;
+    private float _timeLeftGrounded;
+    private bool _coyoteUsable;
+
+    private float _jumpTimeCounter;
+    private float _jumpTime=.17f;
+    private float _jumpForce = 7.5f;
+    private bool _isJumping;
 
     private void Awake()
     {
@@ -65,10 +74,12 @@ public class CharacterController2D : MonoBehaviour
 
         if (wasGrounded && !m_Grounded)
         {
+            _timeLeftGrounded = Time.fixedTime;
             _animator.SetBool("IsGrounded",false);
         }
         if (!wasGrounded && m_Grounded)
         {
+            _coyoteUsable = true;
             _animator.SetBool("IsGrounded",true);
         }
         
@@ -77,7 +88,7 @@ public class CharacterController2D : MonoBehaviour
     }
 
 
-    public void Move(float move, bool crouch, bool jump)
+    public void Move(float move, bool crouch, bool jump, bool holdJump)
     {
         // If crouching, check to see if the character can stand up
         if (!crouch)
@@ -146,6 +157,8 @@ public class CharacterController2D : MonoBehaviour
             // Add a vertical force to the player.
             m_Grounded = false;
             m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
+            _coyoteUsable = false;
+            _timeLeftGrounded = float.MinValue;
             //Play the jump sound-------
             AudioManager a = FindObjectOfType<AudioManager>();
             if(a)
@@ -155,8 +168,26 @@ public class CharacterController2D : MonoBehaviour
             {
                 _animator.SetBool("IsGrounded",false);
             }
-            
-            
+        }
+        // If the player should jump with COYOTE JUMP...
+        if (!m_Grounded && _coyoteUsable && _timeLeftGrounded + _coyoteTimeThreshold > Time.fixedTime && jump)
+        {
+            Debug.Log("COYOTE");
+            // Add a vertical force to the player.
+            m_Grounded = false;
+            m_Rigidbody2D.velocity = (new Vector2(m_Rigidbody2D.velocity.x,0));
+            m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
+            _coyoteUsable = false;
+            _timeLeftGrounded = float.MinValue;
+            //Play the jump sound-------
+            AudioManager a = FindObjectOfType<AudioManager>();
+            if(a)
+                a.Play("Jump");
+            //---------------------------
+            if (!m_Grounded)
+            {
+                _animator.SetBool("IsGrounded",false);
+            }
         }
     }
 

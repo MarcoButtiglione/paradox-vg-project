@@ -89,6 +89,14 @@ public class RewindManager : MonoBehaviour
         }
         else if (state == GameState.Paradox)
         {
+            if (_ghost)
+            {
+                Destroy(_ghost);
+            }
+            if (_worker)
+            {
+                Destroy(_worker);
+            }
             if (GameManager.Instance.PreviousGameState == GameState.OldPlayerTurn)
             {
                 _reloadSpeed = _index / parameterReload;
@@ -137,14 +145,6 @@ public class RewindManager : MonoBehaviour
             //Debug.Log(" Delta position y :" + (GhostPrefab.transform.position.y - positions_young_p[index].y));
             if (_index <= 1) return;
             if (!_youngWasGrounded[_index - 1] || _controllerGhost.GetGrounded()) return;
-            if (_ghost)
-            {
-                Destroy(_ghost);
-            }
-            if (_worker)
-            {
-                Destroy(_worker);
-            }
             if(GameManager.Instance.State == GameState.OldPlayerTurn)
                 GameManager.Instance.UpdateGameState(GameState.Paradox);
             if(GameManager.Instance.State == GameState.ThirdPart)
@@ -167,7 +167,7 @@ public class RewindManager : MonoBehaviour
         //-------------
 
         //Init Worker
-        InitWorker();
+        //InitWorker();
         //-------------
 
         //Init Old
@@ -199,7 +199,7 @@ public class RewindManager : MonoBehaviour
     {
         if (_index < _inputs.Count)
         {
-            _worker.transform.position = new Vector3(_positionsYoungP[_index].x, _positionsYoungP[_index].y, _worker.transform.position.z);
+            //_worker.transform.position = new Vector3(_positionsYoungP[_index].x, _positionsYoungP[_index].y, _worker.transform.position.z);
             _animatorGhost.SetFloat(Speed, Math.Abs(_inputs[_index].getHorizontal()));
             _ghost.transform.position = new Vector3(_positionsYoungP[_index].x, _positionsYoungP[_index].y, _ghost.transform.position.z);
             _index++;
@@ -231,7 +231,7 @@ public class RewindManager : MonoBehaviour
         InitGhost();
         //-------------
         //Init Worker
-        InitWorker();
+        //InitWorker();
         //-------------
     }
 

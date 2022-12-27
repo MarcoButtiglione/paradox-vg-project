@@ -9,6 +9,8 @@ public class PlayerMovement : MonoBehaviour
     private float _horizontalMove;
     [SerializeField] private float runSpeed = 40f;
     private bool _jump;
+    private bool _holdJump;
+
     private bool _crouch;
     private List<TypeOfInputs> _inputs;
     private List<Vector3> _positionsYoungP;
@@ -29,9 +31,14 @@ public class PlayerMovement : MonoBehaviour
         if (GameManager.Instance.State != GameState.YoungPlayerTurn) return;
         _horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
         _animator.SetFloat(Speed,Math.Abs(_horizontalMove));
-        if (Input.GetButtonDown("Jump") && controller.GetGrounded())
+        if (Input.GetButtonDown("Jump"))
         {
             _jump = true;
+            _holdJump = true;
+        }
+        if (Input.GetButtonUp("Jump"))
+        {
+            _holdJump = false;
         }
 
         if (Input.GetButtonDown("Crouch"))
@@ -47,27 +54,13 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate()
     {
         if (GameManager.Instance.State != GameState.YoungPlayerTurn) return;
-        controller.Move(_horizontalMove * Time.fixedDeltaTime, _crouch, _jump);
-        _inputs.Insert(_inputs.Count, new TypeOfInputs(_horizontalMove * Time.fixedDeltaTime, _crouch, _jump));
+        controller.Move(_horizontalMove * Time.fixedDeltaTime, _crouch, _jump,_holdJump);
+        _inputs.Insert(_inputs.Count, new TypeOfInputs(_horizontalMove * Time.fixedDeltaTime, _crouch, _jump,_holdJump));
         _positionsYoungP.Insert(_positionsYoungP.Count, transform.position);
         _youngWasGrounded.Insert(_youngWasGrounded.Count,controller.GetGrounded());
         _jump = false;
     }
-
-    public float GetHorizontal()
-    {
-        return _horizontalMove * Time.fixedDeltaTime;
-    }
-
-    public bool GetJump()
-    {
-        return _jump;
-    }
-
-    public bool GetCrouch()
-    {
-        return _crouch;
-    }
+    
 
     public List<TypeOfInputs> GetListInputs(){
         return _inputs;

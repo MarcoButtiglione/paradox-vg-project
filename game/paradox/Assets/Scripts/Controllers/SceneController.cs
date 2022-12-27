@@ -1,10 +1,11 @@
+/*
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Rendering.PostProcessing;
 using UnityEngine;
-
-
+*/
+/*
 
 //The script that should manage the level
 //It records the movement of the player and make the objects appear and
@@ -65,6 +66,7 @@ public class SceneController : MonoBehaviour
         CollisionCheckTrap.OnPlayerDeath += RestartRewind;
     }
 */
+/*
     void Start()
     {
         parameterReload = 40;
@@ -97,7 +99,7 @@ public class SceneController : MonoBehaviour
             line.setFather(this);
         }
         */
-
+/*
     }
 
     void Update()
@@ -183,7 +185,7 @@ public class SceneController : MonoBehaviour
 
     void setInputs()
     {
-        structInputs = new TypeOfInputs(toTrack.GetHorizontal(), toTrack.GetCrouch(), jump);
+        structInputs = new TypeOfInputs(toTrack.GetHorizontal(), toTrack.GetCrouch(), jump,false);
         jump = false;
         inputs.Insert(inputs.Count, structInputs);
     }
@@ -219,7 +221,7 @@ public class SceneController : MonoBehaviour
             }
 
 
-            GhostPrefab.GetComponent<CharacterController2D>().Move(inputs[index].getHorizontal() * Time.fixedDeltaTime, inputs[index].getCrouch(), inputs[index].getJump());
+            //GhostPrefab.GetComponent<CharacterController2D>().Move(inputs[index].getHorizontal() * Time.fixedDeltaTime, inputs[index].getCrouch(), inputs[index].getJump());
             index++;
         }
         else
@@ -283,3 +285,4 @@ public class SceneController : MonoBehaviour
 
 
 }
+*/
