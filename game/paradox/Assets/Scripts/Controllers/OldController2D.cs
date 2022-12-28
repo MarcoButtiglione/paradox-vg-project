@@ -25,7 +25,6 @@ public class OldController2D : MonoBehaviour
     private bool m_FacingRight = true; // For determining which way the player is currently facing.
     private Vector3 m_Velocity = Vector3.zero;
 
-    private Animator _animator;
     private AudioManager _audioManager;
 
     [Header("Events")] [Space] public UnityEvent OnLandEvent;
@@ -39,20 +38,22 @@ public class OldController2D : MonoBehaviour
     private bool m_wasCrouching = false;
 
     private bool _wasJetpack = false;
-
-    //---Dash-------------------------
-    [SerializeField] private float dashForce = 50f;
-    [SerializeField] private float startDashTime = 0.1f;
+    //---Dash--------------------------
+    [Header("Dash settings")] 
+    [SerializeField] private float dashSpeed = 15f;
+    [SerializeField] private float dashTime = 0.2f;
     private float _dashTime;
-    private bool _firstDash = true;
+    private bool _isFirstDash = true;
     private bool _isDashing;
     //---------------------------------
-
+    //---Animator----------------------
+    private Animator _animator;
     private static readonly int IsFalling = Animator.StringToHash("IsFalling");
     private static readonly int HorSpeed = Animator.StringToHash("HorSpeed");
     private static readonly int IsRight = Animator.StringToHash("IsRight");
     private static readonly int IsUsingJet = Animator.StringToHash("IsUsingJet");
     private static readonly int IsHadDash = Animator.StringToHash("IsHadDash");
+    //---------------------------------
 
     private void Awake()
     {
@@ -80,7 +81,7 @@ public class OldController2D : MonoBehaviour
             if (colliders[i].gameObject != gameObject)
             {
                 m_Grounded = true;
-                _firstDash = true;
+                _isFirstDash = true;
                 _animator.SetBool(IsHadDash, false);
                 if (!wasGrounded)
                     OnLandEvent.Invoke();
@@ -193,29 +194,36 @@ public class OldController2D : MonoBehaviour
         }
 
         //---Dash-------------------------
-        if (!m_Grounded && dash && _firstDash)
+        if (dash && _isFirstDash)
         {
             _isDashing = true;
-            _firstDash = false;
-            _dashTime = startDashTime;
+            _isFirstDash = false;
+            _dashTime = dashTime;
             
             _animator.SetBool(IsHadDash, true);
             //Play the dash sound-------
             _audioManager.Play("Dash");
             //---------------------------
         }
-        if (_isDashing)
+        if( dash &&_isDashing)
         {
             if (_dashTime>0)
             {
                 var dir = m_FacingRight ? 1 : -1;
-                m_Rigidbody2D.velocity = (new Vector2(dir*dashForce,m_Rigidbody2D.velocity.y));
+                var velocity = m_Rigidbody2D.velocity;
+                velocity = (new Vector2(dir*dashSpeed+velocity.x,velocity.y));
+                m_Rigidbody2D.velocity = velocity;
                 _dashTime -= Time.fixedDeltaTime;
             }
             else
             {
                 _isDashing = false;
             }
+        }
+        //If the player releases the dash key while dashing you will stop the boost
+        if (!dash && _isDashing)
+        {
+            _isDashing = false;
         }
         //--------------------------------
 

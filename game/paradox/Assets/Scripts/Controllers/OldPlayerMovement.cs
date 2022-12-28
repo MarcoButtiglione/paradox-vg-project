@@ -50,13 +50,16 @@ public class OldPlayerMovement : MonoBehaviour
             _animator.SetBool(IsDashing,true);
             _dash = true;
         }
+        if (Input.GetButtonUp("Dash"))
+        {
+            _dash = false;
+        }
     }
 
     private void FixedUpdate()
     {
         controller.Move(_horizontalMove * Time.fixedDeltaTime, false, _jump, _jet, _dash);
         _jump = false;
-        _dash = false;
         _animator.SetBool(IsDashing, false);
     }
 }
