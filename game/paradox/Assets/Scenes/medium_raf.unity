@@ -1155,7 +1155,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &462552046
@@ -1840,6 +1840,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5068322555513041092, guid: e8d48466e56ee5d45a04109542731be7, type: 3}
       propertyPath: _intermittentPeriod
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5068322555513041092, guid: e8d48466e56ee5d45a04109542731be7, type: 3}
+      propertyPath: _intermittentPeriodYoung
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5068322555513041092, guid: e8d48466e56ee5d45a04109542731be7, type: 3}
@@ -3111,8 +3115,8 @@ Canvas:
   m_GameObject: {fileID: 1362930545}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
+  m_RenderMode: 1
+  m_Camera: {fileID: 2055844593}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -3442,6 +3446,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5068322555513041092, guid: 5d093cc4113e78d409f187a3b4c1b22c, type: 3}
       propertyPath: _intermittentPeriod
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5068322555513041092, guid: 5d093cc4113e78d409f187a3b4c1b22c, type: 3}
+      propertyPath: _intermittentPeriodYoung
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5068322555513041092, guid: 5d093cc4113e78d409f187a3b4c1b22c, type: 3}

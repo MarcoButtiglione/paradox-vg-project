@@ -9,8 +9,8 @@ public class RewindManager : MonoBehaviour
     private Rigidbody2D rigidbodyGhost;
 
     //DebugWorker
-    public GameObject _initWorker;
-    private GameObject WorkerPrefab;
+    //public GameObject _initWorker;
+    //private GameObject WorkerPrefab;
 
 
     //Old
@@ -135,10 +135,10 @@ public class RewindManager : MonoBehaviour
         {
             Destroy(YoungPrefab);
         }
-        if (WorkerPrefab != null)
+        /*if (WorkerPrefab != null)
         {
             Destroy(WorkerPrefab);
-        }
+        }*/
 
         /*
         if (YoungPlayer != null)
@@ -205,7 +205,7 @@ public class RewindManager : MonoBehaviour
         else if (GameManager.Instance.State == GameState.Paradox)
         {
             Destroy(GhostPrefab);
-            Destroy(WorkerPrefab);
+            //Destroy(WorkerPrefab);
             RestartOldAndGhost();
         }
     }
@@ -220,7 +220,7 @@ public class RewindManager : MonoBehaviour
             if (Vector2.Distance(new Vector2(GhostPrefab.transform.position.x, GhostPrefab.transform.position.y), new Vector2(positions_young_p[index].x, positions_young_p[index].y)) > tresHold)
             {
                 Destroy(GhostPrefab);
-                Destroy(WorkerPrefab);
+                //Destroy(WorkerPrefab);
                 GameManager.Instance.UpdateGameState(GameState.Paradox);
                 return;
             }
@@ -230,7 +230,7 @@ public class RewindManager : MonoBehaviour
             if (Vector2.Distance(new Vector2(GhostPrefab.transform.position.x, GhostPrefab.transform.position.y), new Vector2(positions_young_p[index].x, positions_young_p[index].y)) > tresHold)
             {
                 Destroy(GhostPrefab);
-                Destroy(WorkerPrefab);
+                //Destroy(WorkerPrefab);
                 GameManager.Instance.UpdateGameState(GameState.StartingSecondPart);
                 return;
             }
@@ -278,10 +278,10 @@ public class RewindManager : MonoBehaviour
             Destroy(YoungPrefab);
         }
 
-        if (WorkerPrefab != null)
+        /*if (WorkerPrefab != null)
         {
             Destroy(WorkerPrefab);
-        }
+        }*/
 
         index = 0;
 
@@ -292,7 +292,7 @@ public class RewindManager : MonoBehaviour
         //-------------
 
         //Init Worker
-        WorkerPrefab = Instantiate(_initWorker, _initPosYoung, Quaternion.identity);
+        //WorkerPrefab = Instantiate(_initWorker, _initPosYoung, Quaternion.identity);
         //-------------
 
         //Init Old
@@ -348,7 +348,7 @@ public class RewindManager : MonoBehaviour
             } */
 
             //Debug.Log("MoveGhost: " + Time.fixedDeltaTime);
-            WorkerPrefab.transform.position = new Vector3(positions_young_p[index].x, positions_young_p[index].y, WorkerPrefab.transform.position.z);
+            //WorkerPrefab.transform.position = new Vector3(positions_young_p[index].x, positions_young_p[index].y, WorkerPrefab.transform.position.z);
             GhostPrefab.GetComponent<Animator>().SetFloat("Speed", Math.Abs(inputs[index].getHorizontal()));
             GhostPrefab.GetComponent<CharacterController2D>().Move(inputs[index].getHorizontal(), inputs[index].getCrouch(), inputs[index].getJump());
             index++;
@@ -369,7 +369,7 @@ public class RewindManager : MonoBehaviour
                 GameManager.Instance.UpdateGameState(GameState.StartingSecondPart);
                 return;
             }*/
-            WorkerPrefab.transform.position = new Vector3(positions_young_p[index].x, positions_young_p[index].y, WorkerPrefab.transform.position.z);
+            //WorkerPrefab.transform.position = new Vector3(positions_young_p[index].x, positions_young_p[index].y, WorkerPrefab.transform.position.z);
             GhostPrefab.GetComponent<Animator>().SetFloat("Speed", Math.Abs(inputs[index].getHorizontal()));
             GhostPrefab.GetComponent<CharacterController2D>().Move(inputs[index].getHorizontal(), inputs[index].getCrouch(), inputs[index].getJump());
             index++;
@@ -392,10 +392,10 @@ public class RewindManager : MonoBehaviour
         {
             Destroy(YoungPrefab);
         }
-        if (WorkerPrefab != null)
+        /*if (WorkerPrefab != null)
         {
             Destroy(WorkerPrefab);
-        }
+        }*/
 
         //Old_Player.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
 
@@ -423,17 +423,17 @@ public class RewindManager : MonoBehaviour
         {
             Destroy(YoungPrefab);
         }
-        if (WorkerPrefab != null)
+        /*if (WorkerPrefab != null)
         {
             Destroy(WorkerPrefab);
-        }
+        }*/
 
 
         index = 0;
         GhostPrefab = Instantiate(_initGhostPrefab, _initPosYoung, Quaternion.identity);
         //rigidbodyGhost = GhostPrefab.GetComponent<Rigidbody2D>();
         //rigidbodyGhost.bodyType = RigidbodyType2D.Static;
-        WorkerPrefab = Instantiate(_initWorker, _initPosYoung, Quaternion.identity);
+        //WorkerPrefab = Instantiate(_initWorker, _initPosYoung, Quaternion.identity);
 
     }
 
