@@ -43,20 +43,13 @@ public class AudioManager : MonoBehaviour
     {
         Stop("Jetpack");
     }
-
-    /*
-     * To play a sound in an other script use:
-     *
-     * AudioManager a = FindObjectOfType<AudioManager>();
-     *      if(a)
-     *          a.Play("name");
-     */
+    
     public void Play(string name)
     {
         Sound s = Array.Find(sounds,sound=>sound.name == name);
         if (s == null)
         {
-            Debug.LogWarning("Sounds: "+ name+ " not found!");
+            //Debug.LogWarning("Sounds: "+ name+ " not found!");
             return;
         }
         s.source.Play();
@@ -66,7 +59,7 @@ public class AudioManager : MonoBehaviour
         Sound s = Array.Find(sounds,sound=>sound.name == name);
         if (s == null)
         {
-            Debug.LogWarning("Sounds: "+ name+ " not found!");
+            //Debug.LogWarning("Sounds: "+ name+ " not found!");
             return;
         }
         s.source.Stop();
@@ -81,14 +74,14 @@ public class AudioManager : MonoBehaviour
                 s.source.volume = s.volume * volume;
             }
         }
-        Debug.Log("Master volume: " + volume);
+        //Debug.Log("Master volume: " + volume);
     }
 
     public void SetThemeVolume(float volume)
     {
         Sound s = Array.Find(sounds,sound=>sound.name == "Theme");
         s.source.volume = s.volume * volume;
-        Debug.Log("Theme volume: " + volume);
+        //Debug.Log("Theme volume: " + volume);
     }
     public void SetMasterVolume(float volume)
     {
@@ -96,6 +89,6 @@ public class AudioManager : MonoBehaviour
         {
             s.source.volume = s.volume * volume;
         }
-        Debug.Log("Master volume: " + volume);
+        //Debug.Log("Master volume: " + volume);
     }
 }

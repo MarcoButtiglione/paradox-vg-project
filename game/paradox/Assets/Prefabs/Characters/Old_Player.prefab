@@ -251,7 +251,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_JumpForce: 600
   m_JetForce: 0.05
-  m_DashForce: 1500
   m_CrouchSpeed: 0.36
   m_MovementSmoothing: 0
   m_AirControl: 1
@@ -267,6 +266,8 @@ MonoBehaviour:
   OnCrouchEvent:
     m_PersistentCalls:
       m_Calls: []
+  dashForce: 30
+  startDashTime: 0.2
 --- !u!114 &-4137090857806088528
 MonoBehaviour:
   m_ObjectHideFlags: 0

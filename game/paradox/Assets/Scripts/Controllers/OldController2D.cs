@@ -4,46 +4,60 @@ using UnityEngine.Events;
 
 public class OldController2D : MonoBehaviour
 {
-    [SerializeField] private float m_JumpForce = 400f;                          // Amount of force added when the player jumps.
+    [SerializeField] private float m_JumpForce = 400f; // Amount of force added when the player jumps.
 
     [SerializeField] private float m_JetForce = 0.05f;
-    [SerializeField] private float m_DashForce = 1500f;
 
-    [Range(0, 1)][SerializeField] private float m_CrouchSpeed = .36f;           // Amount of maxSpeed applied to crouching movement. 1 = 100%
-    [Range(0, .3f)][SerializeField] private float m_MovementSmoothing = .05f;   // How much to smooth out the movement
-    [SerializeField] private bool m_AirControl = false;                         // Whether or not a player can steer while jumping;
-    [SerializeField] private LayerMask m_WhatIsGround;                          // A mask determining what is ground to the character
-    [SerializeField] private Transform m_GroundCheck;                           // A position marking where to check if the player is grounded.
-    [SerializeField] private Transform m_CeilingCheck;                          // A position marking where to check for ceilings
-    [SerializeField] private Collider2D m_CrouchDisableCollider;                // A collider that will be disabled when crouching
+    [Range(0, 1)] [SerializeField]
+    private float m_CrouchSpeed = .36f; // Amount of maxSpeed applied to crouching movement. 1 = 100%
+
+    [Range(0, .3f)] [SerializeField] private float m_MovementSmoothing = .05f; // How much to smooth out the movement
+    [SerializeField] private bool m_AirControl = false; // Whether or not a player can steer while jumping;
+    [SerializeField] private LayerMask m_WhatIsGround; // A mask determining what is ground to the character
+    [SerializeField] private Transform m_GroundCheck; // A position marking where to check if the player is grounded.
+    [SerializeField] private Transform m_CeilingCheck; // A position marking where to check for ceilings
+    [SerializeField] private Collider2D m_CrouchDisableCollider; // A collider that will be disabled when crouching
 
     const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
-    private bool m_Grounded;            // Whether or not the player is grounded.
+    private bool m_Grounded; // Whether or not the player is grounded.
     const float k_CeilingRadius = .2f; // Radius of the overlap circle to determine if the player can stand up
     private Rigidbody2D m_Rigidbody2D;
-    private bool m_FacingRight = true;  // For determining which way the player is currently facing.
+    private bool m_FacingRight = true; // For determining which way the player is currently facing.
     private Vector3 m_Velocity = Vector3.zero;
 
     private Animator _animator;
+    private AudioManager _audioManager;
 
-    [Header("Events")]
-    [Space]
-
-    public UnityEvent OnLandEvent;
+    [Header("Events")] [Space] public UnityEvent OnLandEvent;
 
     [System.Serializable]
-    public class BoolEvent : UnityEvent<bool> { }
+    public class BoolEvent : UnityEvent<bool>
+    {
+    }
 
     public BoolEvent OnCrouchEvent;
     private bool m_wasCrouching = false;
 
     private bool _wasJetpack = false;
 
+    //---Dash-------------------------
+    [SerializeField] private float dashForce = 50f;
+    [SerializeField] private float startDashTime = 0.1f;
+    private float _dashTime;
     private bool _firstDash = true;
+    private bool _isDashing;
+    //---------------------------------
+
+    private static readonly int IsFalling = Animator.StringToHash("IsFalling");
+    private static readonly int HorSpeed = Animator.StringToHash("HorSpeed");
+    private static readonly int IsRight = Animator.StringToHash("IsRight");
+    private static readonly int IsUsingJet = Animator.StringToHash("IsUsingJet");
+    private static readonly int IsHadDash = Animator.StringToHash("IsHadDash");
 
     private void Awake()
     {
         _animator = gameObject.GetComponent<Animator>();
+        _audioManager = FindObjectOfType<AudioManager>();
         m_Rigidbody2D = GetComponent<Rigidbody2D>();
 
         if (OnLandEvent == null)
@@ -55,7 +69,7 @@ public class OldController2D : MonoBehaviour
 
     private void FixedUpdate()
     {
-        bool wasGrounded = m_Grounded;
+        var wasGrounded = m_Grounded;
         m_Grounded = false;
 
         // The player is grounded if a circlecast to the groundcheck position hits anything designated as ground
@@ -67,33 +81,27 @@ public class OldController2D : MonoBehaviour
             {
                 m_Grounded = true;
                 _firstDash = true;
-                _animator.SetBool("IsHadDash",false);
+                _animator.SetBool(IsHadDash, false);
                 if (!wasGrounded)
                     OnLandEvent.Invoke();
             }
         }
-        if (wasGrounded && !m_Grounded)
-        {
-            _animator.SetBool("IsFalling",true);
-        }
-        if (!wasGrounded && m_Grounded)
-        {
-            _animator.SetBool("IsFalling",false);
-        }
-    }
 
-    private void OnDisable()
-    {
-        AudioManager a = FindObjectOfType<AudioManager>();
-        if (a)
-            a.Stop("Jetpack");
+        switch (wasGrounded)
+        {
+            case true when !m_Grounded:
+                _animator.SetBool(IsFalling, true);
+                break;
+            case false when m_Grounded:
+                _animator.SetBool(IsFalling, false);
+                break;
+        }
     }
 
 
     public void Move(float move, bool crouch, bool jump, bool jet, bool dash)
     {
-        
-        bool playJet = false;
+        var playJet = false;
         // If crouching, check to see if the character can stand up
         if (!crouch)
         {
@@ -107,7 +115,6 @@ public class OldController2D : MonoBehaviour
         //only control the player if grounded or airControl is turned on
         if (m_Grounded || m_AirControl)
         {
-
             // If crouching
             if (crouch)
             {
@@ -138,9 +145,11 @@ public class OldController2D : MonoBehaviour
             }
 
             // Move the character by finding the target velocity
-            Vector3 targetVelocity = new Vector2(move * 10f, m_Rigidbody2D.velocity.y);
+            var velocity = m_Rigidbody2D.velocity;
+            Vector3 targetVelocity = new Vector2(move * 10f, velocity.y);
             // And then smoothing it out and applying it to the character
-            m_Rigidbody2D.velocity = Vector3.SmoothDamp(m_Rigidbody2D.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
+            m_Rigidbody2D.velocity = Vector3.SmoothDamp(velocity, targetVelocity, ref m_Velocity,
+                m_MovementSmoothing);
 
             // If the input is moving the player right and the player is facing left...
             if (move > 0 && !m_FacingRight)
@@ -155,6 +164,7 @@ public class OldController2D : MonoBehaviour
                 Flip();
             }
         }
+
         // If the player should jump...
         if (m_Grounded && jump)
         {
@@ -162,60 +172,62 @@ public class OldController2D : MonoBehaviour
             m_Grounded = false;
             m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
             //Play the jump sound-------
-            AudioManager a = FindObjectOfType<AudioManager>();
-            if (a)
-                a.Play("Jump");
+            _audioManager.Play("Jump");
             //---------------------------
-            _animator.SetBool("IsFalling",true);
-
+            _animator.SetBool(IsFalling, true);
         }
         else if (!m_Grounded && jet && !jump)
         {
             // JetpackJump
-            
+
             m_Rigidbody2D.AddForce(new Vector2(0f, m_JetForce * m_JumpForce));
             playJet = true;
             if (!_wasJetpack)
             {
                 _wasJetpack = true;
                 //Play the jetpack sound
-                AudioManager a = FindObjectOfType<AudioManager>();
-                if (a)
-                    a.Play("Jetpack");
+                _audioManager.Play("Jetpack");
                 //---------------------------
-                _animator.SetBool("IsUsingJet",true);
+                _animator.SetBool(IsUsingJet, true);
             }
+        }
+
+        //---Dash-------------------------
+        if (!m_Grounded && dash && _firstDash)
+        {
+            _isDashing = true;
+            _firstDash = false;
+            _dashTime = startDashTime;
             
-
-        }
-
-         if (!m_Grounded && dash && _firstDash)
-         {
-             _firstDash = false;
-             _animator.SetBool("IsHadDash",true);
-            // Add a horizontal force to the player.
-            dash = false;
-            m_Rigidbody2D.AddForce(new Vector2(move*m_DashForce, 0f));
+            _animator.SetBool(IsHadDash, true);
             //Play the dash sound-------
-            AudioManager a = FindObjectOfType<AudioManager>();
-            if (a)
-                a.Play("Dash");
+            _audioManager.Play("Dash");
             //---------------------------
+        }
+        if (_isDashing)
+        {
+            if (_dashTime>0)
+            {
+                var dir = m_FacingRight ? 1 : -1;
+                m_Rigidbody2D.velocity = (new Vector2(dir*dashForce,m_Rigidbody2D.velocity.y));
+                _dashTime -= Time.fixedDeltaTime;
+            }
+            else
+            {
+                _isDashing = false;
+            }
+        }
+        //--------------------------------
 
+
+        if (_wasJetpack && !playJet)
+        {
+            _wasJetpack = false;
+            _audioManager.Stop("Jetpack");
+            _animator.SetBool(IsUsingJet, false);
         }
 
-         if (_wasJetpack && !playJet)
-         {
-             _wasJetpack = false;
-             AudioManager a = FindObjectOfType<AudioManager>();
-             if (a)
-             {
-                 a.Stop("Jetpack");
-                 _animator.SetBool("IsUsingJet",false);
-             }
-                 
-         }
-         _animator.SetFloat("HorSpeed",Math.Abs(m_Rigidbody2D.velocity.x));
+        _animator.SetFloat(HorSpeed, Math.Abs(m_Rigidbody2D.velocity.x));
     }
 
 
@@ -223,7 +235,7 @@ public class OldController2D : MonoBehaviour
     {
         // Switch the way the player is labelled as facing.
         m_FacingRight = !m_FacingRight;
-        _animator.SetBool("IsRight",m_FacingRight);
+        _animator.SetBool(IsRight, m_FacingRight);
 
         // Multiply the player's x local scale by -1.
         Vector3 theScale = transform.localScale;

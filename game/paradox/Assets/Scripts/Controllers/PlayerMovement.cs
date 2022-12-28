@@ -40,21 +40,13 @@ public class PlayerMovement : MonoBehaviour
         {
             _holdJump = false;
         }
-
-        if (Input.GetButtonDown("Crouch"))
-        {
-            _crouch = true;
-        }
-        else if (Input.GetButtonUp("Crouch"))
-        {
-            _crouch = false;
-        }
+        
     }
 
     void FixedUpdate()
     {
         if (GameManager.Instance.State != GameState.YoungPlayerTurn) return;
-        controller.Move(_horizontalMove * Time.fixedDeltaTime, _crouch, _jump,_holdJump);
+        controller.Move(_horizontalMove * Time.fixedDeltaTime, false, _jump,_holdJump);
         _inputs.Insert(_inputs.Count, new TypeOfInputs(_horizontalMove * Time.fixedDeltaTime, _crouch, _jump,_holdJump));
         _positionsYoungP.Insert(_positionsYoungP.Count, transform.position);
         _youngWasGrounded.Insert(_youngWasGrounded.Count,controller.GetGrounded());

@@ -1,9 +1,6 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-// VALUE USED IN OLDPLAYERMOVEMENT TO USE IT
 
 //JUMP FORCE = 600
 //JET FORCE = 0.05
@@ -14,88 +11,52 @@ public class OldPlayerMovement : MonoBehaviour
 {
     public OldController2D controller;
     private Animator _animator;
-    private float horizontalMove = 0f;
+    private float _horizontalMove;
     [SerializeField] private float runSpeed = 40f;
-    private bool jump = false;
-    private bool crouch = false;
-    private bool jet = false;
-    private bool dash = false;
+    private bool _jump ;
+    private bool _jet ;
+    private bool _dash;
+    private static readonly int IsMoving = Animator.StringToHash("IsMoving");
+    private static readonly int IsUsingJet = Animator.StringToHash("IsUsingJet");
+    private static readonly int IsDashing = Animator.StringToHash("IsDashing");
 
 
-    void Awake(){
+    private void Awake(){
         _animator = gameObject.GetComponent<Animator>();
     }
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if (GameManager.Instance.State!=GameState.StartingOldTurn
-            &&GameManager.Instance.State!=GameState.StartingSecondPart
-            &&GameManager.Instance.State!=GameState.StartingThirdPart
-            &&GameManager.Instance.State!=GameState.StartingYoungTurn
-           )
-        {
-        horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
+        if (GameManager.Instance.State is not (GameState.OldPlayerTurn or GameState.SecondPart)) return;
+        
+        _horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
+        _animator.SetBool(IsMoving, Math.Abs(_horizontalMove) > 0.01f);
 
-        
-            if (Math.Abs(horizontalMove)>0.01f)
-            {
-                _animator.SetBool("IsMoving",true);
-            }
-            else
-            {
-                _animator.SetBool("IsMoving",false);
-            }
-        
-        
-        
+
         if (Input.GetButtonDown("Jump"))
         {
-            _animator.SetBool("IsUsingJet",true);
-            jump = true;
-            jet = true;
-        }else if (Input.GetButtonUp("Jump"))
-        {
-            _animator.SetBool("IsUsingJet",false);
-            jet = false;
+            _animator.SetBool(IsUsingJet,true);
+            _jump = true;
+            _jet = true;
         }
-
-        if (Input.GetButtonDown("Crouch"))
+        if (Input.GetButtonUp("Jump"))
         {
-            crouch = true;
+            _animator.SetBool(IsUsingJet,false);
+            _jet = false;
         }
-        else if (Input.GetButtonUp("Crouch"))
+        
+        if (Input.GetButtonDown("Dash"))
         {
-            crouch = false;
-        }
-
-        if (Input.GetButtonUp("Dash"))
-        {
-            _animator.SetBool("IsDashing",true);
-            dash = true;
-        }
+            _animator.SetBool(IsDashing,true);
+            _dash = true;
         }
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
-        controller.Move(horizontalMove * Time.fixedDeltaTime, crouch, jump, jet, dash);
-        jump = false;
-        dash = false;
-        _animator.SetBool("IsDashing",false);
-    }
-
-    public float getHorizontal()
-    {
-        return horizontalMove;
-    }
-
-    public bool getJump()
-    {
-        return jump;
-    }
-
-    public bool getCrouch()
-    {
-        return crouch;
+        controller.Move(_horizontalMove * Time.fixedDeltaTime, false, _jump, _jet, _dash);
+        _jump = false;
+        _dash = false;
+        _animator.SetBool(IsDashing, false);
     }
 }
