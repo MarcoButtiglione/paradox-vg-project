@@ -46,10 +46,10 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate()
     {
         if (GameManager.Instance.State != GameState.YoungPlayerTurn) return;
-        controller.Move(_horizontalMove * Time.fixedDeltaTime, false, _jump,_holdJump);
-        _inputs.Insert(_inputs.Count, new TypeOfInputs(_horizontalMove * Time.fixedDeltaTime, _crouch, _jump,_holdJump));
         _positionsYoungP.Insert(_positionsYoungP.Count, transform.position);
         _youngWasGrounded.Insert(_youngWasGrounded.Count,controller.GetGrounded());
+        controller.Move(_horizontalMove * Time.fixedDeltaTime, false, _jump,_holdJump);
+        _inputs.Insert(_inputs.Count, new TypeOfInputs(_horizontalMove * Time.fixedDeltaTime, _crouch, _jump,_holdJump)); 
         _jump = false;
     }
     
