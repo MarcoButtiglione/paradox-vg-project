@@ -97,6 +97,9 @@ public class TimerScript : MonoBehaviour
         TimeSpan timeSpan = TimeSpan.FromSeconds(currentTime);
         _timerText.text = timeSpan.ToString(@"mm\:ss\:ff");
     }
+    public float getTimer(){
+        return _timerLevelsParameters.timerLevel;
+    }
 
 
 }
