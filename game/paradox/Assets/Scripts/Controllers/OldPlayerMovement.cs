@@ -18,7 +18,6 @@ public class OldPlayerMovement : MonoBehaviour
     private bool _dash;
     private static readonly int IsMoving = Animator.StringToHash("IsMoving");
     private static readonly int IsUsingJet = Animator.StringToHash("IsUsingJet");
-    private static readonly int IsDashing = Animator.StringToHash("IsDashing");
 
 
     private void Awake(){
@@ -47,7 +46,6 @@ public class OldPlayerMovement : MonoBehaviour
         
         if (Input.GetButtonDown("Dash"))
         {
-            _animator.SetBool(IsDashing,true);
             _dash = true;
         }
         if (Input.GetButtonUp("Dash"))
@@ -60,6 +58,5 @@ public class OldPlayerMovement : MonoBehaviour
     {
         controller.Move(_horizontalMove * Time.fixedDeltaTime, false, _jump, _jet, _dash);
         _jump = false;
-        _animator.SetBool(IsDashing, false);
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class OldController2D : MonoBehaviour
 {
@@ -41,9 +42,12 @@ public class OldController2D : MonoBehaviour
     //---Dash--------------------------
     [Header("Dash settings")] 
     [SerializeField] private float dashSpeed = 15f;
-    [SerializeField] private float dashTime = 0.2f;
+    [SerializeField] private float dashTimeDuration = 0.2f;
+    [SerializeField] private Image cooldownImageDash;
+    [SerializeField] private float dashCooldownTimeDuration;
+    private float _dashCooldownTime;
+    private bool _isChargingDash;
     private float _dashTime;
-    private bool _isFirstDash = true;
     private bool _isDashing;
     //---------------------------------
     //---Animator----------------------
@@ -52,7 +56,7 @@ public class OldController2D : MonoBehaviour
     private static readonly int HorSpeed = Animator.StringToHash("HorSpeed");
     private static readonly int IsRight = Animator.StringToHash("IsRight");
     private static readonly int IsUsingJet = Animator.StringToHash("IsUsingJet");
-    private static readonly int IsHadDash = Animator.StringToHash("IsHadDash");
+    private static readonly int IsDashing = Animator.StringToHash("IsDashing");
     //---------------------------------
 
     private void Awake()
@@ -60,7 +64,7 @@ public class OldController2D : MonoBehaviour
         _animator = gameObject.GetComponent<Animator>();
         _audioManager = FindObjectOfType<AudioManager>();
         m_Rigidbody2D = GetComponent<Rigidbody2D>();
-
+        cooldownImageDash.fillAmount = 0;
         if (OnLandEvent == null)
             OnLandEvent = new UnityEvent();
 
@@ -81,8 +85,6 @@ public class OldController2D : MonoBehaviour
             if (colliders[i].gameObject != gameObject)
             {
                 m_Grounded = true;
-                _isFirstDash = true;
-                _animator.SetBool(IsHadDash, false);
                 if (!wasGrounded)
                     OnLandEvent.Invoke();
             }
@@ -194,13 +196,15 @@ public class OldController2D : MonoBehaviour
         }
 
         //---Dash-------------------------
-        if (dash && _isFirstDash)
+        if (dash &&!_isDashing&&!_isChargingDash)
         {
             _isDashing = true;
-            _isFirstDash = false;
-            _dashTime = dashTime;
             
-            _animator.SetBool(IsHadDash, true);
+            cooldownImageDash.color = new Color(0,1f,0,0.5f);
+            cooldownImageDash.fillAmount = 1;
+            
+            _dashTime = dashTimeDuration;
+            _animator.SetBool(IsDashing, true);
             //Play the dash sound-------
             _audioManager.Play("Dash");
             //---------------------------
@@ -214,16 +218,41 @@ public class OldController2D : MonoBehaviour
                 velocity = (new Vector2(dir*dashSpeed+velocity.x,velocity.y));
                 m_Rigidbody2D.velocity = velocity;
                 _dashTime -= Time.fixedDeltaTime;
+
+                cooldownImageDash.fillAmount = _dashTime / dashTimeDuration;
+                cooldownImageDash.color = new Color(1, _dashTime / dashTimeDuration,0,0.7f);
+                
             }
             else
             {
+                _animator.SetBool(IsDashing, false);
                 _isDashing = false;
+                _isChargingDash = true;
+                _dashCooldownTime = 0;
             }
         }
         //If the player releases the dash key while dashing you will stop the boost
         if (!dash && _isDashing)
         {
+            _animator.SetBool(IsDashing, false);
             _isDashing = false;
+            _isChargingDash = true;
+            _dashCooldownTime = (_dashTime / dashTimeDuration) * dashCooldownTimeDuration;
+        }
+
+        if (_isChargingDash)
+        {
+            if (_dashCooldownTime<dashCooldownTimeDuration)
+            {
+                _dashCooldownTime += Time.fixedDeltaTime;
+                cooldownImageDash.fillAmount = _dashCooldownTime / dashCooldownTimeDuration;
+                cooldownImageDash.color = new Color(1, _dashCooldownTime / dashCooldownTimeDuration,0,0.7f);
+            }
+            else
+            {
+                _isChargingDash = false;
+                cooldownImageDash.color = new Color(0, 1,0,0.7f);
+            }
         }
         //--------------------------------
 

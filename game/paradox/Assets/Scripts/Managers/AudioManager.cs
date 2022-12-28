@@ -10,6 +10,9 @@ public class AudioManager : MonoBehaviour
     public Sound[] sounds;
 
     public static AudioManager instance;
+    private bool _isUsingJetpack;
+    private bool _wasUsingJetpack;
+    
     private void Awake()
     {
         if (instance == null)
@@ -38,6 +41,28 @@ public class AudioManager : MonoBehaviour
     {
         Play("Theme");
         SceneManager.activeSceneChanged += ChangedActiveScene;
+        GameManager.OnGameStateChanged += GameManagerOnGameStateChanged;
+
+    }
+    private void GameManagerOnGameStateChanged(GameState state)
+    {
+        if (_isUsingJetpack)
+        {
+            Stop("Jetpack");
+            _isUsingJetpack = false;
+            _wasUsingJetpack = true;
+            return;
+        }
+
+        if (_wasUsingJetpack&& state==GameState.OldPlayerTurn&& GameManager.Instance.PreviousGameState==GameState.PauseMenu)
+        {
+            Play("Jetpack");
+            _isUsingJetpack = true;
+            _wasUsingJetpack = false;
+            return;
+        }
+        _wasUsingJetpack = false;
+        
     }
     private void ChangedActiveScene(Scene current, Scene next)
     {
@@ -53,6 +78,11 @@ public class AudioManager : MonoBehaviour
             return;
         }
         s.source.Play();
+        if (name == "Jetpack")
+        {
+            _isUsingJetpack = true;
+            _wasUsingJetpack = false;
+        }
     }
     public void Stop(string name)
     {
@@ -63,6 +93,11 @@ public class AudioManager : MonoBehaviour
             return;
         }
         s.source.Stop();
+        if (name == "Jetpack")
+        {
+            _isUsingJetpack = false;
+            _wasUsingJetpack = false;
+        }
     }
 
     public void SetEffectVolume(float volume)
