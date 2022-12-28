@@ -1,10 +1,12 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class OldController2D : MonoBehaviour
 {
+    [SerializeField] private GameObject uiCanvas;
     [SerializeField] private float m_JumpForce = 400f; // Amount of force added when the player jumps.
 
     [SerializeField] private float m_JetForce = 0.05f;
@@ -58,7 +60,7 @@ public class OldController2D : MonoBehaviour
     private static readonly int IsUsingJet = Animator.StringToHash("IsUsingJet");
     private static readonly int IsDashing = Animator.StringToHash("IsDashing");
     //---------------------------------
-
+    
     private void Awake()
     {
         _animator = gameObject.GetComponent<Animator>();
@@ -199,7 +201,7 @@ public class OldController2D : MonoBehaviour
         if (dash &&!_isDashing&&!_isChargingDash)
         {
             _isDashing = true;
-            
+            StopCoroutine(nameof(DisableCooldownUI));
             cooldownImageDash.color = new Color(0,1f,0,0.5f);
             cooldownImageDash.fillAmount = 1;
             
@@ -252,6 +254,7 @@ public class OldController2D : MonoBehaviour
             {
                 _isChargingDash = false;
                 cooldownImageDash.color = new Color(0, 1,0,0.7f);
+                StartCoroutine(nameof(DisableCooldownUI));
             }
         }
         //--------------------------------
@@ -267,6 +270,12 @@ public class OldController2D : MonoBehaviour
         _animator.SetFloat(HorSpeed, Math.Abs(m_Rigidbody2D.velocity.x));
     }
 
+    private IEnumerator DisableCooldownUI()
+    {
+        yield return new WaitForSecondsRealtime(0.25f);
+        cooldownImageDash.color = new Color(0,1f,0,0f);
+    }
+
 
     private void Flip()
     {
@@ -277,6 +286,9 @@ public class OldController2D : MonoBehaviour
         // Multiply the player's x local scale by -1.
         Vector3 theScale = transform.localScale;
         theScale.x *= -1;
+        var localScale = uiCanvas.transform.localScale;
+        localScale = new Vector3(-1*localScale.x, localScale.y, localScale.z);
+        uiCanvas.transform.localScale = localScale;
         transform.localScale = theScale;
     }
 }
