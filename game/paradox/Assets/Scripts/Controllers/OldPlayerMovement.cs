@@ -14,10 +14,8 @@ public class OldPlayerMovement : MonoBehaviour
     private float _horizontalMove;
     [SerializeField] private float runSpeed = 40f;
     private bool _jump ;
-    private bool _jet ;
     private bool _dash;
     private static readonly int IsMoving = Animator.StringToHash("IsMoving");
-    private static readonly int IsUsingJet = Animator.StringToHash("IsUsingJet");
 
 
     private void Awake(){
@@ -34,14 +32,11 @@ public class OldPlayerMovement : MonoBehaviour
 
         if (Input.GetButtonDown("Jump"))
         {
-            _animator.SetBool(IsUsingJet,true);
             _jump = true;
-            _jet = true;
         }
         if (Input.GetButtonUp("Jump"))
         {
-            _animator.SetBool(IsUsingJet,false);
-            _jet = false;
+            _jump = false;
         }
         
         if (Input.GetButtonDown("Dash"))
@@ -56,7 +51,6 @@ public class OldPlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        controller.Move(_horizontalMove * Time.fixedDeltaTime, false, _jump, _jet, _dash);
-        _jump = false;
+        controller.Move(_horizontalMove * Time.fixedDeltaTime, false, _jump, _dash);
     }
 }

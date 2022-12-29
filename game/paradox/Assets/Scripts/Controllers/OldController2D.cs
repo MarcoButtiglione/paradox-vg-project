@@ -7,10 +7,7 @@ using UnityEngine.UI;
 public class OldController2D : MonoBehaviour
 {
     [SerializeField] private GameObject uiCanvas;
-    [SerializeField] private float m_JumpForce = 400f; // Amount of force added when the player jumps.
-
-    [SerializeField] private float m_JetForce = 0.05f;
-
+   
     [Range(0, 1)] [SerializeField]
     private float m_CrouchSpeed = .36f; // Amount of maxSpeed applied to crouching movement. 1 = 100%
 
@@ -21,7 +18,7 @@ public class OldController2D : MonoBehaviour
     [SerializeField] private Transform m_CeilingCheck; // A position marking where to check for ceilings
     [SerializeField] private Collider2D m_CrouchDisableCollider; // A collider that will be disabled when crouching
 
-    const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
+    const float k_GroundedRadius = 0.24f; // Radius of the overlap circle to determine if grounded
     private bool m_Grounded; // Whether or not the player is grounded.
     const float k_CeilingRadius = .2f; // Radius of the overlap circle to determine if the player can stand up
     private Rigidbody2D m_Rigidbody2D;
@@ -52,6 +49,18 @@ public class OldController2D : MonoBehaviour
     private float _dashTime;
     private bool _isDashing;
     //---------------------------------
+    
+    //---Jump--------------------------
+    [Header("Jump settings")] 
+    [SerializeField] private float jumpForceOnGround = 400f; 
+    [SerializeField] private float jumpForceOnAir = 400f;
+    [SerializeField] private float jetForce = 0.05f;
+    private bool _canUseJetpackBoost;
+    private bool _canUseJetpack;
+    private bool _isUsingJet;
+    
+    //---------------------------------
+    
     //---Animator----------------------
     private Animator _animator;
     private static readonly int IsFalling = Animator.StringToHash("IsFalling");
@@ -74,7 +83,14 @@ public class OldController2D : MonoBehaviour
             OnCrouchEvent = new BoolEvent();
     }
 
+    /*
     private void FixedUpdate()
+    {
+        
+    }
+    */
+
+    public void Move(float move, bool crouch, bool jump, bool dash)
     {
         var wasGrounded = m_Grounded;
         m_Grounded = false;
@@ -87,6 +103,8 @@ public class OldController2D : MonoBehaviour
             if (colliders[i].gameObject != gameObject)
             {
                 m_Grounded = true;
+                if(!jump)
+                    _canUseJetpackBoost = true;
                 if (!wasGrounded)
                     OnLandEvent.Invoke();
             }
@@ -101,12 +119,7 @@ public class OldController2D : MonoBehaviour
                 _animator.SetBool(IsFalling, false);
                 break;
         }
-    }
-
-
-    public void Move(float move, bool crouch, bool jump, bool jet, bool dash)
-    {
-        var playJet = false;
+        
         // If crouching, check to see if the character can stand up
         if (!crouch)
         {
@@ -169,34 +182,73 @@ public class OldController2D : MonoBehaviour
                 Flip();
             }
         }
-
-        // If the player should jump...
-        if (m_Grounded && jump)
+        //--------------------------------
+        
+        //---Jump-------------------------
+        //If the player is jumping off the ground for the first time
+        if (m_Grounded && jump && !_isUsingJet &&_canUseJetpackBoost)
         {
+            _isUsingJet = true;
+            _canUseJetpack = true;
+            _canUseJetpackBoost = false;
             // Add a vertical force to the player.
             m_Grounded = false;
-            m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
+            m_Rigidbody2D.AddForce(new Vector2(0f, jumpForceOnGround));
             //Play the jump sound-------
             _audioManager.Play("Jump");
             //---------------------------
+            _audioManager.Play("Jetpack");
+            //---------------------------
+            _animator.SetBool(IsUsingJet, true);
             _animator.SetBool(IsFalling, true);
-        }
-        else if (!m_Grounded && jet && !jump)
+        } 
+        //If the player is jumping into the air for the first time
+        if (!m_Grounded && jump && !_isUsingJet&&_canUseJetpackBoost)
         {
-            // JetpackJump
-
-            m_Rigidbody2D.AddForce(new Vector2(0f, m_JetForce * m_JumpForce));
-            playJet = true;
-            if (!_wasJetpack)
-            {
-                _wasJetpack = true;
-                //Play the jetpack sound
-                _audioManager.Play("Jetpack");
-                //---------------------------
-                _animator.SetBool(IsUsingJet, true);
-            }
+            _isUsingJet = true;
+            _canUseJetpack = true;
+            _canUseJetpackBoost = false;
+            m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, 0);
+            m_Rigidbody2D.AddForce(new Vector2(0f, jumpForceOnAir));
+            //Play the jump sound-------
+            _audioManager.Play("Jump");
+            //---------------------------
+            _audioManager.Play("Jetpack");
+            //---------------------------
+            _animator.SetBool(IsUsingJet, true);
         }
-
+        //If the player is using the jetpack
+        if (jump && _isUsingJet)
+        {
+            m_Rigidbody2D.AddForce(new Vector2(0f, jetForce));
+        }
+        //If the player was using the jetpack, but is still in the air and can use it
+        if (jump && !_isUsingJet&&_canUseJetpack)
+        {
+            _isUsingJet = true;
+            m_Rigidbody2D.AddForce(new Vector2(0f, jetForce));
+            //---------------------------
+            _audioManager.Play("Jetpack");
+            //---------------------------
+            _animator.SetBool(IsUsingJet, true);
+        }
+        //If the player stops using the jetpack in the air
+        if (!jump&&_isUsingJet&&!m_Grounded)
+        {
+            _isUsingJet = false;
+            _audioManager.Stop("Jetpack");
+            _animator.SetBool(IsUsingJet, false);
+        }
+        //If the player hit the ground while using the jetpack
+        if (_isUsingJet&&m_Grounded)
+        {
+            _isUsingJet = false;
+            _canUseJetpack = false;
+            _audioManager.Stop("Jetpack");
+            _animator.SetBool(IsUsingJet, false);
+        }
+        //--------------------------------
+        
         //---Dash-------------------------
         if (dash &&!_isDashing&&!_isChargingDash)
         {
@@ -241,7 +293,6 @@ public class OldController2D : MonoBehaviour
             _isChargingDash = true;
             _dashCooldownTime = (_dashTime / dashTimeDuration) * dashCooldownTimeDuration;
         }
-
         if (_isChargingDash)
         {
             if (_dashCooldownTime<dashCooldownTimeDuration)
@@ -260,12 +311,7 @@ public class OldController2D : MonoBehaviour
         //--------------------------------
 
 
-        if (_wasJetpack && !playJet)
-        {
-            _wasJetpack = false;
-            _audioManager.Stop("Jetpack");
-            _animator.SetBool(IsUsingJet, false);
-        }
+        
 
         _animator.SetFloat(HorSpeed, Math.Abs(m_Rigidbody2D.velocity.x));
     }
