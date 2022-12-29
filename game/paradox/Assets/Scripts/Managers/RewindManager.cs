@@ -5,53 +5,50 @@ public class RewindManager : MonoBehaviour
 {
     //Ghost
     public GameObject _initGhostPrefab;
-    private GameObject GhostPrefab;
-    private Rigidbody2D rigidbodyGhost;
+    private GameObject _ghost;
+    private Rigidbody2D _rigidbodyGhost;
+    private CharacterController2D _controllerGhost;
+    private Animator _animatorGhost;
 
     //DebugWorker
     public GameObject _initWorker;
-    private GameObject WorkerPrefab;
-
-
+    private GameObject _worker;
+    
     //Old
-    private Vector3 _initPosOld;
     public GameObject _initOldPrefab;
-    private GameObject OldPrefab;
     public GameObject Old_Start_Position;
+    private GameObject _old;
+    private Vector3 _initPosOld;
 
     //Young
-
-    //private GameObject YoungPlayer;
-    //[SerializeField] private GameObject _youngPrefab;
-
-
-    private Rigidbody2D rigidbodyYoung;
     public GameObject _initYoungPrefab;
-    private GameObject YoungPrefab;
-
     public GameObject Young_Start_Position;
     private Vector3 _initPosYoung;
+    private GameObject _young;
+    private Rigidbody2D _rigidbodyYoung;
+    private PlayerMovement _playerMovementYoung;
 
-    private List<Vector3> positions_young_p;
-    private List<TypeOfInputs> inputs;
+    //Recording
+    private List<Vector3> _positionsYoungP;
+    private List<TypeOfInputs> _inputs;
+    private List<bool> _youngWasGrounded;
+    private List<Vector3> _positionsOldP;
+    
+    
 
-    private List<Vector3> positions_old_p;
-    //private TypeOfInputs structInputs;
-    private PlayerMovement toTrack;
-
-    //private bool jump = false;
-
-    private int index;
+    
+    private int _index;
     private int _reloadSpeed;
 
     [SerializeField]
     private int parameterReload = 40;
+    
 
-    [SerializeField]
-    private float tresHold = 0.5f;
+    private static readonly int Speed = Animator.StringToHash("Speed");
+    private static readonly int VerticalSpeed = Animator.StringToHash("VerticalSpeed");
 
 
-    //Event managment 
+    //Event management 
     private void Awake()
     {
         //It is subscribing to the event
@@ -59,12 +56,8 @@ public class RewindManager : MonoBehaviour
 
         //Old
         _initPosOld = Old_Start_Position.transform.position;
-        //_initOldPrefab = OldPrefab;
         //Young
         _initPosYoung = Young_Start_Position.transform.position;
-        //_initYoungPrefab = YoungPrefab;
-        //Ghost
-        //_initGhostPrefab = GhostPrefab;
 
     }
     private void OnDestroy()
@@ -80,361 +73,221 @@ public class RewindManager : MonoBehaviour
         }
         else if (state == GameState.YoungPlayerTurn)
         {
-            rigidbodyYoung.bodyType = RigidbodyType2D.Dynamic;
+            _rigidbodyYoung.bodyType = RigidbodyType2D.Dynamic;
         }
         else if (state == GameState.StartingSecondPart)
         {
             StartSecondPartTutorial();
         }
-        /*else if (state == GameState.ThirdPart)
-        {
-            rigidbodyGhost.bodyType = RigidbodyType2D.Dynamic;
-        }*/
         else if (state == GameState.StartingThirdPart)
         {
             StartThirdPartTutorial();
         }
+        
         else if (state == GameState.StartingOldTurn)
         {
-            StartSecondPart();
-        }
-        else if (state == GameState.OldPlayerTurn)
-        {
-            rigidbodyGhost.bodyType = RigidbodyType2D.Dynamic;
+            StartingOldTurn();
         }
         else if (state == GameState.Paradox)
         {
+            if (_ghost)
+            {
+                Destroy(_ghost);
+            }
+            if (_worker)
+            {
+                Destroy(_worker);
+            }
             if (GameManager.Instance.PreviousGameState == GameState.OldPlayerTurn)
             {
-                _reloadSpeed = index / parameterReload;
-                OldPrefab.GetComponent<OldPlayerMovement>().enabled = false;
+                _reloadSpeed = _index / parameterReload;
+                _old.GetComponent<OldPlayerMovement>().enabled = false;
             }
         }
     }
 
     private void Init()
     {
-        //GhostPrefab.SetActive(false);
-
-
-
-        //Old_Player.SetActive(false);
-        //Old_Player.transform.position = _initPosOld;
-
-        if (GhostPrefab != null)
-        {
-            Destroy(GhostPrefab);
-        }
-
-        if (OldPrefab != null)
-        {
-            Destroy(OldPrefab);
-        }
-
-        if (YoungPrefab != null)
-        {
-            Destroy(YoungPrefab);
-        }
-        if (WorkerPrefab != null)
-        {
-            Destroy(WorkerPrefab);
-        }
-
-        /*
-        if (YoungPlayer != null)
-        {
-            Destroy(YoungPlayer);
-        }
-        YoungPlayer = Instantiate(_youngPrefab, _initPosYoung, Quaternion.identity);
-        */
+        DestroyAll();
 
         //Init Young
-        YoungPrefab = Instantiate(_initYoungPrefab, _initPosYoung, Quaternion.identity);
-        rigidbodyYoung = YoungPrefab.GetComponent<Rigidbody2D>();
-        rigidbodyYoung.bodyType = RigidbodyType2D.Static;
-        toTrack = YoungPrefab.GetComponent<PlayerMovement>();
-
-
-        //Young_Player.SetActive(true);
-        //Young_Player.transform.position = _initPosYoung;
-
-        //Young_Player.GetComponent<Rigidbody2D>().velocity = new Vector3(0f, 0f, 0f);
-        //Young_Player.GetComponent<Rigidbody2D>().angularVelocity = 0f;
-        //Young_Player.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
-        //Young_Player.transform.position = _initPosYoung;
-
-        /*
-        if(Young_Player)
-            Destroy(Young_Player);
-        Young_Player = Instantiate(_initYoungPrefab, _initYoungPrefab.transform.position, Quaternion.identity);
+        InitYoung();
         
-        
-        Young_Player.SetActive(true);
-        */
-        //-------------
-
-        //GhostPrefab.SetActive(false);
-
-        positions_young_p = new List<Vector3>();
-
-
-        //inputs = new List<TypeOfInputs>();
-        //inputs.Insert(inputs.Count, new TypeOfInputs(0, false, false));
-
-        parameterReload = 40;
-        index = 0;
+        _index = 0;
     }
 
     private void FixedUpdate()
     {
-        /*   MAYBE NOT USED NOW, DO IT IN PLAYERMOVEMENT DIRECTLY
-        if (GameManager.Instance.State == GameState.YoungPlayerTurn)
-        {
-            Record();
-        }
-        else*/
         if (GameManager.Instance.State == GameState.OldPlayerTurn)
         {
-            positions_old_p.Insert(positions_old_p.Count, OldPrefab.transform.position);
+            _positionsOldP.Insert(_positionsOldP.Count, _old.transform.position);
+            _rigidbodyGhost.isKinematic = true;
             MoveGhost();
         }
         else if (GameManager.Instance.State == GameState.ThirdPart)
         {
-            MoveOnlyGhost();
+            MoveGhost();
         }
         else if (GameManager.Instance.State == GameState.Paradox)
         {
-            Destroy(GhostPrefab);
-            Destroy(WorkerPrefab);
             RestartOldAndGhost();
         }
     }
-
+    
     private void LateUpdate()
     {
 
-        if (GameManager.Instance.State == GameState.OldPlayerTurn)
+        if (GameManager.Instance.State is GameState.OldPlayerTurn or GameState.ThirdPart)
         {
+            //Debug.Log("Ghost grounded: "+GhostPrefab.GetComponent<CharacterController2D>().GetGrounded()+" "+index);
+            //Debug.Log("Young was grounded: "+youngWasGrounded[index]+" "+index);
+
             //Debug.Log(" Delta position x:" + (GhostPrefab.transform.position.x - positions_young_p[index].x));
             //Debug.Log(" Delta position y :" + (GhostPrefab.transform.position.y - positions_young_p[index].y));
-            if (Vector2.Distance(new Vector2(GhostPrefab.transform.position.x, GhostPrefab.transform.position.y), new Vector2(positions_young_p[index].x, positions_young_p[index].y)) > tresHold)
-            {
-                Destroy(GhostPrefab);
-                Destroy(WorkerPrefab);
+            if (_index <= 1) return;
+            if (!_youngWasGrounded[_index - 1] || _controllerGhost.GetGrounded()) return;
+            if(GameManager.Instance.State == GameState.OldPlayerTurn)
                 GameManager.Instance.UpdateGameState(GameState.Paradox);
-                return;
-            }
-        }
-        else if (GameManager.Instance.State == GameState.ThirdPart)
-        {
-            if (Vector2.Distance(new Vector2(GhostPrefab.transform.position.x, GhostPrefab.transform.position.y), new Vector2(positions_young_p[index].x, positions_young_p[index].y)) > tresHold)
-            {
-                Destroy(GhostPrefab);
-                Destroy(WorkerPrefab);
+            if(GameManager.Instance.State == GameState.ThirdPart)
                 GameManager.Instance.UpdateGameState(GameState.StartingSecondPart);
-                return;
-            }
         }
-
     }
 
-
-    /*
-    void Record()
+    
+    private void StartingOldTurn()
     {
+        //Init record
+        InitRecordData();
+        
+        DestroyAll();
 
-        Debug.Log("YoungPosition: " + Time.fixedDeltaTime);
-
-        //positions_young_p.Insert(positions_young_p.Count, YoungPrefab.transform.position);
-
-
-
-
-        //structInputs = new TypeOfInputs(toTrack.getHorizontal(), toTrack.getCrouch(), jump);
-        //jump = false;
-        //inputs.Insert(inputs.Count, structInputs);
-    }
-    */
-
-    private void StartSecondPart()
-    {
-
-        inputs = toTrack.getListInputs();
-        positions_young_p = toTrack.getPosYoung();
-
-
-        if (GhostPrefab != null)
-        {
-            Destroy(GhostPrefab);
-        }
-
-        if (OldPrefab != null)
-        {
-            Destroy(OldPrefab);
-        }
-
-        if (YoungPrefab != null)
-        {
-            Destroy(YoungPrefab);
-        }
-
-        if (WorkerPrefab != null)
-        {
-            Destroy(WorkerPrefab);
-        }
-
-        index = 0;
+        _index = 0;
 
         //Init Ghost
-        GhostPrefab = Instantiate(_initGhostPrefab, _initPosYoung, Quaternion.identity);
-        rigidbodyGhost = GhostPrefab.GetComponent<Rigidbody2D>();
-        rigidbodyGhost.bodyType = RigidbodyType2D.Static;
+        InitGhost();
         //-------------
 
         //Init Worker
-        WorkerPrefab = Instantiate(_initWorker, _initPosYoung, Quaternion.identity);
+        //InitWorker();
         //-------------
 
         //Init Old
-        OldPrefab = Instantiate(_initOldPrefab, _initPosOld, Quaternion.identity);
-        positions_old_p = new List<Vector3>();
-
-
-        //Old_Player.transform.position = _initPosOld;
-
-        //Old_Player.SetActive(true);
+        InitOld();
         //-------------
-
-        //Young_Player.SetActive(false);
-
     }
 
     private void RestartOldAndGhost()
     {
-        if (_reloadSpeed > 0 && index - _reloadSpeed > 0)
+        if (_reloadSpeed > 0 && _index - _reloadSpeed > 0)
         {
-            index = index - _reloadSpeed;
+            _index = _index - _reloadSpeed;
         }
-        else if (index - 1 > 0)
+        else if (_index - 1 > 0)
         {
-            index--;
+            _index--;
         }
         else
         {
-            index = 0;
-            OldPrefab.transform.position = positions_old_p[0];
+            _index = 0;
+            _old.transform.position = _positionsOldP[0];
             GameManager.Instance.UpdateGameState(GameState.StartingOldTurn);
             return;
         }
-        OldPrefab.transform.position = positions_old_p[index];
+        _old.transform.position = _positionsOldP[_index];
     }
 
     private void MoveGhost()
     {
-
-        if (index < inputs.Count)
+        if (_index < _inputs.Count)
         {
-            //This part was changed
-            //We confront the actual position of the ghost with the previous one of the real
-            //index++;
-
-            /*
-            if (Vector2.Distance(new Vector2(GhostPrefab.transform.position.x, GhostPrefab.transform.position.y), new Vector2(positions_young_p[index-1].x, positions_young_p[index-1].y)) > tresHold)
+            //_worker.transform.position = new Vector3(_positionsYoungP[_index].x, _positionsYoungP[_index].y, _worker.transform.position.z);
+            _animatorGhost.SetFloat(Speed, Math.Abs(_inputs[_index].getHorizontal()));
+            if (_index > 0)
             {
-                Destroy(GhostPrefab);
-                Destroy(WorkerPrefab);
-                GameManager.Instance.UpdateGameState(GameState.Paradox);
-                return;
-            } */
-
-            //Debug.Log("MoveGhost: " + Time.fixedDeltaTime);
-            WorkerPrefab.transform.position = new Vector3(positions_young_p[index].x, positions_young_p[index].y, WorkerPrefab.transform.position.z);
-            GhostPrefab.GetComponent<Animator>().SetFloat("Speed", Math.Abs(inputs[index].getHorizontal()));
-            GhostPrefab.GetComponent<CharacterController2D>().Move(inputs[index].getHorizontal(), inputs[index].getCrouch(), inputs[index].getJump());
-            index++;
+                _animatorGhost.SetFloat(VerticalSpeed,(_positionsYoungP[_index].y-_positionsYoungP[_index-1].y)/Time.fixedDeltaTime);
+            }
+            _controllerGhost.Move(_inputs[_index].getHorizontal(),false,false,false);
+            _ghost.transform.position = new Vector3(_positionsYoungP[_index].x, _positionsYoungP[_index].y, _ghost.transform.position.z);
+            _index++;
         }
-
-    }
-    private void MoveOnlyGhost()
-    {
-        //This part was changed
-        //We confront the actual position of the ghost with the previous one of the real
-        //index++;
-        if (index < inputs.Count)
+        else
         {
-            /*if (Vector2.Distance(new Vector2(GhostPrefab.transform.position.x, GhostPrefab.transform.position.y), new Vector2(positions_young_p[index - 1].x, positions_young_p[index - 1].y)) > tresHold)
-            {
-                Destroy(GhostPrefab);
-                Destroy(WorkerPrefab);
-                GameManager.Instance.UpdateGameState(GameState.StartingSecondPart);
-                return;
-            }*/
-            WorkerPrefab.transform.position = new Vector3(positions_young_p[index].x, positions_young_p[index].y, WorkerPrefab.transform.position.z);
-            GhostPrefab.GetComponent<Animator>().SetFloat("Speed", Math.Abs(inputs[index].getHorizontal()));
-            GhostPrefab.GetComponent<CharacterController2D>().Move(inputs[index].getHorizontal(), inputs[index].getCrouch(), inputs[index].getJump());
-            index++;
+            _index--;
+            GameManager.Instance.UpdateGameState(GameState.LevelCompleted);
         }
 
     }
     private void StartSecondPartTutorial()
     {
-        if (GhostPrefab != null)
-        {
-            Destroy(GhostPrefab);
-        }
-
-        if (OldPrefab != null)
-        {
-            Destroy(OldPrefab);
-        }
-
-        if (YoungPrefab != null)
-        {
-            Destroy(YoungPrefab);
-        }
-        if (WorkerPrefab != null)
-        {
-            Destroy(WorkerPrefab);
-        }
-
-        //Old_Player.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
-
-        OldPrefab = Instantiate(_initOldPrefab, _initPosOld, Quaternion.identity);
-        positions_old_p = new List<Vector3>();
-
-
+        DestroyAll();
+        //Init Old
+        InitOld();
+        //-------------
     }
     private void StartThirdPartTutorial()
     {
-        inputs = toTrack.getListInputs();
-        positions_young_p = toTrack.getPosYoung();
+        //Init record
+        InitRecordData();
 
-        if (GhostPrefab != null)
+        DestroyAll();
+        
+        _index = 0;
+        
+        //Init Ghost
+        InitGhost();
+        //-------------
+        //Init Worker
+        //InitWorker();
+        //-------------
+    }
+
+    private void DestroyAll()
+    {
+        if (_young)
         {
-            Destroy(GhostPrefab);
+            Destroy(_young);
         }
-
-        if (OldPrefab != null)
+        if (_old)
         {
-            Destroy(OldPrefab);
+            Destroy(_old);
         }
-
-        if (YoungPrefab != null)
+        if (_ghost)
         {
-            Destroy(YoungPrefab);
+            Destroy(_ghost);
         }
-        if (WorkerPrefab != null)
+        if (_worker)
         {
-            Destroy(WorkerPrefab);
+            Destroy(_worker);
         }
-
-
-        index = 0;
-        GhostPrefab = Instantiate(_initGhostPrefab, _initPosYoung, Quaternion.identity);
-        //rigidbodyGhost = GhostPrefab.GetComponent<Rigidbody2D>();
-        //rigidbodyGhost.bodyType = RigidbodyType2D.Static;
-        WorkerPrefab = Instantiate(_initWorker, _initPosYoung, Quaternion.identity);
-
+    }
+    private void InitRecordData()
+    {
+        _inputs = _playerMovementYoung.GetListInputs();
+        _positionsYoungP = _playerMovementYoung.GetPosYoung();
+        _youngWasGrounded = _playerMovementYoung.GetGroundedYoung();
+    }
+    private void InitWorker()
+    {
+        _worker = Instantiate(_initWorker, _initPosYoung, Quaternion.identity);
+    }
+    private void InitGhost()
+    {
+        _ghost = Instantiate(_initGhostPrefab, _initPosYoung, Quaternion.identity);
+        _rigidbodyGhost = _ghost.GetComponent<Rigidbody2D>();
+        _controllerGhost = _ghost.GetComponent<CharacterController2D>();
+        _animatorGhost = _ghost.GetComponent<Animator>();
+    }
+    private void InitOld()
+    {
+        _old = Instantiate(_initOldPrefab, _initPosOld, Quaternion.identity);
+        _positionsOldP = new List<Vector3>();
+    }
+    private void InitYoung()
+    {
+        _young = Instantiate(_initYoungPrefab, _initPosYoung, Quaternion.identity);
+        _rigidbodyYoung = _young.GetComponent<Rigidbody2D>();
+        _playerMovementYoung = _young.GetComponent<PlayerMovement>();
+        _positionsYoungP = new List<Vector3>();
     }
 
 }
