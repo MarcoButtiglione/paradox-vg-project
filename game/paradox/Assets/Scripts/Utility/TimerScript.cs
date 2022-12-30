@@ -42,11 +42,16 @@ public class TimerScript : MonoBehaviour
             
             updateTimer(TimeLeft);
         }
-        else if (state == GameState.YoungPlayerTurn)
+        
+        if (state == GameState.YoungPlayerTurn)
         {
             animator.SetTrigger("Start Young");
         }
         else if (state == GameState.StartingOldTurn && GameManager.Instance.PreviousGameState==GameState.YoungPlayerTurn)
+        {
+            animator.SetTrigger("Young Completed");
+        }
+        else if (state == GameState.StartingThirdPart)
         {
             animator.SetTrigger("Young Completed");
         }
@@ -62,14 +67,14 @@ public class TimerScript : MonoBehaviour
         {
             animator.SetTrigger("Paradox");
         }
-        else if (state == GameState.StartingOldTurn || state == GameState.StartingThirdPart)
+        
+        if (state == GameState.StartingOldTurn || state == GameState.StartingThirdPart)
         {
             if (_countdownStarted)
             {
                 _countdownStarted = false;
                 stopCountdown();
             }
-            gameObject.SetActive(false);
         }
         
         if (state == GameState.PauseMenu && _countdownStarted)
