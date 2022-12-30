@@ -9,7 +9,8 @@ public class TimerScript : MonoBehaviour
     private float TimeLeft;
     private float _countdown = 4.2f;
     private bool _countdownStarted = false;
-
+    [SerializeField] private Animator animator;
+    
     //Event managment 
     private void Awake()
     {
@@ -28,6 +29,7 @@ public class TimerScript : MonoBehaviour
         
         if (state == GameState.StartingYoungTurn)
         {
+            animator.SetTrigger("Restart Game");
             gameObject.SetActive(true);
             TimeLeft = _timerLevelsParameters.timerLevel;
             if (_countdownStarted)
@@ -37,6 +39,26 @@ public class TimerScript : MonoBehaviour
             }
             
             updateTimer(TimeLeft);
+        }
+        else if (state == GameState.YoungPlayerTurn)
+        {
+            animator.SetTrigger("Start Young");
+        }
+        else if (state == GameState.StartingOldTurn && GameManager.Instance.PreviousGameState==GameState.YoungPlayerTurn)
+        {
+            animator.SetTrigger("Young Completed");
+        }
+        else if (state == GameState.StartingOldTurn && GameManager.Instance.PreviousGameState==GameState.Paradox)
+        {
+            animator.SetTrigger("Pause Old");
+        }
+        else if (state == GameState.OldPlayerTurn)
+        {
+            animator.SetTrigger("Start Old");
+        }
+        else if (state == GameState.Paradox)
+        {
+            animator.SetTrigger("Paradox");
         }
         else if (state == GameState.StartingOldTurn || state == GameState.StartingThirdPart)
         {
@@ -55,6 +77,7 @@ public class TimerScript : MonoBehaviour
         {
             if (TimeLeft < _countdown && !_countdownStarted)
             {
+                animator.SetTrigger("Low Time Timer");
                 _countdownStarted = true;
                 playCountdown();
             }
@@ -68,6 +91,7 @@ public class TimerScript : MonoBehaviour
                 TimeLeft = 0;
                 _countdownStarted = false;
                 //GAME OVER
+                animator.SetTrigger("Restart Game");
                 GameManager.Instance.UpdateGameState(GameState.StartingYoungTurn);
             }
         }
