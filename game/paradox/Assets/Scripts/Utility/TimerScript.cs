@@ -10,11 +10,13 @@ public class TimerScript : MonoBehaviour
     private float _countdown = 4.2f;
     private bool _countdownStarted = false;
     [SerializeField] private Animator animator;
+    private AudioManager a;
     
     //Event managment 
     private void Awake()
     {
         _timerText = GetComponent<TMP_Text>();
+        a = FindObjectOfType<AudioManager>();
 
         //It is subscribing to the event
         GameManager.OnGameStateChanged += GameManagerOnGameStateChanged;
@@ -69,6 +71,16 @@ public class TimerScript : MonoBehaviour
             }
             gameObject.SetActive(false);
         }
+        
+        if (state == GameState.PauseMenu && _countdownStarted)
+        {
+            a.Pause("Countdown");
+        }
+
+        if (GameManager.Instance.PreviousGameState == GameState.PauseMenu && _countdownStarted)
+        {
+            a.Resume("Countdown");
+        }
     }
 
     void Update()
@@ -100,20 +112,18 @@ public class TimerScript : MonoBehaviour
 
     private void playCountdown()
     {
-        AudioManager a = FindObjectOfType<AudioManager>();
-        if (a)
-        {
-            a.Play("Countdown");
-        }
+        //AudioManager a = FindObjectOfType<AudioManager>();
+
+        a.Play("Countdown");
+
     }
 
     private void stopCountdown()
     {
-        AudioManager a = FindObjectOfType<AudioManager>();
-        if (a)
-        {
-            a.Stop("Countdown");
-        }
+        //AudioManager a = FindObjectOfType<AudioManager>();
+
+        a.Stop("Countdown");
+
     }
 
     void updateTimer(float currentTime)

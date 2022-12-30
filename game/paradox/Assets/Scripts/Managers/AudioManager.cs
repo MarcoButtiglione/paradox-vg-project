@@ -100,6 +100,28 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    public void Pause(string name)
+    {
+        Sound s = Array.Find(sounds,sound=>sound.name == name);
+        if (s == null)
+        {
+            //Debug.LogWarning("Sounds: "+ name+ " not found!");
+            return;
+        }
+        s.source.Pause();
+    }
+
+    public void Resume(string name)
+    {
+        Sound s = Array.Find(sounds,sound=>sound.name == name);
+        if (s == null)
+        {
+            //Debug.LogWarning("Sounds: "+ name+ " not found!");
+            return;
+        }
+        s.source.UnPause();
+    }
+
     public void SetEffectVolume(float volume)
     {
         foreach (Sound s in sounds)
