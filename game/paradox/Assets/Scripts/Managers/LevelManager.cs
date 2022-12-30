@@ -38,10 +38,9 @@ public class LevelManager : MonoBehaviour
         }
 
         _currentLevel = SceneManager.GetActiveScene().buildIndex;
-        if (_currentLevel != 0)
-        {
+        
             Instantiate(startAnimation, startAnimation.transform.position, Quaternion.identity);
-        }
+        
     }
 
 
