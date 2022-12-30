@@ -49,11 +49,11 @@ public class CollectableManager : MonoBehaviour
 
             if (state == GameState.StartingOldTurn)
             {
-               countText.text = ""; 
+               countText.text = "";
             }
             else
             {
-                countText.text = "Chips: 0/" + _numberToCollect;
+                countText.text = "0/" + _numberToCollect;
             }
         }
     }
@@ -78,7 +78,7 @@ public class CollectableManager : MonoBehaviour
     public void AddCollectableCount(string tag)
     {
         if (tag == "Young")
-        { 
+        {
             youngCollectable = youngCollectable + 1;
             SetCountText();
         }
@@ -86,18 +86,18 @@ public class CollectableManager : MonoBehaviour
         {
             ghostCollectable = ghostCollectable + 1;
         }
-        
+
         if (youngCollectable == _numberToCollect || ghostCollectable == _numberToCollect)
         {
             _doorActivate.ActivateDoor();
         }
     }
-    
+
     void SetCountText ()
     {
-        countText.text = "Chips: " + youngCollectable + "/" + _numberToCollect;
+        countText.text = youngCollectable + "/" + _numberToCollect;
     }
-    
+
     public int GetYoungCollectableCount()
     {
         return youngCollectable;
