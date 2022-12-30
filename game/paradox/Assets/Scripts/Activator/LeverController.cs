@@ -100,6 +100,7 @@ public class LeverController : MonoBehaviour
 
     public void TriggerLever()
     {
+        if (!GameManager.Instance.IsPlayablePhase()) return;
         if (_state == GameState.YoungPlayerTurn)
         {
             //Play the error sound-----
