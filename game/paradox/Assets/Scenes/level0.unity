@@ -880,11 +880,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 729920427}
   m_CullTransparentMesh: 1
---- !u!1 &736566349 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6834188599466938088, guid: c338841b07de2426ba59139d16528f2a, type: 3}
-  m_PrefabInstance: {fileID: 1432784463}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &791963824
 GameObject:
   m_ObjectHideFlags: 0
@@ -1985,7 +1980,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1598436033}
   - component: {fileID: 1598436035}
-  - component: {fileID: 1598436034}
   m_Layer: 0
   m_Name: VisualEffect
   m_TagString: Untagged
@@ -2008,19 +2002,6 @@ Transform:
   m_Father: {fileID: 685479564}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1598436034
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1598436032}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 772746f121eb64147bbc942b89f54ba6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _replayButton: {fileID: 736566349}
 --- !u!114 &1598436035
 MonoBehaviour:
   m_ObjectHideFlags: 0
