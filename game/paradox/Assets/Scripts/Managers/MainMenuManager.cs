@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MainMenuManager : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class MainMenuManager : MonoBehaviour
     public GameObject mainMenu;
     public GameObject feedbackMenu;
     public GameObject optionsMenu;
+    public GameObject soundsMenu;
+    public GameObject resoultionMenu;
 
     private void Start()
     {
@@ -17,6 +20,8 @@ public class MainMenuManager : MonoBehaviour
         selectLevelMenu.SetActive(false);
         feedbackMenu.SetActive(false);
         optionsMenu.SetActive(false);
+        resoultionMenu.SetActive(false);
+        soundsMenu.SetActive(false);
     }
 
     public void PlayGame()
@@ -38,6 +43,27 @@ public class MainMenuManager : MonoBehaviour
         optionsMenu.SetActive(false);
     }
 
+    public void DisActivate(GameObject menu)
+    {
+        menu.SetActive(false);
+    }
+    public void Activate(GameObject menu)
+    {
+        menu.SetActive(true);
+    }
+
+    public void Sounds()
+    {
+        optionsMenu.SetActive(false);
+        soundsMenu.SetActive(true);
+    }
+
+    public void Resolutions()
+    {
+        optionsMenu.SetActive(false);
+        resoultionMenu.SetActive(true);
+    }
+    
     public void FeedBack()
     {
         mainMenu.SetActive(false);
@@ -55,5 +81,6 @@ public class MainMenuManager : MonoBehaviour
     {
         Application.Quit();
     }
+    
     
 }
