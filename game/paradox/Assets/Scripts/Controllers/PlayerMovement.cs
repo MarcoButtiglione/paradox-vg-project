@@ -17,6 +17,12 @@ public class PlayerMovement : MonoBehaviour
     private List<bool> _youngWasGrounded;
     private static readonly int Speed = Animator.StringToHash("Speed");
 
+    private DynamicUIController _dynamicUIController;
+
+    private void Awake()
+    {
+        _dynamicUIController = GameObject.Find("Dynamic").GetComponent<DynamicUIController>();
+    }
 
     private void Start(){
         _inputs = new List<TypeOfInputs>();
@@ -39,6 +45,16 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetButtonUp("Jump"))
         {
             _holdJump = false;
+        }
+
+        //UI TRIGGER UP DOWN
+        if (Math.Abs(_horizontalMove) > 0 || _jump)
+        {
+            _dynamicUIController.SetMoving(true);
+        }
+        else
+        {
+            _dynamicUIController.SetMoving(false);
         }
         
     }

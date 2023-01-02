@@ -114,6 +114,7 @@ GameObject:
   - component: {fileID: 4790573432777689642}
   - component: {fileID: 4790573432777690071}
   - component: {fileID: 4790573432777689641}
+  - component: {fileID: 3961358932767002535}
   m_Layer: 2
   m_Name: Button 0
   m_TagString: Untagged
@@ -261,6 +262,26 @@ MonoBehaviour:
   _spriteOff: {fileID: 3286163911610860551, guid: b271523d09c92284898afd5fd4441134, type: 3}
   _spriteOn: {fileID: 3286163911610860551, guid: 9aadcc8eb90ebf44f8b14ce3f84849d7, type: 3}
   cooldownImage: {fileID: 4555985240385812014}
+--- !u!95 &3961358932767002535
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4790573432777690069}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9be43a24086d64573ae97d1ecef2dcc5, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 2
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &6512656655763098898
 GameObject:
   m_ObjectHideFlags: 0
@@ -272,7 +293,6 @@ GameObject:
   - component: {fileID: 3556988964439712191}
   - component: {fileID: 6452258286694887367}
   - component: {fileID: 4555985240385812014}
-  - component: {fileID: 9124602607499029374}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -338,23 +358,3 @@ MonoBehaviour:
   m_FillOrigin: 2
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!95 &9124602607499029374
-Animator:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6512656655763098898}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
