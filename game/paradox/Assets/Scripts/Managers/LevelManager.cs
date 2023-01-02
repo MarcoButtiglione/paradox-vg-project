@@ -30,6 +30,7 @@ public class LevelManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            LoadData();
             DontDestroyOnLoad(gameObject);
         }
         else
@@ -93,8 +94,10 @@ public class LevelManager : MonoBehaviour
     }
     public void PlayNextLevel()
     {
-        if (_currentLevel > _levelsFinished)
+        if (_currentLevel > _levelsFinished){
             _levelsFinished = _currentLevel;
+            SaveData();
+        }
         PlayLevel(_currentLevel + 1);
     }
     public void RestartLevel()
@@ -118,6 +121,17 @@ public class LevelManager : MonoBehaviour
     public int getLevelsFinished()
     {
         return _levelsFinished;
+    }
+
+    public void SaveData(){
+        SaveSystem.SaveData(this);
+    }
+
+    public void LoadData(){
+        GameData Data = SaveSystem.LoadData();
+        if(Data != null){
+            this._levelsFinished = Data.lastLevelFinished;
+        }
     }
 
 }
