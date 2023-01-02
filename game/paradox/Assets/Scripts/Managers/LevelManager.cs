@@ -134,6 +134,10 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    public int GetCurrentLevel()
+    {
+        return _currentLevel;
+    }
 }
 
 

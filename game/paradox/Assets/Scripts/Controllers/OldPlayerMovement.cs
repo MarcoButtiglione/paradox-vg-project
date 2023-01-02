@@ -23,9 +23,14 @@ public class OldPlayerMovement : MonoBehaviour
 
     private void Awake(){
         _animator = gameObject.GetComponent<Animator>();
-        _dynamicUIController = GameObject.Find("Dynamic").GetComponent<DynamicUIController>();
+    }
+
+    private void Start()
+    {
+        _dynamicUIController = GameObject.Find("Canvases").GetComponentInChildren<DynamicUIController>();
 
     }
+
     // Update is called once per frame
     private void Update()
     {

@@ -33,7 +33,6 @@ public class DynamicUIController : MonoBehaviour
     {
         if (state is GameState.StartingYoungTurn or GameState.StartingThirdPart or GameState.StartingSecondPart or GameState.StartingOldTurn)
         {
-            Debug.Log("RESET UI");
             _isMoving = false;
             _isUIUp = true;
             _isCooldownUI = false;
