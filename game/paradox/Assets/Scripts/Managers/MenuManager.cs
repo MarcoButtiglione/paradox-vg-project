@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class MenuManager : MonoBehaviour
 {
-    
-    
     public GameObject pauseMenu;
     public GameObject gameOverMenu;
 
@@ -85,14 +83,5 @@ public class MenuManager : MonoBehaviour
     {
         Application.Quit();
     }
-    
-    
-    
-    
-    
-    
 
-    
-
-    
 }
