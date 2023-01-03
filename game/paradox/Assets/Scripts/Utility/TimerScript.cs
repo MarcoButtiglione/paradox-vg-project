@@ -39,8 +39,8 @@ public class TimerScript : MonoBehaviour
                 _countdownStarted = false;
                 stopCountdown();
             }
-            
-            updateTimer(TimeLeft);
+            PressAKey();
+            //updateTimer(TimeLeft);
         }
         
         if (state == GameState.YoungPlayerTurn)
@@ -136,6 +136,12 @@ public class TimerScript : MonoBehaviour
         TimeSpan timeSpan = TimeSpan.FromSeconds(currentTime);
         _timerText.text = timeSpan.ToString(@"mm\:ss\:ff");
     }
+
+    private void PressAKey()
+    {
+        _timerText.text = "Ready?";
+    }
+    
     public float getTimer(){
         return _timerLevelsParameters.timerLevel;
     }
