@@ -21,7 +21,6 @@ public class PlayerMovement : MonoBehaviour
     private DynamicUIController _dynamicUIController;
 
     private PlayerInputactions _controls;
-    private PlayerInputactions.YoungPlayerActions _controlsYoungPlayer;
 
     private void Awake()
     {
@@ -30,14 +29,19 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnEnable()
     {
-        Debug.Log("ENABLE");
-        _controls.Enable();
+        _controls.YoungPlayer.Enable();
+        //_controls.YoungPlayer.Jump.performed += SetJump();
+        _controls.YoungPlayer.Jump.performed += SetJumpStarted;
+        _controls.YoungPlayer.Jump.canceled += SetJumpCancelled;
+
     }
+
+   
+
 
     private void OnDisable()
     {
-        Debug.Log("DISABLE");
-        _controls.Disable();
+        _controls.YoungPlayer.Disable();
     }
 
     private void Start(){
@@ -52,15 +56,18 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         if (GameManager.Instance.State != GameState.YoungPlayerTurn) return;
+        /*
         var j = Keyboard.current.anyKey.isPressed;
         var gamepad = Gamepad.current;
         if (gamepad != null)
             Debug.Log("CONTROLLER");
         if(j)
             Debug.Log(j);
+        */
         
-        _horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
+        _horizontalMove = _controls.YoungPlayer.Movement.ReadValue<float>() * runSpeed;
         _animator.SetFloat(Speed,Math.Abs(_horizontalMove));
+        /*
         if (Input.GetButtonDown("Jump"))
         {
             _jump = true;
@@ -70,7 +77,7 @@ public class PlayerMovement : MonoBehaviour
         {
             _holdJump = false;
         }
-
+        */
         //UI TRIGGER UP DOWN
         if (Math.Abs(_horizontalMove) > 0 || _jump)
         {
@@ -104,4 +111,22 @@ public class PlayerMovement : MonoBehaviour
     public List<bool> GetGroundedYoung(){
         return _youngWasGrounded;
     }
+
+    public void SetJump(InputAction.CallbackContext context)
+    {
+        //Debug.Log("jump "+context);
+    }
+
+    private void SetJumpStarted(InputAction.CallbackContext context)
+    {
+        _jump = true;
+        _holdJump = true;
+    }
+
+    private void SetJumpCancelled(InputAction.CallbackContext context)
+    {
+        _holdJump = false;
+    }
+    
+
 }
