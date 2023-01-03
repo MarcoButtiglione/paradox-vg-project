@@ -8,7 +8,7 @@ public class MenuManager : MonoBehaviour
     
     
     public GameObject pauseMenu;
-    public GameObject gameOverMenu;
+    public GameObject statisticsMenu;
 
     //public static bool isPaused; //it can be used in other scripts to stop key functioning.
     private void Awake()
@@ -17,7 +17,7 @@ public class MenuManager : MonoBehaviour
         GameManager.OnGameStateChanged += GameManagerOnGameStateChanged;
         
         pauseMenu.SetActive(false);
-        gameOverMenu.SetActive(false);
+        statisticsMenu.SetActive(false);
         
     }
     private void OnDestroy()
@@ -31,17 +31,17 @@ public class MenuManager : MonoBehaviour
         if (state == GameState.PauseMenu)
         {
             pauseMenu.SetActive(true);
-            gameOverMenu.SetActive(false);
+            statisticsMenu.SetActive(false);
         }
         else if (state == GameState.GameOverMenu)
         {
             pauseMenu.SetActive(false);
-            gameOverMenu.SetActive(true);
+            statisticsMenu.SetActive(true);
         }
         else
         {
             pauseMenu.SetActive(false);
-            gameOverMenu.SetActive(false);
+            statisticsMenu.SetActive(false);
         }
     }
     

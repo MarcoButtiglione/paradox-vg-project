@@ -553,7 +553,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3702610520530224507, guid: c338841b07de2426ba59139d16528f2a, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3702610520565554732, guid: c338841b07de2426ba59139d16528f2a, type: 3}
       propertyPath: m_Pivot.x
@@ -645,11 +645,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3702610520638437406, guid: c338841b07de2426ba59139d16528f2a, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3702610520839529055, guid: c338841b07de2426ba59139d16528f2a, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3702610521468175859, guid: c338841b07de2426ba59139d16528f2a, type: 3}
       propertyPath: m_IsActive
@@ -657,6 +657,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c338841b07de2426ba59139d16528f2a, type: 3}
+--- !u!1 &544238372 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3702610520638437406, guid: c338841b07de2426ba59139d16528f2a, type: 3}
+  m_PrefabInstance: {fileID: 544238371}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &544238374 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8648701930371470014, guid: c338841b07de2426ba59139d16528f2a, type: 3}
@@ -3013,6 +3018,11 @@ MonoBehaviour:
   ourScreenSize: 0
   Camera: {fileID: 1093535051}
   isProcessing: 0
+--- !u!1 &1643119175 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3702610520839529055, guid: c338841b07de2426ba59139d16528f2a, type: 3}
+  m_PrefabInstance: {fileID: 544238371}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1670306295
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3522,6 +3532,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1252236474}
     m_Modifications:
+    - target: {fileID: 9111067781358324738, guid: 60701aea821928242a1b1bcee3b745a1, type: 3}
+      propertyPath: pauseMenu
+      value: 
+      objectReference: {fileID: 544238372}
+    - target: {fileID: 9111067781358324738, guid: 60701aea821928242a1b1bcee3b745a1, type: 3}
+      propertyPath: gameOverMenu
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9111067781358324738, guid: 60701aea821928242a1b1bcee3b745a1, type: 3}
+      propertyPath: statisticsMenu
+      value: 
+      objectReference: {fileID: 1643119175}
     - target: {fileID: 9111067781358324748, guid: 60701aea821928242a1b1bcee3b745a1, type: 3}
       propertyPath: m_Name
       value: MenuManager

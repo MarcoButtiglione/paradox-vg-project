@@ -1513,6 +1513,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c338841b07de2426ba59139d16528f2a, type: 3}
+--- !u!1 &1445056647 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3702610520839529055, guid: c338841b07de2426ba59139d16528f2a, type: 3}
+  m_PrefabInstance: {fileID: 1445056646}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1445056648 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3702610520638437406, guid: c338841b07de2426ba59139d16528f2a, type: 3}
+  m_PrefabInstance: {fileID: 1445056646}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1445056649 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8648701930371470014, guid: c338841b07de2426ba59139d16528f2a, type: 3}
@@ -2358,6 +2368,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1430051995}
     m_Modifications:
+    - target: {fileID: 9111067781358324738, guid: 60701aea821928242a1b1bcee3b745a1, type: 3}
+      propertyPath: pauseMenu
+      value: 
+      objectReference: {fileID: 1445056648}
+    - target: {fileID: 9111067781358324738, guid: 60701aea821928242a1b1bcee3b745a1, type: 3}
+      propertyPath: gameOverMenu
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9111067781358324738, guid: 60701aea821928242a1b1bcee3b745a1, type: 3}
+      propertyPath: statisticsMenu
+      value: 
+      objectReference: {fileID: 1445056647}
     - target: {fileID: 9111067781358324748, guid: 60701aea821928242a1b1bcee3b745a1, type: 3}
       propertyPath: m_Name
       value: MenuManager

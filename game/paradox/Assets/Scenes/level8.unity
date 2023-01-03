@@ -2043,6 +2043,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 911200501780560306, guid: c338841b07de2426ba59139d16528f2a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1201617959227794074, guid: c338841b07de2426ba59139d16528f2a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3702610520565554731, guid: c338841b07de2426ba59139d16528f2a, type: 3}
       propertyPath: m_Camera
       value: 
@@ -2157,6 +2165,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1577908832 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3702610520839529055, guid: c338841b07de2426ba59139d16528f2a, type: 3}
+  m_PrefabInstance: {fileID: 1577908829}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1577908833 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3702610520638437406, guid: c338841b07de2426ba59139d16528f2a, type: 3}
+  m_PrefabInstance: {fileID: 1577908829}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1582056759
 GameObject:
   m_ObjectHideFlags: 0
@@ -2197,6 +2215,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 276414139}
     m_Modifications:
+    - target: {fileID: 9111067781358324738, guid: 60701aea821928242a1b1bcee3b745a1, type: 3}
+      propertyPath: pauseMenu
+      value: 
+      objectReference: {fileID: 1577908833}
+    - target: {fileID: 9111067781358324738, guid: 60701aea821928242a1b1bcee3b745a1, type: 3}
+      propertyPath: gameOverMenu
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9111067781358324738, guid: 60701aea821928242a1b1bcee3b745a1, type: 3}
+      propertyPath: statisticsMenu
+      value: 
+      objectReference: {fileID: 1577908832}
     - target: {fileID: 9111067781358324748, guid: 60701aea821928242a1b1bcee3b745a1, type: 3}
       propertyPath: m_Name
       value: MenuManager
