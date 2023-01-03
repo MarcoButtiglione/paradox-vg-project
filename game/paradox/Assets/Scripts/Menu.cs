@@ -6,7 +6,7 @@ public class Menu : MonoBehaviour
 {
     public GameObject pauseMenu;
     public GameObject optionsMenu;
-    
+    public GameObject levelMenu;
     
     private void Awake()
     {
@@ -14,6 +14,7 @@ public class Menu : MonoBehaviour
         
         pauseMenu.SetActive(false);
         optionsMenu.SetActive(false);
+        levelMenu.SetActive(false);
     }
     
     private void OnDestroy()
@@ -40,6 +41,7 @@ public class Menu : MonoBehaviour
         if (state != GameState.PauseMenu)
         {
             optionsMenu.SetActive(false);
+            levelMenu.SetActive(false);
         }
     }
     
@@ -47,11 +49,20 @@ public class Menu : MonoBehaviour
     {
         optionsMenu.SetActive(true);
         pauseMenu.SetActive(false);
+        levelMenu.SetActive(false);
     }
 
     public void ReturnToPauseMenu()
     {
         pauseMenu.SetActive(true);
+        optionsMenu.SetActive(false);
+        levelMenu.SetActive(false);
+    }
+
+    public void GoToLevelMenu()
+    {
+        levelMenu.SetActive(true);
+        pauseMenu.SetActive(false);
         optionsMenu.SetActive(false);
     }
 }
