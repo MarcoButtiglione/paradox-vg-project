@@ -12,6 +12,9 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private GameObject endAnimation;
     [SerializeField] private GameObject startAnimation;
     private GameObject anim;
+    private Statistics stats;
+    private int[] starsPerLevel;
+    private float[] completionTimePerLevel;
 
     private int _levelsFinished = 0;
     //private Scene _nextScene;
@@ -39,9 +42,9 @@ public class LevelManager : MonoBehaviour
         }
 
         _currentLevel = SceneManager.GetActiveScene().buildIndex;
-        
-            Instantiate(startAnimation, startAnimation.transform.position, Quaternion.identity);
-        
+
+        Instantiate(startAnimation, startAnimation.transform.position, Quaternion.identity);
+
     }
 
 
@@ -94,10 +97,28 @@ public class LevelManager : MonoBehaviour
     }
     public void PlayNextLevel()
     {
-        if (_currentLevel > _levelsFinished){
-            _levelsFinished = _currentLevel;
+       if (_currentLevel != 0)
+        {
+            
+            if (completionTimePerLevel[_currentLevel - 1] == 0)
+            {
+                completionTimePerLevel[_currentLevel - 1] = stats.GetCompletionTime();
+                starsPerLevel[_currentLevel - 1] = stats.GetStars();
+            }
+            else if (stats.GetStars() >= starsPerLevel[_currentLevel - 1] && stats.GetCompletionTime() < completionTimePerLevel[_currentLevel - 1])
+            {
+                completionTimePerLevel[_currentLevel - 1] = stats.GetCompletionTime();
+                starsPerLevel[_currentLevel - 1] = stats.GetStars();
+            }
+
+            if (_currentLevel > _levelsFinished)
+            {
+                _levelsFinished = _currentLevel;
+            }
+            Debug.Log(stats.GetCompletionTime());
             SaveData();
         }
+      
         PlayLevel(_currentLevel + 1);
     }
     public void RestartLevel()
@@ -122,15 +143,56 @@ public class LevelManager : MonoBehaviour
     {
         return _levelsFinished;
     }
+    public int[] GetStarsPerLevel()
+    {
+        return starsPerLevel;
+    }
+    public float[] GetCompletionTimePerLevel()
+    {
+        return completionTimePerLevel;
+    }
 
-    public void SaveData(){
+    public void SaveData()
+    {
         SaveSystem.SaveData(this);
     }
 
-    public void LoadData(){
+
+    public void LoadData()
+    {
         GameData Data = SaveSystem.LoadData();
-        if(Data != null){
+        if (Data != null)
+        {
             this._levelsFinished = Data.lastLevelFinished;
+            this.starsPerLevel = Data.starsPerLevel;
+            this.completionTimePerLevel = Data.completionTimePerLevel;
+            ScanDebug();
+        }
+        else
+        {
+            starsPerLevel = new int[SceneManager.sceneCountInBuildSettings];
+            completionTimePerLevel = new float[SceneManager.sceneCountInBuildSettings];
+            for (int i = 0; i < SceneManager.sceneCountInBuildSettings - 1; i++)
+            {
+                starsPerLevel[i] = 0;
+                completionTimePerLevel[i] = 0f;
+            }
+        }
+    }
+
+    public Statistics GetStatisticsLevel()
+    {
+        return stats;
+    }
+
+    public void ScanDebug()
+    {
+        var i = 0;
+        while (completionTimePerLevel[i] != 0)
+        {
+            Debug.Log("Completion time for level " + i + " is :" + completionTimePerLevel[i]);
+            Debug.Log("Num of stars earned in level " + i + " is :" + starsPerLevel[i]);
+            i++;
         }
     }
 
@@ -138,6 +200,22 @@ public class LevelManager : MonoBehaviour
     {
         return _currentLevel;
     }
+    public void DebugStats(){
+        Debug.Log(stats.GetCompletionTime());
+    }
+    public void FindStats(){
+            Debug.Log("Entered here");
+            //ScanDebug();
+            stats = GameObject.Find("Managers").transform.GetChild(0).GetComponentInChildren<Statistics>();
+            if (stats != null)
+            {
+                Debug.Log("Found stats");
+                Debug.Log(stats.GetStars());
+                Debug.Log(stats.GetCompletionTime());
+            }
+        }
+    
+
 }
 
 

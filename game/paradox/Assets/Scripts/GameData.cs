@@ -6,10 +6,13 @@ using UnityEngine;
 public class GameData
 {
     public int lastLevelFinished;
-    //public int[] starsPerLevel;
+    public int[] starsPerLevel;
+    public float[] completionTimePerLevel;
 
     //CONSTRUCTOR
     public GameData(LevelManager levManager){
         lastLevelFinished = levManager.getLevelsFinished();
+        starsPerLevel = levManager.GetStarsPerLevel();
+        completionTimePerLevel = levManager.GetCompletionTimePerLevel();
     }
 }

@@ -83,7 +83,7 @@ public class GameManager : MonoBehaviour
                     UpdateGameState(GameState.NextLevel);
                     break;
                 case GameState.NextLevel:
-                    LevelManager.Instance.PlayNextLevel();
+                    //LevelManager.Instance.PlayNextLevel();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
@@ -101,11 +101,11 @@ public class GameManager : MonoBehaviour
                     Time.timeScale = 1f;
                     break;
                 case GameState.StartingOldTurn:
-                    /*if (PreviousGameState != GameState.YoungPlayerTurn)
-                    {
-                        Time.timeScale = 0f;
-                    }
-                    break;*/
+                /*if (PreviousGameState != GameState.YoungPlayerTurn)
+                {
+                    Time.timeScale = 0f;
+                }
+                break;*/
                 case GameState.OldPlayerTurn:
                     Time.timeScale = 1f;
                     break;
@@ -119,7 +119,7 @@ public class GameManager : MonoBehaviour
                     UpdateGameState(GameState.NextLevel);
                     break;
                 case GameState.NextLevel:
-                    LevelManager.Instance.PlayNextLevel();
+                    //LevelManager.Instance.PlayNextLevel();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
@@ -153,6 +153,7 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(0.1f);
         UpdateGameState(GameState.StartingYoungTurn);
+        LevelManager.Instance.FindStats();
     }
     public bool IsPlayablePhase()
     {
@@ -174,13 +175,13 @@ public enum GameState
 
     StartingSecondPart,
     SecondPart,
-    
+
     StartingThirdPart,
     ThirdPart,
-    
+
     StartingOldTurn,
     OldPlayerTurn,
-    
+
     Paradox,
 
     PauseMenu,
