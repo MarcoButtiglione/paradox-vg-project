@@ -14,7 +14,8 @@ public class AudioManager : MonoBehaviour
     private float _masterSlider = 0.4624969f;
     private float _effectSlider = 0.4624969f;
     private float _themeSlider = 0.4624969f;
-    
+    private int _resolutionDropdownIndex = 2;
+    private bool _isFullScreen = true;
 
     public static AudioManager instance;
     private bool _isUsingJetpack;
@@ -152,5 +153,25 @@ public class AudioManager : MonoBehaviour
     {
         Sound s = Array.Find(sounds,sound=>sound.name == "Theme");
         return +_masterSlider;
+    }
+
+    public int getResolutionIndex()
+    {
+        return _resolutionDropdownIndex;
+    }
+    
+    public void setResolutionIndex(int index)
+    {
+        _resolutionDropdownIndex = index;
+    }
+
+    public bool getFullScreen()
+    {
+        return _isFullScreen;
+    }
+
+    public void setFullScreen(bool isfullscreen)
+    {
+        _isFullScreen = isfullscreen;
     }
 }
