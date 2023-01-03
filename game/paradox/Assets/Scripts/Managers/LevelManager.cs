@@ -15,6 +15,9 @@ public class LevelManager : MonoBehaviour
     private Statistics stats;
     private int[] starsPerLevel;
     private float[] completionTimePerLevel;
+    private int[] paradoxPerLevel;
+    private int[] retryPerLevel;
+    private float[] overallTimePerLevel;
 
     private int _levelsFinished = 0;
     //private Scene _nextScene;
@@ -97,28 +100,34 @@ public class LevelManager : MonoBehaviour
     }
     public void PlayNextLevel()
     {
-       if (_currentLevel != 0)
+        if (_currentLevel != 0)
         {
-            
+
             if (completionTimePerLevel[_currentLevel - 1] == 0)
             {
                 completionTimePerLevel[_currentLevel - 1] = stats.GetCompletionTime();
                 starsPerLevel[_currentLevel - 1] = stats.GetStars();
+                overallTimePerLevel[_currentLevel - 1] = stats.GetOverallTime();
+                retryPerLevel[_currentLevel - 1] = stats.GetRetrial();
+                paradoxPerLevel[_currentLevel - 1] = stats.GetParadoxes();
             }
             else if (stats.GetStars() >= starsPerLevel[_currentLevel - 1] && stats.GetCompletionTime() < completionTimePerLevel[_currentLevel - 1])
             {
                 completionTimePerLevel[_currentLevel - 1] = stats.GetCompletionTime();
                 starsPerLevel[_currentLevel - 1] = stats.GetStars();
+                overallTimePerLevel[_currentLevel - 1] = stats.GetOverallTime();
+                retryPerLevel[_currentLevel - 1] = stats.GetRetrial();
+                paradoxPerLevel[_currentLevel - 1] = stats.GetParadoxes();
             }
 
             if (_currentLevel > _levelsFinished)
             {
                 _levelsFinished = _currentLevel;
             }
-            Debug.Log(stats.GetCompletionTime());
+            //Debug.Log(stats.GetCompletionTime());
             SaveData();
         }
-      
+
         PlayLevel(_currentLevel + 1);
     }
     public void RestartLevel()
@@ -152,6 +161,16 @@ public class LevelManager : MonoBehaviour
         return completionTimePerLevel;
     }
 
+    public float[] GetOverallTimePerLevel(){
+        return overallTimePerLevel;
+    }
+    public int[] GetParadoxPerLevel(){
+        return paradoxPerLevel;
+    }
+    public int[] GetRetryPerLevel(){
+        return retryPerLevel;
+    }
+
     public void SaveData()
     {
         SaveSystem.SaveData(this);
@@ -166,16 +185,25 @@ public class LevelManager : MonoBehaviour
             this._levelsFinished = Data.lastLevelFinished;
             this.starsPerLevel = Data.starsPerLevel;
             this.completionTimePerLevel = Data.completionTimePerLevel;
+            this.overallTimePerLevel = Data.overallTimePerLevel;
+            this.paradoxPerLevel = Data.paradoxPerLevel;
+            this.retryPerLevel = Data.retryPerLevel;
             ScanDebug();
         }
         else
         {
-            starsPerLevel = new int[SceneManager.sceneCountInBuildSettings];
-            completionTimePerLevel = new float[SceneManager.sceneCountInBuildSettings];
+            starsPerLevel = new int[SceneManager.sceneCountInBuildSettings-1];
+            completionTimePerLevel = new float[SceneManager.sceneCountInBuildSettings-1];
+            overallTimePerLevel = new float[SceneManager.sceneCountInBuildSettings-1];
+            paradoxPerLevel = new int[SceneManager.sceneCountInBuildSettings-1];
+            retryPerLevel = new int[SceneManager.sceneCountInBuildSettings-1];
             for (int i = 0; i < SceneManager.sceneCountInBuildSettings - 1; i++)
             {
                 starsPerLevel[i] = 0;
                 completionTimePerLevel[i] = 0f;
+                overallTimePerLevel[i] = 0f;
+                retryPerLevel[i] = 0;
+                paradoxPerLevel[i] = 0;
             }
         }
     }
@@ -192,6 +220,9 @@ public class LevelManager : MonoBehaviour
         {
             Debug.Log("Completion time for level " + i + " is :" + completionTimePerLevel[i]);
             Debug.Log("Num of stars earned in level " + i + " is :" + starsPerLevel[i]);
+            Debug.Log("Num of paradox in level " + i + " is :" + paradoxPerLevel[i]);
+            Debug.Log("Num of retrial in level " + i + " is :" + retryPerLevel[i]);
+            Debug.Log("Overall time for level " + i + " is :" + overallTimePerLevel[i]);
             i++;
         }
     }
@@ -200,21 +231,21 @@ public class LevelManager : MonoBehaviour
     {
         return _currentLevel;
     }
-    public void DebugStats(){
-        Debug.Log(stats.GetCompletionTime());
+
+    public void FindStats()
+    {
+        //Debug.Log("Entered here");
+
+        stats = GameObject.Find("Managers").transform.GetChild(0).GetComponentInChildren<Statistics>();
+
+        /*if (stats != null)
+        {
+            Debug.Log("Found stats");
+            Debug.Log(stats.GetStars());
+            Debug.Log(stats.GetCompletionTime());
+        }*/
     }
-    public void FindStats(){
-            Debug.Log("Entered here");
-            //ScanDebug();
-            stats = GameObject.Find("Managers").transform.GetChild(0).GetComponentInChildren<Statistics>();
-            if (stats != null)
-            {
-                Debug.Log("Found stats");
-                Debug.Log(stats.GetStars());
-                Debug.Log(stats.GetCompletionTime());
-            }
-        }
-    
+
 
 }
 

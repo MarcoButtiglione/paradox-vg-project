@@ -16,10 +16,16 @@ public class TimerScript : MonoBehaviour
     private void Awake()
     {
         _timerText = GetComponent<TMP_Text>();
-        a = FindObjectOfType<AudioManager>();
+        //a = FindObjectOfType<AudioManager>();
 
         //It is subscribing to the event
         GameManager.OnGameStateChanged += GameManagerOnGameStateChanged;
+    }
+
+    private void Start()
+    {
+        a = GameObject.Find("AudioManager").GetComponentInChildren<AudioManager>();
+
     }
     private void OnDestroy()
     {
