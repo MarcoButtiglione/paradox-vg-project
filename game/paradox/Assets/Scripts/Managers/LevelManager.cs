@@ -20,6 +20,8 @@ public class LevelManager : MonoBehaviour
     private float[] overallTimePerLevel;
 
     private int _levelsFinished = 0;
+
+    private bool firstTimePlaying = true;
     //private Scene _nextScene;
 
 
@@ -96,7 +98,14 @@ public class LevelManager : MonoBehaviour
     }
     public void PlayFirstLevel()
     {
-        PlayLevel(1);
+        if (firstTimePlaying)
+        {
+            PlayLevel(1);
+        }
+        else
+        {
+            PlayLevel(_levelsFinished+1);
+        }
     }
     public void PlayNextLevel()
     {
@@ -161,13 +170,16 @@ public class LevelManager : MonoBehaviour
         return completionTimePerLevel;
     }
 
-    public float[] GetOverallTimePerLevel(){
+    public float[] GetOverallTimePerLevel()
+    {
         return overallTimePerLevel;
     }
-    public int[] GetParadoxPerLevel(){
+    public int[] GetParadoxPerLevel()
+    {
         return paradoxPerLevel;
     }
-    public int[] GetRetryPerLevel(){
+    public int[] GetRetryPerLevel()
+    {
         return retryPerLevel;
     }
 
@@ -188,15 +200,17 @@ public class LevelManager : MonoBehaviour
             this.overallTimePerLevel = Data.overallTimePerLevel;
             this.paradoxPerLevel = Data.paradoxPerLevel;
             this.retryPerLevel = Data.retryPerLevel;
+            this._levelsFinished = Data.lastLevelFinished;
+            this.firstTimePlaying = false;
             ScanDebug();
         }
         else
         {
-            starsPerLevel = new int[SceneManager.sceneCountInBuildSettings-1];
-            completionTimePerLevel = new float[SceneManager.sceneCountInBuildSettings-1];
-            overallTimePerLevel = new float[SceneManager.sceneCountInBuildSettings-1];
-            paradoxPerLevel = new int[SceneManager.sceneCountInBuildSettings-1];
-            retryPerLevel = new int[SceneManager.sceneCountInBuildSettings-1];
+            starsPerLevel = new int[SceneManager.sceneCountInBuildSettings - 1];
+            completionTimePerLevel = new float[SceneManager.sceneCountInBuildSettings - 1];
+            overallTimePerLevel = new float[SceneManager.sceneCountInBuildSettings - 1];
+            paradoxPerLevel = new int[SceneManager.sceneCountInBuildSettings - 1];
+            retryPerLevel = new int[SceneManager.sceneCountInBuildSettings - 1];
             for (int i = 0; i < SceneManager.sceneCountInBuildSettings - 1; i++)
             {
                 starsPerLevel[i] = 0;
@@ -216,7 +230,7 @@ public class LevelManager : MonoBehaviour
     public void ScanDebug()
     {
         var i = 0;
-        /*while (completionTimePerLevel[i] != 0)
+        while (completionTimePerLevel[i] != 0)
         {
             Debug.Log("Completion time for level " + i + " is :" + completionTimePerLevel[i]);
             Debug.Log("Num of stars earned in level " + i + " is :" + starsPerLevel[i]);
@@ -224,7 +238,7 @@ public class LevelManager : MonoBehaviour
             Debug.Log("Num of retrial in level " + i + " is :" + retryPerLevel[i]);
             Debug.Log("Overall time for level " + i + " is :" + overallTimePerLevel[i]);
             i++;
-        }*/
+        }
     }
 
     public int GetCurrentLevel()
