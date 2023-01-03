@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -18,7 +19,26 @@ public class PlayerMovement : MonoBehaviour
     private static readonly int Speed = Animator.StringToHash("Speed");
 
     private DynamicUIController _dynamicUIController;
-    
+
+    private PlayerInputactions _controls;
+    private PlayerInputactions.YoungPlayerActions _controlsYoungPlayer;
+
+    private void Awake()
+    {
+        _controls = new PlayerInputactions();
+    }
+
+    private void OnEnable()
+    {
+        Debug.Log("ENABLE");
+        _controls.Enable();
+    }
+
+    private void OnDisable()
+    {
+        Debug.Log("DISABLE");
+        _controls.Disable();
+    }
 
     private void Start(){
         _dynamicUIController = GameObject.Find("Canvases").GetComponentInChildren<DynamicUIController>();
@@ -32,6 +52,13 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         if (GameManager.Instance.State != GameState.YoungPlayerTurn) return;
+        var j = Keyboard.current.anyKey.isPressed;
+        var gamepad = Gamepad.current;
+        if (gamepad != null)
+            Debug.Log("CONTROLLER");
+        if(j)
+            Debug.Log(j);
+        
         _horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
         _animator.SetFloat(Speed,Math.Abs(_horizontalMove));
         if (Input.GetButtonDown("Jump"))
