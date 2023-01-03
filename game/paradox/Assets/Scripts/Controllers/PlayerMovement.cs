@@ -18,13 +18,10 @@ public class PlayerMovement : MonoBehaviour
     private static readonly int Speed = Animator.StringToHash("Speed");
 
     private DynamicUIController _dynamicUIController;
-
-    private void Awake()
-    {
-        _dynamicUIController = GameObject.Find("Dynamic").GetComponent<DynamicUIController>();
-    }
+    
 
     private void Start(){
+        _dynamicUIController = GameObject.Find("Canvases").GetComponentInChildren<DynamicUIController>();
         _inputs = new List<TypeOfInputs>();
         _animator = gameObject.GetComponent<Animator>();
         _positionsYoungP = new List<Vector3>();
