@@ -8,6 +8,7 @@ public class LevelInfoUI : MonoBehaviour
 {
     private TextMeshProUGUI _topText;
     private TextMeshProUGUI _buttonText;
+    [SerializeField] private LevelNamesParameters levelNames;
 
     private void Start()
     {
@@ -16,6 +17,7 @@ public class LevelInfoUI : MonoBehaviour
 
         var cl=LevelManager.Instance.GetCurrentLevel();
         _topText.text ="lab "+((cl-1)/10 + 1)+" - level "+ (cl-1);
-        _buttonText.text = "banaan";
+        var s = levelNames.levelNames[cl - 1];
+        _buttonText.text = s;
     }
 }
