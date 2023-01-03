@@ -216,7 +216,7 @@ public class LevelManager : MonoBehaviour
     public void ScanDebug()
     {
         var i = 0;
-        while (completionTimePerLevel[i] != 0)
+        /*while (completionTimePerLevel[i] != 0)
         {
             Debug.Log("Completion time for level " + i + " is :" + completionTimePerLevel[i]);
             Debug.Log("Num of stars earned in level " + i + " is :" + starsPerLevel[i]);
@@ -224,7 +224,7 @@ public class LevelManager : MonoBehaviour
             Debug.Log("Num of retrial in level " + i + " is :" + retryPerLevel[i]);
             Debug.Log("Overall time for level " + i + " is :" + overallTimePerLevel[i]);
             i++;
-        }
+        }*/
     }
 
     public int GetCurrentLevel()
