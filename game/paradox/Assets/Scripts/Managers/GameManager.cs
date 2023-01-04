@@ -81,10 +81,12 @@ public class GameManager : MonoBehaviour
                     break;
                 case GameState.LevelCompleted:
                     GameObject.Find("Door").GetComponent<Animator>().SetTrigger("Close");
-                    UpdateGameState(GameState.NextLevel);
+                    UpdateGameState(GameState.StatisticsMenu);
+                    break;
+                case GameState.StatisticsMenu:
                     break;
                 case GameState.NextLevel:
-                    //LevelManager.Instance.PlayNextLevel();
+                    LevelManager.Instance.PlayNextLevel();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
@@ -102,11 +104,7 @@ public class GameManager : MonoBehaviour
                     Time.timeScale = 1f;
                     break;
                 case GameState.StartingOldTurn:
-                /*if (PreviousGameState != GameState.YoungPlayerTurn)
-                {
-                    Time.timeScale = 0f;
-                }
-                break;*/
+                    break;
                 case GameState.OldPlayerTurn:
                     Time.timeScale = 1f;
                     break;
@@ -118,10 +116,12 @@ public class GameManager : MonoBehaviour
                     break;
                 case GameState.LevelCompleted:
                     GameObject.Find("Door").GetComponent<Animator>().SetTrigger("Close");
-                    UpdateGameState(GameState.NextLevel);
+                    UpdateGameState(GameState.StatisticsMenu);
+                    break;
+                case GameState.StatisticsMenu:
                     break;
                 case GameState.NextLevel:
-                    //LevelManager.Instance.PlayNextLevel();
+                    LevelManager.Instance.PlayNextLevel();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
@@ -166,6 +166,8 @@ public class GameManager : MonoBehaviour
         return false;
     }
 
+
+
 }
 
 
@@ -189,6 +191,7 @@ public enum GameState
     PauseMenu,
     GameOverMenu,
     LevelCompleted,
+    StatisticsMenu,
     NextLevel
 }
 
