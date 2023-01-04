@@ -146,12 +146,10 @@ public class MovingPlatformController : MonoBehaviour
               _platformPosition = Vector2.MoveTowards(_platformPosition,
                     _waypoints[_currentWaypointIndex].transform.position, Time.fixedDeltaTime * speed);
           }
+           _platform.transform.position = _platformPosition;
      }
 
-     private void Update()
-     {
-         _platform.transform.position = _platformPosition;
-     }
+     
 
      public void SwitchState()
      {
