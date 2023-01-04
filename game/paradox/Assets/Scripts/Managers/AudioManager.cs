@@ -1,13 +1,21 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine.Audio;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 
 public class AudioManager : MonoBehaviour
 {
     public Sound[] sounds;
+
+    private float _masterSlider = 0.4624969f;
+    private float _effectSlider = 0.4624969f;
+    private float _themeSlider = 0.4624969f;
+    private int _resolutionDropdownIndex = 2;
+    private bool _isFullScreen = true;
 
     public static AudioManager instance;
     private bool _isUsingJetpack;
@@ -131,6 +139,8 @@ public class AudioManager : MonoBehaviour
                 s.source.volume = s.volume * volume;
             }
         }
+
+        _effectSlider = volume;
         //Debug.Log("Master volume: " + volume);
     }
 
@@ -139,6 +149,7 @@ public class AudioManager : MonoBehaviour
         Sound s = Array.Find(sounds,sound=>sound.name == "Theme");
         s.source.volume = s.volume * volume;
         //Debug.Log("Theme volume: " + volume);
+        _themeSlider = volume;
     }
     public void SetMasterVolume(float volume)
     {
@@ -146,6 +157,43 @@ public class AudioManager : MonoBehaviour
         {
             s.source.volume = s.volume * volume;
         }
+
+        _masterSlider = volume;
         //Debug.Log("Master volume: " + volume);
+    }
+
+    public float GetEffectVolume()
+    {
+        return _effectSlider;
+    }
+    public float GetThemeVolume()
+    {
+        Sound s = Array.Find(sounds,sound=>sound.name == "Theme");
+        return _themeSlider;
+    }
+    public float GetMasterVolume()
+    {
+        Sound s = Array.Find(sounds,sound=>sound.name == "Theme");
+        return +_masterSlider;
+    }
+
+    public int getResolutionIndex()
+    {
+        return _resolutionDropdownIndex;
+    }
+    
+    public void setResolutionIndex(int index)
+    {
+        _resolutionDropdownIndex = index;
+    }
+
+    public bool getFullScreen()
+    {
+        return _isFullScreen;
+    }
+
+    public void setFullScreen(bool isfullscreen)
+    {
+        _isFullScreen = isfullscreen;
     }
 }

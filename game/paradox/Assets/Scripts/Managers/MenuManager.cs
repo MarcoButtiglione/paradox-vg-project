@@ -5,17 +5,19 @@ using UnityEngine;
 
 public class MenuManager : MonoBehaviour
 {
-    public GameObject pauseMenu;
-    public GameObject gameOverMenu;
+    private GameObject _pauseMenu;
+    private GameObject _statisticsMenu;
 
     //public static bool isPaused; //it can be used in other scripts to stop key functioning.
     private void Awake()
     {
+        _pauseMenu = GameObject.Find("Canvases").gameObject.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject;
+        _statisticsMenu = GameObject.Find("Canvases").gameObject.transform.GetChild(1).gameObject.transform.GetChild(3).gameObject;
         //It is subscribing to the event
         GameManager.OnGameStateChanged += GameManagerOnGameStateChanged;
         
-        pauseMenu.SetActive(false);
-        gameOverMenu.SetActive(false);
+        _pauseMenu.SetActive(false);
+        _statisticsMenu.SetActive(false);
         
     }
     private void OnDestroy()
@@ -28,18 +30,18 @@ public class MenuManager : MonoBehaviour
     {
         if (state == GameState.PauseMenu)
         {
-            pauseMenu.SetActive(true);
-            gameOverMenu.SetActive(false);
+            _pauseMenu.SetActive(true);
+            _statisticsMenu.SetActive(false);
         }
         else if (state == GameState.GameOverMenu)
         {
-            pauseMenu.SetActive(false);
-            gameOverMenu.SetActive(true);
+            _pauseMenu.SetActive(false);
+            _statisticsMenu.SetActive(true);
         }
         else
         {
-            pauseMenu.SetActive(false);
-            gameOverMenu.SetActive(false);
+            _pauseMenu.SetActive(false);
+            _statisticsMenu.SetActive(false);
         }
     }
     
