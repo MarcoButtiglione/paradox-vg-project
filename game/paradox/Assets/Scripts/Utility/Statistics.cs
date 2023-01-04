@@ -80,7 +80,7 @@ public class Statistics : MonoBehaviour
                 _numOfStars = 1;
             }
             else { _numOfStars = 0; }
-
+            //LevelManager.Instance.PlayNextLevel();
             Debug.Log(_counterRetry + " " + _counterParadoxRun + " " + timeSpanCompletion.ToString(@"mm\:ss\:ff") + " " + timeSpanOverall.ToString(@"mm\:ss\:ff") + " " + _numOfStars);
 
         }

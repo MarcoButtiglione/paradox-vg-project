@@ -287,7 +287,7 @@ LineRenderer:
   - {x: 0, y: 0, z: 1}
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 1.77
+    widthMultiplier: 1.8
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -329,13 +329,13 @@ LineRenderer:
       atime5: 0
       atime6: 0
       atime7: 0
-      m_Mode: 0
+      m_Mode: 1
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     numCornerVertices: 0
     numCapVertices: 0
     alignment: 0
-    textureMode: 1
+    textureMode: 2
     shadowBias: 0.5
     generateLightingData: 1
   m_UseWorldSpace: 1
@@ -613,9 +613,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 4450804268643441984}
     m_Modifications:
     - target: {fileID: -7871556540511652807, guid: 4a342144fc3474b52b116b95a1b7d410, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 3286163911610860551, guid: 4a342144fc3474b52b116b95a1b7d410, type: 3}
+    - target: {fileID: -7871556540511652807, guid: 4a342144fc3474b52b116b95a1b7d410, type: 3}
       propertyPath: m_SortingOrder
       value: -1
       objectReference: {fileID: 0}
+    - target: {fileID: -7871556540511652807, guid: 4a342144fc3474b52b116b95a1b7d410, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 137d858a4eae4d34298f3cdcd31f5e0b, type: 2}
     - target: {fileID: -3888481672020999207, guid: 4a342144fc3474b52b116b95a1b7d410, type: 3}
       propertyPath: m_Name
       value: laser0OFF

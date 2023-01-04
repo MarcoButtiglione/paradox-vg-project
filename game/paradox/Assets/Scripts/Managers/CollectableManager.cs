@@ -1,10 +1,5 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Security.Cryptography;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class CollectableManager : MonoBehaviour
 {
@@ -16,6 +11,7 @@ public class CollectableManager : MonoBehaviour
     private GameObject _door;
     private CollisionCheckEndLevel _doorActivate;
     public TMP_Text countText;
+    private GameObject _chipCounter;
 
     private void Awake()
     {
@@ -24,6 +20,7 @@ public class CollectableManager : MonoBehaviour
         _doorActivate = _door.GetComponent<CollisionCheckEndLevel>();
         collectables = GameObject.FindGameObjectsWithTag("Collectable");
         _numberToCollect = collectables.Length;
+        _chipCounter = GameObject.Find("ChipCounter");
         GameManager.OnGameStateChanged += GameManagerOnGameStateChanged;
     }
     private void OnDestroy()
@@ -49,12 +46,17 @@ public class CollectableManager : MonoBehaviour
 
             if (state == GameState.StartingOldTurn)
             {
-               countText.text = ""; 
+               countText.text = "";
             }
             else
             {
-                countText.text = "Chips: 0/" + _numberToCollect;
+                countText.text = "0/" + _numberToCollect;
             }
+        }
+
+        if (state == GameState.StartingOldTurn || state == GameState.StartingThirdPart)
+        {
+            _chipCounter.SetActive(false);
         }
     }
     public void Start()
@@ -78,7 +80,7 @@ public class CollectableManager : MonoBehaviour
     public void AddCollectableCount(string tag)
     {
         if (tag == "Young")
-        { 
+        {
             youngCollectable = youngCollectable + 1;
             SetCountText();
         }
@@ -86,18 +88,18 @@ public class CollectableManager : MonoBehaviour
         {
             ghostCollectable = ghostCollectable + 1;
         }
-        
+
         if (youngCollectable == _numberToCollect || ghostCollectable == _numberToCollect)
         {
             _doorActivate.ActivateDoor();
         }
     }
-    
+
     void SetCountText ()
     {
-        countText.text = "Chips: " + youngCollectable + "/" + _numberToCollect;
+        countText.text = youngCollectable + "/" + _numberToCollect;
     }
-    
+
     public int GetYoungCollectableCount()
     {
         return youngCollectable;

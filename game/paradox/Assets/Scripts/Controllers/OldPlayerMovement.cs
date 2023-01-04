@@ -16,11 +16,21 @@ public class OldPlayerMovement : MonoBehaviour
     private bool _jump ;
     private bool _dash;
     private static readonly int IsMoving = Animator.StringToHash("IsMoving");
+    
+    private DynamicUIController _dynamicUIController;
+
 
 
     private void Awake(){
         _animator = gameObject.GetComponent<Animator>();
     }
+
+    private void Start()
+    {
+        _dynamicUIController = GameObject.Find("Canvases").GetComponentInChildren<DynamicUIController>();
+
+    }
+
     // Update is called once per frame
     private void Update()
     {
@@ -46,6 +56,15 @@ public class OldPlayerMovement : MonoBehaviour
         if (Input.GetButtonUp("Dash"))
         {
             _dash = false;
+        }
+        //UI TRIGGER UP DOWN
+        if (Math.Abs(_horizontalMove) > 0 || _jump||_dash)
+        {
+            _dynamicUIController.SetMoving(true);
+        }
+        else
+        {
+            _dynamicUIController.SetMoving(false);
         }
     }
 

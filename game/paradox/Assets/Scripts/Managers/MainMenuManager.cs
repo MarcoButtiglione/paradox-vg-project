@@ -2,7 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 public class MainMenuManager : MonoBehaviour
 {
@@ -10,6 +13,14 @@ public class MainMenuManager : MonoBehaviour
     public GameObject mainMenu;
     public GameObject feedbackMenu;
     public GameObject optionsMenu;
+    public GameObject soundsMenu;
+    public GameObject resolutionMenu;
+    public GameObject optionsButton;
+    public GameObject levelButton;
+    public GameObject startButton;
+    public GameObject feedbackButton;
+    public GameObject soundsButton;
+    public GameObject resolutionButton;
 
     private void Start()
     {
@@ -17,6 +28,8 @@ public class MainMenuManager : MonoBehaviour
         selectLevelMenu.SetActive(false);
         feedbackMenu.SetActive(false);
         optionsMenu.SetActive(false);
+        resolutionMenu.SetActive(false);
+        soundsMenu.SetActive(false);
     }
 
     public void PlayGame()
@@ -26,26 +39,84 @@ public class MainMenuManager : MonoBehaviour
 
     public void SelectLevel()
     {
+        //Clear
+        EventSystem.current.SetSelectedGameObject(null);
+        //Reassign
+        EventSystem.current.SetSelectedGameObject(levelButton);
+        
         mainMenu.SetActive(false);
         selectLevelMenu.SetActive(true);
     }
 
     public void MainMenu()
     {
+        //Clear
+        EventSystem.current.SetSelectedGameObject(null);
+        //Reassign
+        EventSystem.current.SetSelectedGameObject(startButton);
+        
         mainMenu.SetActive(true);
         selectLevelMenu.SetActive(false);
         feedbackMenu.SetActive(false);
         optionsMenu.SetActive(false);
     }
 
+    public void BackToOptions(GameObject menu)
+    {
+        //Clear
+        EventSystem.current.SetSelectedGameObject(null);
+        //Reassign
+        EventSystem.current.SetSelectedGameObject(optionsButton);
+        
+        menu.SetActive(false);
+        optionsMenu.SetActive(true);
+    }
+    
+    public void Activate(GameObject menu)
+    {
+        menu.SetActive(true);
+    }
+
+    public void Sounds()
+    {
+        //Clear
+        EventSystem.current.SetSelectedGameObject(null);
+        //Reassign
+        EventSystem.current.SetSelectedGameObject(soundsButton);
+        
+        optionsMenu.SetActive(false);
+        soundsMenu.SetActive(true);
+    }
+
+    public void Resolutions()
+    {
+        //Clear
+        EventSystem.current.SetSelectedGameObject(null);
+        //Reassign
+        EventSystem.current.SetSelectedGameObject(resolutionButton);
+        
+        optionsMenu.SetActive(false);
+        resolutionMenu.SetActive(true);
+    }
+    
     public void FeedBack()
     {
+        //Clear
+        EventSystem.current.SetSelectedGameObject(null);
+        //Reassign
+        EventSystem.current.SetSelectedGameObject(feedbackButton);
+        
         mainMenu.SetActive(false);
         feedbackMenu.SetActive(true);
-        
     }
+    
     public void Options()
     {
+        //Clear
+        EventSystem.current.SetSelectedGameObject(null);
+        //Reassign
+        EventSystem.current.SetSelectedGameObject(optionsButton);
+        
         mainMenu.SetActive(false);
         optionsMenu.SetActive(true);
         
@@ -55,5 +126,6 @@ public class MainMenuManager : MonoBehaviour
     {
         Application.Quit();
     }
+    
     
 }

@@ -80,7 +80,10 @@ public class GameManager : MonoBehaviour
                 case GameState.GameOverMenu:
                     break;
                 case GameState.LevelCompleted:
-                    UpdateGameState(GameState.NextLevel);
+                    GameObject.Find("Door").GetComponent<Animator>().SetTrigger("Close");
+                    UpdateGameState(GameState.StatisticsMenu);
+                    break;
+                case GameState.StatisticsMenu:
                     break;
                 case GameState.NextLevel:
                     LevelManager.Instance.PlayNextLevel();
@@ -101,11 +104,7 @@ public class GameManager : MonoBehaviour
                     Time.timeScale = 1f;
                     break;
                 case GameState.StartingOldTurn:
-                    /*if (PreviousGameState != GameState.YoungPlayerTurn)
-                    {
-                        Time.timeScale = 0f;
-                    }
-                    break;*/
+                    break;
                 case GameState.OldPlayerTurn:
                     Time.timeScale = 1f;
                     break;
@@ -116,7 +115,10 @@ public class GameManager : MonoBehaviour
                 case GameState.GameOverMenu:
                     break;
                 case GameState.LevelCompleted:
-                    UpdateGameState(GameState.NextLevel);
+                    GameObject.Find("Door").GetComponent<Animator>().SetTrigger("Close");
+                    UpdateGameState(GameState.StatisticsMenu);
+                    break;
+                case GameState.StatisticsMenu:
                     break;
                 case GameState.NextLevel:
                     LevelManager.Instance.PlayNextLevel();
@@ -153,6 +155,7 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(0.1f);
         UpdateGameState(GameState.StartingYoungTurn);
+        LevelManager.Instance.GetStats(this.GetComponent<Statistics>());
     }
     public bool IsPlayablePhase()
     {
@@ -162,6 +165,8 @@ public class GameManager : MonoBehaviour
         }
         return false;
     }
+
+
 
 }
 
@@ -174,18 +179,19 @@ public enum GameState
 
     StartingSecondPart,
     SecondPart,
-    
+
     StartingThirdPart,
     ThirdPart,
-    
+
     StartingOldTurn,
     OldPlayerTurn,
-    
+
     Paradox,
 
     PauseMenu,
     GameOverMenu,
     LevelCompleted,
+    StatisticsMenu,
     NextLevel
 }
 
