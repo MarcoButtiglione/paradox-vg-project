@@ -12,6 +12,7 @@ public class Statistics : MonoBehaviour
     private int _counterParadoxOverall;
     private int _numOfStars;
     private bool _firstTimeYoung = true;
+    private MenuManager _menuManager;
 
     private float _timeForLevel;
     private float _score;
@@ -19,6 +20,7 @@ public class Statistics : MonoBehaviour
     //Event managment 
     private void Awake()
     {
+        _menuManager = GameObject.Find("MenuManager").GetComponent<MenuManager>();
         //It is subscribing to the event
         GameManager.OnGameStateChanged += GameManagerOnGameStateChanged;
     }
@@ -82,7 +84,7 @@ public class Statistics : MonoBehaviour
             else { _numOfStars = 0; }
             //LevelManager.Instance.PlayNextLevel();
             Debug.Log(_counterRetry + " " + _counterParadoxRun + " " + timeSpanCompletion.ToString(@"mm\:ss\:ff") + " " + timeSpanOverall.ToString(@"mm\:ss\:ff") + " " + _numOfStars);
-
+            _menuManager.setStatistics(_counterRetry: _counterRetry, _counterParadoxOverall: _counterParadoxOverall, _overallTime: timeSpanOverall, _numStars: _numOfStars);
         }
     }
 
