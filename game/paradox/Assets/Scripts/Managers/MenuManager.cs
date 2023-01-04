@@ -1,6 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -10,6 +13,10 @@ public class MenuManager : MonoBehaviour
     private GameObject _statisticsMenuR;
     private GameObject _statisticsMenuL;
     private GameObject _nextButton;
+    private GameObject _stars;
+    private TMP_Text _paradoxText;
+    private TMP_Text _retryText;
+    private TMP_Text _overallTimeText;
 
     //public static bool isPaused; //it can be used in other scripts to stop key functioning.
     private void Awake()
@@ -17,6 +24,11 @@ public class MenuManager : MonoBehaviour
         _pauseMenu = GameObject.Find("Canvases").transform.GetChild(1).GetChild(0).gameObject;
         _statisticsMenuL=GameObject.Find("Door").transform.GetChild(0).GetChild(0).gameObject;
         _statisticsMenuR = GameObject.Find("Door").transform.GetChild(1).GetChild(0).gameObject;
+
+        _stars = GameObject.Find("Stars").gameObject;
+        _paradoxText = GameObject.Find("NumPar").GetComponent<TMP_Text>();
+        _retryText = GameObject.Find("Retry").GetComponent<TMP_Text>();
+        _overallTimeText = GameObject.Find("TimerText").GetComponent<TMP_Text>();
         _nextButton = _statisticsMenuR.transform.GetChild(1).GetChild(0).gameObject;
         
         //It is subscribing to the event
@@ -108,6 +120,20 @@ public class MenuManager : MonoBehaviour
     public void NextLevelDoor()
     {
         GameManager.Instance.UpdateGameState(GameState.NextLevel);
+    }
+    
+    public void setStatistics(int _counterRetry, int _counterParadoxOverall, TimeSpan _overallTime, int _numStars)
+    {
+        if (_numStars > 0)
+        {
+            GameObject activeStar = _stars.transform.GetChild(_numStars).gameObject; 
+            activeStar.SetActive(true);
+        }
+
+        _paradoxText.text = "Paradox: " + _counterParadoxOverall;
+        _retryText.text = "Retry: " + _counterRetry;
+        _overallTimeText.text = "Time: " + _overallTime.ToString(@"mm\:ss\:ff");
+
     }
 
 }
