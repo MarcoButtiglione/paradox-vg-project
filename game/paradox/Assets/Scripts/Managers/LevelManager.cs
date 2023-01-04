@@ -48,7 +48,7 @@ public class LevelManager : MonoBehaviour
 
         _currentLevel = SceneManager.GetActiveScene().buildIndex;
 
-        Instantiate(startAnimation, startAnimation.transform.position, Quaternion.identity);
+        //Instantiate(startAnimation, startAnimation.transform.position, Quaternion.identity);
 
     }
 
@@ -60,7 +60,8 @@ public class LevelManager : MonoBehaviour
         _progressBar.fillAmount = 0;
         */
 
-        Instantiate(endAnimation, endAnimation.transform.position, Quaternion.identity);
+        //Instantiate(endAnimation, endAnimation.transform.position, Quaternion.identity);
+        GameObject.Find("Door").GetComponent<Animator>().SetTrigger("Close");
         StartCoroutine("EndLevel", level);
 
         //_loaderCanvas.SetActive(true);
@@ -152,7 +153,7 @@ public class LevelManager : MonoBehaviour
 
     private IEnumerator EndLevel(int level)
     {
-        yield return new WaitForSecondsRealtime(0.5f);
+        yield return new WaitForSecondsRealtime(1f);
         var scene = SceneManager.LoadSceneAsync(level);
 
     }

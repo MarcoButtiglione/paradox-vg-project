@@ -80,6 +80,7 @@ public class GameManager : MonoBehaviour
                 case GameState.GameOverMenu:
                     break;
                 case GameState.LevelCompleted:
+                    GameObject.Find("Door").GetComponent<Animator>().SetTrigger("Close");
                     UpdateGameState(GameState.NextLevel);
                     break;
                 case GameState.NextLevel:
@@ -116,6 +117,7 @@ public class GameManager : MonoBehaviour
                 case GameState.GameOverMenu:
                     break;
                 case GameState.LevelCompleted:
+                    GameObject.Find("Door").GetComponent<Animator>().SetTrigger("Close");
                     UpdateGameState(GameState.NextLevel);
                     break;
                 case GameState.NextLevel:
