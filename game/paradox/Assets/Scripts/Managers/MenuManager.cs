@@ -6,18 +6,21 @@ using UnityEngine;
 public class MenuManager : MonoBehaviour
 {
     private GameObject _pauseMenu;
-    private GameObject _statisticsMenu;
+    private GameObject _statisticsMenuR;
+    private GameObject _statisticsMenuL;
 
     //public static bool isPaused; //it can be used in other scripts to stop key functioning.
     private void Awake()
     {
         _pauseMenu = GameObject.Find("Canvases").gameObject.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject;
-        _statisticsMenu = GameObject.Find("Canvases").gameObject.transform.GetChild(1).gameObject.transform.GetChild(3).gameObject;
+        _statisticsMenuL=GameObject.Find("Door").gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject;
+        _statisticsMenuR = GameObject.Find("Door").gameObject.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject;
         //It is subscribing to the event
         GameManager.OnGameStateChanged += GameManagerOnGameStateChanged;
         
         _pauseMenu.SetActive(false);
-        _statisticsMenu.SetActive(false);
+        _statisticsMenuL.SetActive(false);
+        _statisticsMenuR.SetActive(false);
         
     }
     private void OnDestroy()
@@ -31,17 +34,20 @@ public class MenuManager : MonoBehaviour
         if (state == GameState.PauseMenu)
         {
             _pauseMenu.SetActive(true);
-            _statisticsMenu.SetActive(false);
+            _statisticsMenuL.SetActive(false);
+            _statisticsMenuR.SetActive(false);
         }
-        else if (state == GameState.GameOverMenu)
+        else if (state == GameState.LevelCompleted)
         {
             _pauseMenu.SetActive(false);
-            _statisticsMenu.SetActive(true);
+            _statisticsMenuL.SetActive(true);
+            _statisticsMenuR.SetActive(true);
         }
         else
         {
             _pauseMenu.SetActive(false);
-            _statisticsMenu.SetActive(false);
+            _statisticsMenuL.SetActive(false);
+            _statisticsMenuR.SetActive(false);
         }
     }
     
