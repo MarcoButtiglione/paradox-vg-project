@@ -18,7 +18,6 @@ public class DynamicUIController : MonoBehaviour
     [SerializeField] private GameObject escGamePadButton;
     [SerializeField] private GameObject restartButton;
     [SerializeField] private GameObject restartGamePadButton;
-    private bool _isUsingGamepad;
     
     private bool _isMoving;
 
@@ -27,71 +26,41 @@ public class DynamicUIController : MonoBehaviour
         _animatorUI = gameObject.GetComponent<Animator>();
         _isUIUp = true;
         _isCooldownUI = false;
-        
-        var gamepad = Gamepad.current;
-        var joystick = Joystick.current;
-        if (gamepad != null ||joystick != null)
-        {
-            _isUsingGamepad = true;
-            escButton.SetActive(false);
-            restartButton.SetActive(false);
-            escGamePadButton.SetActive(true);
-            restartGamePadButton.SetActive(true);
-        }
-        else
-        {
-            _isUsingGamepad = false;
-            escButton.SetActive(true);
-            restartButton.SetActive(true);
-            escGamePadButton.SetActive(false);
-            restartGamePadButton.SetActive(false);
-        }
-
-        InputSystem.onDeviceChange += DeviceChanged;
-        InputSystem.onAnyButtonPress.Call(
-            ctrl =>
-            {
-                if (ctrl.device is Gamepad or Joystick)
-                {
-                    if (!_isUsingGamepad)
-                    {
-                        _isUsingGamepad = true;
-                        escButton.SetActive(false);
-                        restartButton.SetActive(false);
-                        escGamePadButton.SetActive(true);
-                        restartGamePadButton.SetActive(true);
-                
-                    }  
-                }
-                else if (ctrl.device is Keyboard)
-                {
-                    if (_isUsingGamepad)
-                    {
-                        _isUsingGamepad = false;
-                        escButton.SetActive(true);
-                        restartButton.SetActive(true);
-                        escGamePadButton.SetActive(false);
-                        restartGamePadButton.SetActive(false);
-                    } 
-                }
-                    
-            });
-
 
         //It is subscribing to the event
         GameManager.OnGameStateChanged += GameManagerOnGameStateChanged;
+        InputManager.OnChangedInputDevice += InputManagerOnChangedInputDevice;
     }
 
-    private void DeviceChanged(InputDevice arg1, InputDeviceChange arg2)
+    
+    private void InputManagerOnChangedInputDevice(DeviceUsed obj)
     {
-        Debug.Log(arg1);
-        Debug.Log(arg2);
+        switch (obj)
+        {
+            case DeviceUsed.Gamepad:
+                escButton.SetActive(false);
+                restartButton.SetActive(false);
+                escGamePadButton.SetActive(true);
+                restartGamePadButton.SetActive(true);
+                break;
+            case DeviceUsed.Keyboard:
+                escButton.SetActive(true);
+                restartButton.SetActive(true);
+                escGamePadButton.SetActive(false);
+                restartGamePadButton.SetActive(false);
+                break;
+        }
+        
     }
+    
 
-    private void OnDestroy()
+
+    private void OnDisable()
     {
         //It is unsubscribing to the event
         GameManager.OnGameStateChanged -= GameManagerOnGameStateChanged;
+        InputManager.OnChangedInputDevice -= InputManagerOnChangedInputDevice;
+
     }
 
     private void GameManagerOnGameStateChanged(GameState state)
@@ -108,7 +77,6 @@ public class DynamicUIController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         //UI TRIGGER UP DOWN
         if (_isMoving)
         {
