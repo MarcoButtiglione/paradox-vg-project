@@ -2,19 +2,23 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class MenuManager : MonoBehaviour
 {
     private GameObject _pauseMenu;
     private GameObject _statisticsMenuR;
     private GameObject _statisticsMenuL;
+    private GameObject _nextButton;
 
     //public static bool isPaused; //it can be used in other scripts to stop key functioning.
     private void Awake()
     {
-        _pauseMenu = GameObject.Find("Canvases").gameObject.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject;
-        _statisticsMenuL=GameObject.Find("Door").gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject;
-        _statisticsMenuR = GameObject.Find("Door").gameObject.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject;
+        _pauseMenu = GameObject.Find("Canvases").transform.GetChild(1).GetChild(0).gameObject;
+        _statisticsMenuL=GameObject.Find("Door").transform.GetChild(0).GetChild(0).gameObject;
+        _statisticsMenuR = GameObject.Find("Door").transform.GetChild(1).GetChild(0).gameObject;
+        _nextButton = _statisticsMenuR.transform.GetChild(1).GetChild(0).gameObject;
+        
         //It is subscribing to the event
         GameManager.OnGameStateChanged += GameManagerOnGameStateChanged;
         
@@ -39,6 +43,11 @@ public class MenuManager : MonoBehaviour
         }
         else if (state == GameState.LevelCompleted)
         {
+            //Clear
+            EventSystem.current.SetSelectedGameObject(null);
+            //Reassign
+            EventSystem.current.SetSelectedGameObject(_nextButton);
+            
             _pauseMenu.SetActive(false);
             _statisticsMenuL.SetActive(true);
             _statisticsMenuR.SetActive(true);
