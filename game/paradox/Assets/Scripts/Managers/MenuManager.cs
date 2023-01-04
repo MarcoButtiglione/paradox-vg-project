@@ -50,7 +50,7 @@ public class MenuManager : MonoBehaviour
             
             _pauseMenu.SetActive(false);
             _statisticsMenuL.SetActive(true);
-            _statisticsMenuR.SetActive(true);
+            _statisticsMenuR.SetActive(true);  
         }
         else
         {
@@ -99,6 +99,15 @@ public class MenuManager : MonoBehaviour
     public void QuitGame()
     {
         Application.Quit();
+    }
+
+    public void RestartDoor()
+    {
+        LevelManager.Instance.RestartLevel();
+    }
+    public void NextLevelDoor()
+    {
+        GameManager.Instance.UpdateGameState(GameState.NextLevel);
     }
 
 }
