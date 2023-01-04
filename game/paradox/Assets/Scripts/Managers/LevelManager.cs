@@ -105,7 +105,7 @@ public class LevelManager : MonoBehaviour
         }
         else
         {
-            PlayLevel(_levelsFinished+1);
+            PlayLevel(_levelsFinished + 1);
         }
     }
     public void PlayNextLevel()
@@ -247,12 +247,12 @@ public class LevelManager : MonoBehaviour
         return _currentLevel;
     }
 
-    public void FindStats()
+    public void GetStats(Statistics gamestats)
     {
         //Debug.Log("Entered here");
 
-        stats = GameObject.Find("Managers").transform.GetChild(0).GetComponentInChildren<Statistics>();
-
+        stats = gamestats;
+        
         /*if (stats != null)
         {
             Debug.Log("Found stats");

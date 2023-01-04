@@ -175,10 +175,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
+    m_SelectOnUp: {fileID: 8459680}
+    m_SelectOnDown: {fileID: 1786489552}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
@@ -410,11 +410,14 @@ MonoBehaviour:
   mainMenu: {fileID: 1286606971}
   feedbackMenu: {fileID: 466736473}
   optionsMenu: {fileID: 1932377621}
+  soundsMenu: {fileID: 1828786224}
+  resolutionMenu: {fileID: 2012380817}
   optionsButton: {fileID: 1751971990}
   levelButton: {fileID: 901735111}
   startButton: {fileID: 1581081554}
-  soundsMenu: {fileID: 1828786224}
-  resoultionMenu: {fileID: 2012380817}
+  feedbackButton: {fileID: 251249937}
+  soundsButton: {fileID: 1895431773}
+  resolutionButton: {fileID: 1819226878}
 --- !u!114 &52247706
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -584,7 +587,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelPrefab: {fileID: 8199276293450405560, guid: 7488bb54becdf8a43a22fe52061dc0b3, type: 3}
-  _isAdmin: 1
+  _isAdmin: 0
 --- !u!1001 &131830036
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2115,18 +2118,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
+    m_SelectOnUp: {fileID: 1144385733}
+    m_SelectOnDown: {fileID: 1819226881}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 0.043137256, g: 0.20392157, b: 0.6784314, a: 0.6862745}
+    m_PressedColor: {r: 0.05882353, g: 0.101960786, b: 0.49803922, a: 0.69411767}
+    m_SelectedColor: {r: 0.05882353, g: 0.101960786, b: 0.49803922, a: 0.85882354}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -3040,9 +3043,9 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 0.043137256, g: 0.20392157, b: 0.6784314, a: 0.6862745}
+    m_PressedColor: {r: 0.05882353, g: 0.101960786, b: 0.49803922, a: 0.69411767}
+    m_SelectedColor: {r: 0.05882353, g: 0.101960786, b: 0.49803922, a: 0.85882354}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -4820,6 +4823,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 610078403}
     - target: {fileID: 7408537462803465285, guid: d1052c3ec947d4fe8a0e05191985aaf8, type: 3}
+      propertyPath: m_Navigation.m_Mode
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7408537462803465285, guid: d1052c3ec947d4fe8a0e05191985aaf8, type: 3}
       propertyPath: m_Colors.m_PressedColor.a
       value: 0.69411767
       objectReference: {fileID: 0}
@@ -4836,6 +4843,10 @@ PrefabInstance:
       value: 0.05882353
       objectReference: {fileID: 0}
     - target: {fileID: 7408537462803465285, guid: d1052c3ec947d4fe8a0e05191985aaf8, type: 3}
+      propertyPath: m_Navigation.m_SelectOnUp
+      value: 
+      objectReference: {fileID: 1510462884}
+    - target: {fileID: 7408537462803465285, guid: d1052c3ec947d4fe8a0e05191985aaf8, type: 3}
       propertyPath: m_Colors.m_SelectedColor.a
       value: 0.85882354
       objectReference: {fileID: 0}
@@ -4851,6 +4862,10 @@ PrefabInstance:
       propertyPath: m_Colors.m_SelectedColor.r
       value: 0.05882353
       objectReference: {fileID: 0}
+    - target: {fileID: 7408537462803465285, guid: d1052c3ec947d4fe8a0e05191985aaf8, type: 3}
+      propertyPath: m_Navigation.m_SelectOnDown
+      value: 
+      objectReference: {fileID: 1488884657}
     - target: {fileID: 7408537462803465285, guid: d1052c3ec947d4fe8a0e05191985aaf8, type: 3}
       propertyPath: m_Colors.m_HighlightedColor.a
       value: 0.6862745
@@ -5099,7 +5114,7 @@ MonoBehaviour:
   m_Navigation:
     m_Mode: 4
     m_WrapAround: 0
-    m_SelectOnUp: {fileID: 1488884657}
+    m_SelectOnUp: {fileID: 1786489552}
     m_SelectOnDown: {fileID: 1751971993}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
@@ -5247,10 +5262,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
+    m_SelectOnUp: {fileID: 8459680}
+    m_SelectOnDown: {fileID: 1751971993}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
@@ -5572,10 +5587,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
+    m_SelectOnUp: {fileID: 704537210}
+    m_SelectOnDown: {fileID: 1819226881}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
@@ -5605,19 +5620,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 52247705}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: Activate
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 1932377621}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 52247705}
-        m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: DisActivate
+        m_MethodName: BackToOptions
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 2012380817}
@@ -5904,10 +5907,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
+    m_SelectOnUp: {fileID: 1488884657}
+    m_SelectOnDown: {fileID: 1895431776}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
@@ -5937,19 +5940,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 52247705}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: Activate
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 1932377621}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 52247705}
-        m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: DisActivate
+        m_MethodName: BackToOptions
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 1828786224}
@@ -6381,7 +6372,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2012380818
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6774,6 +6765,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 671569199}
     - target: {fileID: 7408537462803465285, guid: d1052c3ec947d4fe8a0e05191985aaf8, type: 3}
+      propertyPath: m_Navigation.m_Mode
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7408537462803465285, guid: d1052c3ec947d4fe8a0e05191985aaf8, type: 3}
       propertyPath: m_Colors.m_PressedColor.a
       value: 0.69411767
       objectReference: {fileID: 0}
@@ -6790,6 +6785,10 @@ PrefabInstance:
       value: 0.05882353
       objectReference: {fileID: 0}
     - target: {fileID: 7408537462803465285, guid: d1052c3ec947d4fe8a0e05191985aaf8, type: 3}
+      propertyPath: m_Navigation.m_SelectOnUp
+      value: 
+      objectReference: {fileID: 1510462884}
+    - target: {fileID: 7408537462803465285, guid: d1052c3ec947d4fe8a0e05191985aaf8, type: 3}
       propertyPath: m_Colors.m_SelectedColor.a
       value: 0.85882354
       objectReference: {fileID: 0}
@@ -6805,6 +6804,10 @@ PrefabInstance:
       propertyPath: m_Colors.m_SelectedColor.r
       value: 0.05882353
       objectReference: {fileID: 0}
+    - target: {fileID: 7408537462803465285, guid: d1052c3ec947d4fe8a0e05191985aaf8, type: 3}
+      propertyPath: m_Navigation.m_SelectOnDown
+      value: 
+      objectReference: {fileID: 1895431776}
     - target: {fileID: 7408537462803465285, guid: d1052c3ec947d4fe8a0e05191985aaf8, type: 3}
       propertyPath: m_Colors.m_HighlightedColor.a
       value: 0.6862745

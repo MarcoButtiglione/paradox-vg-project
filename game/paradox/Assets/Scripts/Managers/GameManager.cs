@@ -155,7 +155,7 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(0.1f);
         UpdateGameState(GameState.StartingYoungTurn);
-        LevelManager.Instance.FindStats();
+        LevelManager.Instance.GetStats(this.GetComponent<Statistics>());
     }
     public bool IsPlayablePhase()
     {
