@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Utilities;
 
 public class DynamicUIController : MonoBehaviour
 {
@@ -12,6 +14,11 @@ public class DynamicUIController : MonoBehaviour
     private bool _isCooldownUI;
     private static readonly int IsUp = Animator.StringToHash("IsUp");
 
+    [SerializeField] private GameObject escButton;
+    [SerializeField] private GameObject escGamePadButton;
+    [SerializeField] private GameObject restartButton;
+    [SerializeField] private GameObject restartGamePadButton;
+    
     private bool _isMoving;
 
     private void Awake()
@@ -19,14 +26,41 @@ public class DynamicUIController : MonoBehaviour
         _animatorUI = gameObject.GetComponent<Animator>();
         _isUIUp = true;
         _isCooldownUI = false;
-        
+
         //It is subscribing to the event
         GameManager.OnGameStateChanged += GameManagerOnGameStateChanged;
+        InputManager.OnChangedInputDevice += InputManagerOnChangedInputDevice;
     }
-    private void OnDestroy()
+
+    
+    private void InputManagerOnChangedInputDevice(DeviceUsed obj)
+    {
+        switch (obj)
+        {
+            case DeviceUsed.Gamepad:
+                escButton.SetActive(false);
+                restartButton.SetActive(false);
+                escGamePadButton.SetActive(true);
+                restartGamePadButton.SetActive(true);
+                break;
+            case DeviceUsed.Keyboard:
+                escButton.SetActive(true);
+                restartButton.SetActive(true);
+                escGamePadButton.SetActive(false);
+                restartGamePadButton.SetActive(false);
+                break;
+        }
+        
+    }
+    
+
+
+    private void OnDisable()
     {
         //It is unsubscribing to the event
         GameManager.OnGameStateChanged -= GameManagerOnGameStateChanged;
+        InputManager.OnChangedInputDevice -= InputManagerOnChangedInputDevice;
+
     }
 
     private void GameManagerOnGameStateChanged(GameState state)
