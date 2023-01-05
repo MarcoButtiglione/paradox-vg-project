@@ -158,7 +158,7 @@ public class LevelManager : MonoBehaviour
             this.retryPerLevel = Data.retryPerLevel;
             this._levelsFinished = Data.lastLevelFinished;
             this.firstTimePlaying = false;
-            ScanDebug();
+            //ScanDebug();
         }
         else
         {
