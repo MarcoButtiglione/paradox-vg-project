@@ -72,6 +72,7 @@ public class OldController2D : MonoBehaviour
     
     private void Awake()
     {
+        _canUseJetpackBoost = true;
         _animator = gameObject.GetComponent<Animator>();
         _audioManager = FindObjectOfType<AudioManager>();
         m_Rigidbody2D = GetComponent<Rigidbody2D>();
