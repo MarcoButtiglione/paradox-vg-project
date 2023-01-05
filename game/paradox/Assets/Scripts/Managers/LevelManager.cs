@@ -64,6 +64,7 @@ public class LevelManager : MonoBehaviour
         {
             return;
         }
+
         _currentLevel = level;
         LoadScene(_currentLevel);
     }
@@ -86,6 +87,12 @@ public class LevelManager : MonoBehaviour
     }
     public void PlayNextLevel()
     {
+        if (_currentLevel + 1 == 32)
+        {
+            PlayLevel(33);
+            return;
+        }
+        
         PlayLevel(_currentLevel + 1);
     }
     public void RestartLevel()

@@ -639,9 +639,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1770027589}
-        m_TargetAssemblyTypeName: LevelManager, Assembly-CSharp
-        m_MethodName: PlayMainMenu
+      - m_Target: {fileID: 213577555}
+        m_TargetAssemblyTypeName: EndGameStats, Assembly-CSharp
+        m_MethodName: GoToMainMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1091,7 +1091,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 822688798}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -1464,17 +1464,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ac49ae6bf93a03045b18f69c71f279b0, type: 3}
---- !u!114 &1770027589 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6910278040798565591, guid: ac49ae6bf93a03045b18f69c71f279b0, type: 3}
-  m_PrefabInstance: {fileID: 1770027588}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6e05c387ec0bcc4f8a38ea15dd2885c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1772272711
 GameObject:
   m_ObjectHideFlags: 0
@@ -1520,7 +1509,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 0}
+  m_FirstSelected: {fileID: 472593340}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
 --- !u!114 &1772272715

@@ -42,4 +42,9 @@ public class EndGameStats : MonoBehaviour
             Debug.Log("CAN'T GET LEVELMANAGER INSTANCE");
         }
     }
+
+    public void GoToMainMenu()
+    {
+        LevelManager.Instance.PlayMainMenu();
+    }
 }
