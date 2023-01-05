@@ -102,6 +102,7 @@ public class GameManager : MonoBehaviour
                     UpdateGameState(GameState.StatisticsMenu);
                     break;
                 case GameState.StatisticsMenu:
+                    Time.timeScale = 0f;
                     break;
                 case GameState.NextLevel:
                     LevelManager.Instance.PlayNextLevel();
@@ -137,6 +138,7 @@ public class GameManager : MonoBehaviour
                     UpdateGameState(GameState.StatisticsMenu);
                     break;
                 case GameState.StatisticsMenu:
+                    Time.timeScale = 0f;
                     break;
                 case GameState.NextLevel:
                     LevelManager.Instance.PlayNextLevel();
