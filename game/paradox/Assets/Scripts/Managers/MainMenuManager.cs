@@ -21,7 +21,7 @@ public class MainMenuManager : MonoBehaviour
     public GameObject feedbackButton;
     public GameObject soundsButton;
     public GameObject resolutionButton;
-
+    public GameObject galleryButton;
     private void Start()
     {
         mainMenu.SetActive(true);
@@ -30,6 +30,14 @@ public class MainMenuManager : MonoBehaviour
         optionsMenu.SetActive(false);
         resolutionMenu.SetActive(false);
         soundsMenu.SetActive(false);
+        if (LevelManager.Instance.GetFirstTimePlay())
+        {
+            galleryButton.GetComponent<Button>().interactable = false;
+        }
+        else
+        {
+            galleryButton.GetComponent<Button>().interactable = true;
+        }
     }
 
     public void PlayGame()
@@ -120,6 +128,11 @@ public class MainMenuManager : MonoBehaviour
         mainMenu.SetActive(false);
         optionsMenu.SetActive(true);
         
+    }
+
+    public void Gallery()
+    {
+        LevelManager.Instance.GoToStoryBoard();
     }
 
     public void QuitGame()

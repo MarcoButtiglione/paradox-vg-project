@@ -254,6 +254,19 @@ public class LevelManager : MonoBehaviour
             PlayMainMenu();
         }
     }
+
+    public void GoToStoryBoard()
+    {
+        if (!firstTimePlaying)
+        {
+            PlayLevel(32);
+        }
+    }
+
+    public bool GetFirstTimePlay()
+    {
+        return firstTimePlaying;
+    }
 }
 
 
