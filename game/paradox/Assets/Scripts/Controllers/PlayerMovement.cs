@@ -20,11 +20,11 @@ public class PlayerMovement : MonoBehaviour
 
     private DynamicUIController _dynamicUIController;
 
-    private PlayerInputActions _actions;
+    private PlayerInputactions _actions;
 
     private void Awake()
     {
-        _actions = new PlayerInputActions();
+        _actions = new PlayerInputactions();
     }
     
 

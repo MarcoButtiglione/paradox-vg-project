@@ -21,12 +21,12 @@ public class OldPlayerMovement : MonoBehaviour
     
     private DynamicUIController _dynamicUIController;
 
-    private PlayerInputActions _actions;
+    private PlayerInputactions _actions;
 
 
     private void Awake(){
         _animator = gameObject.GetComponent<Animator>();
-        _actions = new PlayerInputActions();
+        _actions = new PlayerInputactions();
     }
 
     private void OnEnable()
