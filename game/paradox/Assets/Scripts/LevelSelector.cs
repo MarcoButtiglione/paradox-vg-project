@@ -15,11 +15,14 @@ public class LevelSelector : MonoBehaviour
     [SerializeField]
     private bool _isAdmin;
 
+    private int[] _starsPerLevel;
+
     // Start is called before the first frame update
     private void Awake()
     {
         _totalLevels = SceneManager.sceneCountInBuildSettings;
         _levelsFinished = LevelManager.Instance.getLevelsFinished();
+        _starsPerLevel = LevelManager.Instance.GetStarsPerLevel();
 
         for (int level = 1; level < _totalLevels; level++)//Hard coded build index start level
         {
@@ -35,6 +38,7 @@ public class LevelSelector : MonoBehaviour
                 if (_levelsFinished + 1 >= sceneIndex)
                 {
                     newButton.GetComponent<Button>().interactable = true;
+                    newButton.transform.GetChild(_starsPerLevel[level-1]).gameObject.SetActive(true);
                 }
                 else
                 {
