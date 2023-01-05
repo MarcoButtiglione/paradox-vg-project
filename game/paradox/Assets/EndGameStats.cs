@@ -16,7 +16,7 @@ public class EndGameStats : MonoBehaviour
     public TMP_Text totalOverallTimeText;
     public TMP_Text totalParadoxText;
     public TMP_Text totalRetryText;
-
+    private bool _isWaiting=false;
     private void Awake()
     {
 
@@ -45,6 +45,10 @@ public class EndGameStats : MonoBehaviour
 
     public void GoToMainMenu()
     {
-        LevelManager.Instance.PlayMainMenu();
+        if (!_isWaiting)
+        {
+            _isWaiting = true;
+            LevelManager.Instance.PlayMainMenu();
+        }
     }
 }

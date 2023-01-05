@@ -8,6 +8,7 @@ public class StoryboardScript : MonoBehaviour
     private int counter = 8;
     private int currentIdx = 0;
     public GameObject storyboards;
+    private bool _isWaiting=false;
 
     private void Awake()
     {
@@ -18,16 +19,22 @@ public class StoryboardScript : MonoBehaviour
 
     public void Next()
     {
-        storyboards.transform.GetChild(currentIdx).gameObject.SetActive(false);
+        
 
         currentIdx++;
         if (currentIdx < counter)
         {
+            storyboards.transform.GetChild(currentIdx-1).gameObject.SetActive(false);
             storyboards.transform.GetChild(currentIdx).gameObject.SetActive(true);
         }
         else
         {
-            LevelManager.Instance.EndedStoryboard();
+            if (!_isWaiting)
+            {
+                _isWaiting = true;
+                LevelManager.Instance.EndedStoryboard();
+            }
+           
             //LOAD SCENE
             //LevelManager.Instance.PlayFirstLevel();
         }
@@ -35,17 +42,23 @@ public class StoryboardScript : MonoBehaviour
 
     public void Previous()
     {
-        storyboards.transform.GetChild(currentIdx).gameObject.SetActive(false);
+        
 
         currentIdx--;
         if (currentIdx >= 0)
         {
+            storyboards.transform.GetChild(currentIdx+1).gameObject.SetActive(false);
             storyboards.transform.GetChild(currentIdx).gameObject.SetActive(true);
         }
         else
         {
+            if (!_isWaiting)
+            {
+                _isWaiting = true;
+                LevelManager.Instance.PlayMainMenu();
+            }
             //LOAD MENU
-            LevelManager.Instance.PlayMainMenu();
+            
         }
     }
 }

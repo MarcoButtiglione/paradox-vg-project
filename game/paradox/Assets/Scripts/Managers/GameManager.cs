@@ -106,6 +106,7 @@ public class GameManager : MonoBehaviour
                     Time.timeScale = 0f;
                     break;
                 case GameState.NextLevel:
+                    Time.timeScale = 0f;
                     LevelManager.Instance.PlayNextLevel();
                     break;
                 default:
@@ -143,6 +144,7 @@ public class GameManager : MonoBehaviour
                     Time.timeScale = 0f;
                     break;
                 case GameState.NextLevel:
+                    Time.timeScale = 0f;
                     LevelManager.Instance.PlayNextLevel();
                     break;
                 default:

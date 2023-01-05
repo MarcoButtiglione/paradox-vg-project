@@ -17,6 +17,7 @@ public class LevelSelector : MonoBehaviour
 
     private int[] _starsPerLevel;
     private int _numberOfExtraLevels=2;
+    private bool _isWaiting = false;
 
     private void Start()
     {
@@ -45,7 +46,18 @@ public class LevelSelector : MonoBehaviour
                     newButton.GetComponent<Button>().interactable = false;
                 }
             }
-            newButton.GetComponent<Button>().onClick.AddListener(() => LevelManager.Instance.PlayLevel(sceneIndex));
+
+            newButton.GetComponent<Button>().onClick.AddListener(() => PlayLevel(sceneIndex));
         }
     }
+
+    private void PlayLevel(int sceneIndex)
+    {
+        if (!_isWaiting)
+        {
+            _isWaiting = true;
+            LevelManager.Instance.PlayLevel(sceneIndex);
+        }
+    }
+    
 }

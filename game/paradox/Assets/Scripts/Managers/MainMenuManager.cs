@@ -22,6 +22,8 @@ public class MainMenuManager : MonoBehaviour
     public GameObject soundsButton;
     public GameObject resolutionButton;
     public GameObject galleryButton;
+
+    private bool _isWaiting;
     private void Start()
     {
         mainMenu.SetActive(true);
@@ -42,7 +44,11 @@ public class MainMenuManager : MonoBehaviour
 
     public void PlayGame()
     {
-        LevelManager.Instance.PlayFirstLevel();
+        if (!_isWaiting)
+        {
+            _isWaiting = true;
+            LevelManager.Instance.PlayFirstLevel();
+        }
     }
 
     public void SelectLevel()
@@ -132,7 +138,11 @@ public class MainMenuManager : MonoBehaviour
 
     public void Gallery()
     {
-        LevelManager.Instance.GoToStoryBoard();
+        if (!_isWaiting)
+        {
+            _isWaiting = true;
+            LevelManager.Instance.GoToStoryBoard();
+        }
     }
 
     public void QuitGame()
