@@ -20,6 +20,7 @@ public class AudioManager : MonoBehaviour
     public static AudioManager instance;
     private bool _isUsingJetpack;
     private bool _wasUsingJetpack;
+    private ThemeMusic _currentThemeMusic;
     
     private void Awake()
     {
@@ -47,7 +48,9 @@ public class AudioManager : MonoBehaviour
      */
     private void Start()
     {
-        Play("Theme");
+        
+        Play("ThemeMenu");
+        _currentThemeMusic = ThemeMusic.Menu;
         SceneManager.activeSceneChanged += ChangedActiveScene;
         GameManager.OnGameStateChanged += GameManagerOnGameStateChanged;
 
@@ -75,6 +78,51 @@ public class AudioManager : MonoBehaviour
     private void ChangedActiveScene(Scene current, Scene next)
     {
         Stop("Jetpack");
+        if (next.buildIndex == 0 )
+        {
+            StopAllTheme();
+            Play("ThemeMenu");
+            _currentThemeMusic = ThemeMusic.Menu;
+            Debug.Log("ThemeMenu");
+        }
+        if (next.buildIndex == 32 )
+        {
+            StopAllTheme();
+            Play("ThemeStory");
+            _currentThemeMusic = ThemeMusic.Story;
+            Debug.Log("ThemeStory");
+        }
+        if (next.buildIndex == 33 )
+        {
+            StopAllTheme();
+            Play("ThemeEnd");
+            _currentThemeMusic = ThemeMusic.End;
+            Debug.Log("ThemeEnd");
+        }
+
+        if (next.buildIndex >=1&&next.buildIndex<11&&_currentThemeMusic!=ThemeMusic.Lab1)
+        {
+            StopAllTheme();
+            Play("ThemeLab1"); 
+            _currentThemeMusic = ThemeMusic.Lab1;
+            Debug.Log("ThemeLab1");
+        }
+        if (next.buildIndex >=11&&next.buildIndex<21&&_currentThemeMusic!=ThemeMusic.Lab2)
+        {
+           
+            StopAllTheme(); 
+            Play("ThemeLab2"); 
+            _currentThemeMusic = ThemeMusic.Lab2;
+            Debug.Log("ThemeLab2"); 
+        }
+        if (next.buildIndex >=21&&next.buildIndex<=31&&_currentThemeMusic!=ThemeMusic.Lab3)
+        {
+            StopAllTheme(); 
+            Play("ThemeLab3"); 
+            _currentThemeMusic = ThemeMusic.Lab3;
+            Debug.Log("ThemeLab3");
+
+        }
     }
     
     public void Play(string name)
@@ -196,4 +244,25 @@ public class AudioManager : MonoBehaviour
     {
         _isFullScreen = isfullscreen;
     }
+
+    private void StopAllTheme()
+    {
+        Stop("ThemeMenu");
+        Stop("ThemeStory");
+        Stop("ThemeEnd");
+        Stop("ThemeLab1");
+        Stop("ThemeLab2");
+        Stop("ThemeLab3");
+    }
 }
+
+public enum ThemeMusic
+{
+    Menu,
+    Story,
+    End,
+    Lab1,
+    Lab2,
+    Lab3
+}
+
