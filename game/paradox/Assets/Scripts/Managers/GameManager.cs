@@ -37,6 +37,24 @@ public class GameManager : MonoBehaviour
      */
     public void UpdateGameState(GameState newState)
     {
+        if (State == GameState.LevelCompleted)
+        {
+            if (newState!=GameState.StatisticsMenu)
+            {
+                return;
+            }
+        }
+        if (State == GameState.StatisticsMenu)
+        {
+            if (newState!=GameState.NextLevel)
+            {
+                return;
+            }
+        }
+        if (State == GameState.NextLevel)
+        {
+            return;
+        }
         Debug.Log("Current State: " + newState + " ----- IsTutorial: " + _isTutorial);
 
         PreviousGameState = State;
@@ -84,6 +102,7 @@ public class GameManager : MonoBehaviour
                     UpdateGameState(GameState.StatisticsMenu);
                     break;
                 case GameState.StatisticsMenu:
+                    Time.timeScale = 0f;
                     break;
                 case GameState.NextLevel:
                     LevelManager.Instance.PlayNextLevel();
@@ -119,6 +138,7 @@ public class GameManager : MonoBehaviour
                     UpdateGameState(GameState.StatisticsMenu);
                     break;
                 case GameState.StatisticsMenu:
+                    Time.timeScale = 0f;
                     break;
                 case GameState.NextLevel:
                     LevelManager.Instance.PlayNextLevel();

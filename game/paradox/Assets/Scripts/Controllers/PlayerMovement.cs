@@ -20,10 +20,14 @@ public class PlayerMovement : MonoBehaviour
 
     private DynamicUIController _dynamicUIController;
 
-    private PlayerInputactions _controls;
-    private PlayerInputactions.YoungPlayerActions _controlsYoungPlayer;
+    private PlayerInputActions _actions;
 
+    private void Awake()
+    {
+        _actions = new PlayerInputActions();
+    }
     
+
     private void Start(){
         _dynamicUIController = GameObject.Find("Canvases").GetComponentInChildren<DynamicUIController>();
         _inputs = new List<TypeOfInputs>();
@@ -32,20 +36,30 @@ public class PlayerMovement : MonoBehaviour
         _youngWasGrounded = new List<bool>();
     }
 
+    private void OnEnable()
+    {
+        _actions.YoungPlayer.Enable();
+        _actions.YoungPlayer.Jump.performed += JumpPerformed;
+        _actions.YoungPlayer.Jump.canceled += JumpCanceled;
+    }
+
+    private void OnDisable()
+    {
+        _actions.YoungPlayer.Disable();
+        _actions.YoungPlayer.Jump.performed -= JumpPerformed;
+        _actions.YoungPlayer.Jump.canceled -= JumpCanceled;
+    }
+
     // Update is called once per frame
     void Update()
     {
         if (GameManager.Instance.State != GameState.YoungPlayerTurn) return;
-        /*
-        var j = Keyboard.current.anyKey.isPressed;
-        var gamepad = Gamepad.current;
-        if (gamepad != null)
-            Debug.Log("CONTROLLER");
-        if(j)
-            Debug.Log(j);
-        */
-        _horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
+        
+        var x = _actions.YoungPlayer.Move.ReadValue<Vector2>().x;
+        _horizontalMove = x * runSpeed;
         _animator.SetFloat(Speed,Math.Abs(_horizontalMove));
+        
+        /*
         if (Input.GetButtonDown("Jump"))
         {
             _jump = true;
@@ -55,6 +69,7 @@ public class PlayerMovement : MonoBehaviour
         {
             _holdJump = false;
         }
+        */
 
         //UI TRIGGER UP DOWN
         if (Math.Abs(_horizontalMove) > 0 || _jump)
@@ -88,5 +103,15 @@ public class PlayerMovement : MonoBehaviour
     }
     public List<bool> GetGroundedYoung(){
         return _youngWasGrounded;
+    }
+
+    private void JumpPerformed(InputAction.CallbackContext context)
+    {
+        _jump = true; 
+        _holdJump = true;
+    }
+    private void JumpCanceled(InputAction.CallbackContext context)
+    {
+        _holdJump = false;
     }
 }

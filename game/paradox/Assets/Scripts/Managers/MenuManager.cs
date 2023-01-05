@@ -6,6 +6,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class MenuManager : MonoBehaviour
 {
@@ -17,18 +18,22 @@ public class MenuManager : MonoBehaviour
     private TMP_Text _paradoxText;
     private TMP_Text _retryText;
     private TMP_Text _overallTimeText;
+    private PlayerInputActions _actions;
+
 
     //public static bool isPaused; //it can be used in other scripts to stop key functioning.
     private void Awake()
     {
+        _actions = new PlayerInputActions();
+
         _pauseMenu = GameObject.Find("Canvases").transform.GetChild(1).GetChild(0).gameObject;
         _statisticsMenuL=GameObject.Find("Door").transform.GetChild(0).GetChild(0).gameObject;
         _statisticsMenuR = GameObject.Find("Door").transform.GetChild(1).GetChild(0).gameObject;
 
-        _stars = GameObject.Find("Stars").gameObject;
-        _paradoxText = GameObject.Find("NumPar").GetComponent<TMP_Text>();
-        _retryText = GameObject.Find("Retry").GetComponent<TMP_Text>();
-        _overallTimeText = GameObject.Find("TimerText").GetComponent<TMP_Text>();
+        _stars =_statisticsMenuL.transform.GetChild(1).gameObject;
+        _paradoxText =_statisticsMenuL.transform.GetChild(3).gameObject.GetComponent<TMP_Text>();
+        _retryText = _statisticsMenuL.transform.GetChild(4).gameObject.GetComponent<TMP_Text>();
+        _overallTimeText = _statisticsMenuL.transform.GetChild(2).gameObject.GetComponent<TMP_Text>();
         _nextButton = _statisticsMenuR.transform.GetChild(1).GetChild(0).gameObject;
         
         //It is subscribing to the event
@@ -39,6 +44,43 @@ public class MenuManager : MonoBehaviour
         _statisticsMenuR.SetActive(false);
         
     }
+    
+    private void OnEnable()
+    {
+        _actions.UI.Enable();
+        _actions.YoungPlayer.Enable();
+        _actions.OldPlayer.Enable();
+        _actions.UI.Pause.performed += PausePerformed;
+        _actions.YoungPlayer.Restart.performed += YoungRestartPerformed;
+        _actions.OldPlayer.Restart.performed += OldRestartPerformed;
+    }
+
+    private void OldRestartPerformed(InputAction.CallbackContext obj)
+    {
+        GameManager.Instance.UpdateGameState(GameState.StartingYoungTurn);
+    }
+
+    private void YoungRestartPerformed(InputAction.CallbackContext obj)
+    {
+        GameManager.Instance.UpdateGameState(GameState.StartingYoungTurn);
+    }
+
+    private void PausePerformed(InputAction.CallbackContext obj)
+    {
+        GameManager.Instance.TriggerMenu();
+    }
+
+
+    private void OnDisable()
+    {
+        _actions.UI.Enable();
+        _actions.YoungPlayer.Disable();
+        _actions.OldPlayer.Disable();
+        _actions.UI.Pause.performed -= PausePerformed;
+        _actions.YoungPlayer.Restart.performed -= YoungRestartPerformed;
+        _actions.OldPlayer.Restart.performed -= OldRestartPerformed;
+    }
+    
     private void OnDestroy()
     {
         //It is unsubscribing to the event
@@ -72,7 +114,7 @@ public class MenuManager : MonoBehaviour
         }
     }
     
-    
+    /*
     void Update()
     {
         if (Input.GetButtonDown("Pause"))
@@ -84,6 +126,7 @@ public class MenuManager : MonoBehaviour
             GameManager.Instance.UpdateGameState(GameState.StartingYoungTurn);
         }
     }
+    */
     
     public void ResumeGame()
     {
