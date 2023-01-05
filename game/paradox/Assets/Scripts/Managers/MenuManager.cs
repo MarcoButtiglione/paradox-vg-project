@@ -35,16 +35,16 @@ public class MenuManager : MonoBehaviour
         _retryText = _statisticsMenuL.transform.GetChild(4).gameObject.GetComponent<TMP_Text>();
         _overallTimeText = _statisticsMenuL.transform.GetChild(2).gameObject.GetComponent<TMP_Text>();
         _nextButton = _statisticsMenuR.transform.GetChild(1).GetChild(0).gameObject;
-        
+
         //It is subscribing to the event
         GameManager.OnGameStateChanged += GameManagerOnGameStateChanged;
-        
+
         _pauseMenu.SetActive(false);
         _statisticsMenuL.SetActive(false);
         _statisticsMenuR.SetActive(false);
-        
+
     }
-    
+
     private void OnEnable()
     {
         _actions.UI.Enable();
@@ -80,7 +80,7 @@ public class MenuManager : MonoBehaviour
         _actions.YoungPlayer.Restart.performed -= YoungRestartPerformed;
         _actions.OldPlayer.Restart.performed -= OldRestartPerformed;
     }
-    
+
     private void OnDestroy()
     {
         //It is unsubscribing to the event
@@ -101,10 +101,10 @@ public class MenuManager : MonoBehaviour
             EventSystem.current.SetSelectedGameObject(null);
             //Reassign
             EventSystem.current.SetSelectedGameObject(_nextButton);
-            
+
             _pauseMenu.SetActive(false);
             _statisticsMenuL.SetActive(true);
-            _statisticsMenuR.SetActive(true);  
+            _statisticsMenuR.SetActive(true);
         }
         else
         {
@@ -113,7 +113,7 @@ public class MenuManager : MonoBehaviour
             _statisticsMenuR.SetActive(false);
         }
     }
-    
+
     /*
     void Update()
     {
@@ -127,12 +127,12 @@ public class MenuManager : MonoBehaviour
         }
     }
     */
-    
+
     public void ResumeGame()
     {
         GameManager.Instance.TriggerMenu();
     }
-    
+
     public void RestartLevel()
     {
         GameManager.Instance.UpdateGameState(GameState.StartingYoungTurn);
@@ -164,18 +164,18 @@ public class MenuManager : MonoBehaviour
     {
         GameManager.Instance.UpdateGameState(GameState.NextLevel);
     }
-    
+
     public void setStatistics(int _counterRetry, int _counterParadoxOverall, TimeSpan _overallTime, int _numStars)
     {
         if (_numStars > 0)
         {
-            GameObject activeStar = _stars.transform.GetChild(_numStars).gameObject; 
+            GameObject activeStar = _stars.transform.GetChild(_numStars).gameObject;
             activeStar.SetActive(true);
         }
 
-        _paradoxText.text = "Paradox: " + _counterParadoxOverall;
-        _retryText.text = "Retry: " + _counterRetry;
-        _overallTimeText.text = "Time: " + _overallTime.ToString(@"mm\:ss\:ff");
+        _paradoxText.text = "" + _counterParadoxOverall;
+        _retryText.text = "" + _counterRetry;
+        _overallTimeText.text = "" + _overallTime.ToString(@"mm\:ss\:ff");
 
     }
 
