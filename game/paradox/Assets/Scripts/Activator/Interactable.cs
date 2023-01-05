@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 public class Interactable : MonoBehaviour
 {
@@ -13,6 +14,33 @@ public class Interactable : MonoBehaviour
     //NOT USED NOW
     //[SerializeField] private KeyCode interactKey;
     [SerializeField] private UnityEvent interactAction;
+    private PlayerInputActions _actions;
+    private bool _oldInteraction;
+    private bool _youngInteraction;
+    
+    private void Awake()
+    {
+        _actions = new PlayerInputActions();
+        
+    }
+
+    private void OnEnable()
+    {
+        _actions.YoungPlayer.Enable();
+        _actions.OldPlayer.Enable();
+        _actions.YoungPlayer.Interact.performed += YoungInteractionPerformed;
+        _actions.OldPlayer.Interact.performed += OldInteractionPerformed;
+    }
+
+    
+
+    private void OnDisable()
+    {
+        _actions.YoungPlayer.Disable();
+        _actions.OldPlayer.Disable();
+        _actions.YoungPlayer.Interact.performed -= YoungInteractionPerformed;
+        _actions.OldPlayer.Interact.performed -= OldInteractionPerformed;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -20,7 +48,9 @@ public class Interactable : MonoBehaviour
       range_Animator = gameObject.GetComponent<Animator>();
     }
 
+    
     // Update is called once per frame
+    /*
     void Update()
     {
         if (_isInRange)
@@ -32,6 +62,17 @@ public class Interactable : MonoBehaviour
 
         }
     }
+    */
+    void Update()
+    {
+        if (_oldInteraction||_youngInteraction)
+        { 
+            interactAction.Invoke();
+            _oldInteraction = false;
+            _youngInteraction = false;
+        }
+    }
+    
 
     private void OnTriggerEnter2D(Collider2D col)
     {
@@ -56,6 +97,21 @@ public class Interactable : MonoBehaviour
         {
             _isInRange = false;
             range_Animator.SetBool("inRange", false);
+        }
+    }
+    private void OldInteractionPerformed(InputAction.CallbackContext obj)
+    {
+        if (_isInRange)
+        {
+            _oldInteraction = true;
+        }
+    }
+
+    private void YoungInteractionPerformed(InputAction.CallbackContext obj)
+    {
+        if (_isInRange)
+        {
+            _youngInteraction = true;
         }
     }
 }

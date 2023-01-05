@@ -1,5 +1,7 @@
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
+
 
 
 //JUMP FORCE = 600
@@ -19,12 +21,30 @@ public class OldPlayerMovement : MonoBehaviour
     
     private DynamicUIController _dynamicUIController;
 
+    private PlayerInputActions _actions;
 
 
     private void Awake(){
         _animator = gameObject.GetComponent<Animator>();
+        _actions = new PlayerInputActions();
     }
 
+    private void OnEnable()
+    {
+        _actions.OldPlayer.Enable();
+        _actions.OldPlayer.Jump.performed += JumpPerformed;
+        _actions.OldPlayer.Jump.canceled += JumpCanceled;
+        _actions.OldPlayer.Dash.performed += DashPerformed;
+        _actions.OldPlayer.Dash.canceled += DashCanceled;
+    }
+    private void OnDisable()
+    {
+        _actions.OldPlayer.Disable();
+        _actions.OldPlayer.Jump.performed -= JumpPerformed;
+        _actions.OldPlayer.Jump.canceled -= JumpCanceled;
+        _actions.OldPlayer.Dash.performed -= DashPerformed;
+        _actions.OldPlayer.Dash.canceled -= DashCanceled;
+    }
     private void Start()
     {
         _dynamicUIController = GameObject.Find("Canvases").GetComponentInChildren<DynamicUIController>();
@@ -36,27 +56,11 @@ public class OldPlayerMovement : MonoBehaviour
     {
         if (GameManager.Instance.State is not (GameState.OldPlayerTurn or GameState.SecondPart)) return;
         
-        _horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
+        var x = _actions.OldPlayer.Move.ReadValue<Vector2>().x;
+
+        _horizontalMove = x* runSpeed;
         _animator.SetBool(IsMoving, Math.Abs(_horizontalMove) > 0.01f);
-
-
-        if (Input.GetButtonDown("Jump"))
-        {
-            _jump = true;
-        }
-        if (Input.GetButtonUp("Jump"))
-        {
-            _jump = false;
-        }
         
-        if (Input.GetButtonDown("Dash"))
-        {
-            _dash = true;
-        }
-        if (Input.GetButtonUp("Dash"))
-        {
-            _dash = false;
-        }
         //UI TRIGGER UP DOWN
         if (Math.Abs(_horizontalMove) > 0 || _jump||_dash)
         {
@@ -71,5 +75,21 @@ public class OldPlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
         controller.Move(_horizontalMove * Time.fixedDeltaTime, false, _jump, _dash);
+    }
+    private void JumpPerformed(InputAction.CallbackContext context)
+    {
+        _jump = true; 
+    }
+    private void JumpCanceled(InputAction.CallbackContext context)
+    {
+        _jump = false;
+    }
+    private void DashPerformed(InputAction.CallbackContext context)
+    {
+        _dash = true; 
+    }
+    private void DashCanceled(InputAction.CallbackContext context)
+    {
+        _dash = false; 
     }
 }

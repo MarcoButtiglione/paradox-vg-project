@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.DualShock;
 using UnityEngine.InputSystem.Utilities;
 
 public class InputManager : MonoBehaviour
@@ -10,46 +11,53 @@ public class InputManager : MonoBehaviour
     private bool holdingDown = false;
     public static event Action<DeviceUsed> OnChangedInputDevice;
     private bool _isUsingGamepad;
-
-    private void Start()
+    
+    private PlayerInputActions _actions;
+    private bool _isActionPerfomed;
+    
+    private void Awake()
     {
-        var gamepad = Gamepad.current;
-        var joystick = Joystick.current;
-        if (gamepad != null ||joystick != null)
-        {
-            SetGamepad();
-        }
-        else
-        {
-            SetKeyboard();
-        }
-        InputSystem.onAnyButtonPress.Call(
-            ctrl =>
-            {
-                if (ctrl.device is Gamepad or Joystick)
-                {
-                    if (!_isUsingGamepad)
-                    {
-                        SetGamepad();
-                    }  
-                }
-                else if (ctrl.device is Keyboard)
-                {
-                    if (_isUsingGamepad)
-                    {
-                        SetKeyboard();
-                    } 
-                }
-                    
-            });
+        _actions = new PlayerInputActions();
+    }
+    private void OnEnable()
+    {
+        _actions.Enable();
+        _actions.YoungPlayer.Move.performed += AnyActionPerformed;
+        _actions.YoungPlayer.Jump.performed += AnyActionPerformed;
+        _actions.YoungPlayer.Restart.performed += AnyActionPerformed;
+        _actions.YoungPlayer.Interact.performed += AnyActionPerformed;
+        _actions.OldPlayer.Move.performed += AnyActionPerformed;
+        _actions.OldPlayer.Jump.performed += AnyActionPerformed;
+        _actions.OldPlayer.Restart.performed += AnyActionPerformed;
+        _actions.OldPlayer.Interact.performed += AnyActionPerformed;
+        _actions.OldPlayer.Dash.performed += AnyActionPerformed;
+        _actions.UI.Pause.performed += AnyActionPerformed;
 
     }
+    
+    private void OnDisable()
+    {
+        _actions.Disable();
+        _actions.YoungPlayer.Move.performed -= AnyActionPerformed;
+        _actions.YoungPlayer.Jump.performed -= AnyActionPerformed;
+        _actions.YoungPlayer.Restart.performed -= AnyActionPerformed;
+        _actions.YoungPlayer.Interact.performed -= AnyActionPerformed;
+        _actions.OldPlayer.Move.performed -= AnyActionPerformed;
+        _actions.OldPlayer.Jump.performed -= AnyActionPerformed;
+        _actions.OldPlayer.Restart.performed -= AnyActionPerformed;
+        _actions.OldPlayer.Interact.performed -= AnyActionPerformed;
+        _actions.OldPlayer.Dash.performed -= AnyActionPerformed;
+        _actions.UI.Pause.performed -= AnyActionPerformed;
+        
+    }
+    
 
     // Update is called once per frame
     void Update()
     {
         if (GameManager.Instance.State == GameState.StartingYoungTurn)
         {
+            /*
             if (Input.anyKey)
             {
                 holdingDown = true;
@@ -60,38 +68,23 @@ public class InputManager : MonoBehaviour
                 GameManager.Instance.UpdateGameState(GameState.YoungPlayerTurn);
                 holdingDown = false;
             }
-
+            */
+            if (_isActionPerfomed)
+            {
+                GameManager.Instance.UpdateGameState(GameState.YoungPlayerTurn);
+            }
+            
         }
 
         if (GameManager.Instance.State == GameState.StartingOldTurn && !PostProcessingManager.Instance.isProcessing)
         {
             Time.timeScale = 0f;
-            if (Input.anyKey)
+            if (_isActionPerfomed)
             {
                 GameManager.Instance.UpdateGameState(GameState.OldPlayerTurn);
             }
         }
-        
-        Gamepad gamepad = Gamepad.current;
-        if (gamepad != null)
-        {
-            Vector2 stickL = gamepad.leftStick.ReadValue();
-            if (Math.Abs(stickL.x)>0.1 || Math.Abs(stickL.y)>0.1)
-            {
-                if (!_isUsingGamepad)
-                {
-                    SetGamepad();
-                }
-            }
-            Vector2 stickR = gamepad.rightStick.ReadValue();
-            if (Math.Abs(stickR.x)>0.1 || Math.Abs(stickR.y)>0.1)
-            {
-                if (!_isUsingGamepad)
-                {
-                    SetGamepad();
-                }
-            }
-        }
+        _isActionPerfomed = false;
     }
 
     private void SetGamepad()
@@ -104,6 +97,21 @@ public class InputManager : MonoBehaviour
         _isUsingGamepad = false;
         OnChangedInputDevice?.Invoke(DeviceUsed.Keyboard);
     }
+    private void AnyActionPerformed(InputAction.CallbackContext obj)
+    {
+        _isActionPerfomed = true;
+        if (obj.control.device is Keyboard)
+        {
+            if (_isUsingGamepad)
+                SetKeyboard();
+        }
+        else
+        {
+            if(!_isUsingGamepad)
+                SetGamepad();
+        }
+    }
+    
 }
 
 public enum DeviceUsed
