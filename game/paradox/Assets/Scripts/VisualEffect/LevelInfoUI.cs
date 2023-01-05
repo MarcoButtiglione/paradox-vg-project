@@ -17,7 +17,7 @@ public class LevelInfoUI : MonoBehaviour
 
         var cl=LevelManager.Instance.GetCurrentLevel();
         _topText.text ="lab "+((cl-1)/10 + 1)+" - level "+ (cl-1);
-        //var s = levelNames.levelNames[cl - 1];
-        //_buttonText.text = "";
+        var s = levelNames.levelNames[cl - 1];
+        _buttonText.text = s;
     }
 }
