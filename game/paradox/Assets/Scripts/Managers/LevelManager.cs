@@ -9,9 +9,6 @@ public class LevelManager : MonoBehaviour
 {
     public static LevelManager Instance;
     private int _currentLevel;
-    [SerializeField] private GameObject endAnimation;
-    [SerializeField] private GameObject startAnimation;
-    private GameObject anim;
     private Statistics stats;
     private int[] starsPerLevel;
     private float[] completionTimePerLevel;
@@ -22,6 +19,7 @@ public class LevelManager : MonoBehaviour
     private int _levelsFinished = 0;
 
     private bool firstTimePlaying = true;
+    private int numOfLevels;
     //private Scene _nextScene;
 
 
@@ -39,6 +37,7 @@ public class LevelManager : MonoBehaviour
         {
             Instance = this;
             LoadData();
+            numOfLevels = SceneManager.sceneCountInBuildSettings - 1;
             DontDestroyOnLoad(gameObject);
         }
         else
@@ -179,12 +178,12 @@ public class LevelManager : MonoBehaviour
         }
         else
         {
-            starsPerLevel = new int[SceneManager.sceneCountInBuildSettings - 1];
-            completionTimePerLevel = new float[SceneManager.sceneCountInBuildSettings - 1];
-            overallTimePerLevel = new float[SceneManager.sceneCountInBuildSettings - 1];
-            paradoxPerLevel = new int[SceneManager.sceneCountInBuildSettings - 1];
-            retryPerLevel = new int[SceneManager.sceneCountInBuildSettings - 1];
-            for (int i = 0; i < SceneManager.sceneCountInBuildSettings - 1; i++)
+            starsPerLevel = new int[numOfLevels];
+            completionTimePerLevel = new float[numOfLevels];
+            overallTimePerLevel = new float[numOfLevels];
+            paradoxPerLevel = new int[numOfLevels];
+            retryPerLevel = new int[numOfLevels];
+            for (int i = 0; i < numOfLevels; i++)
             {
                 starsPerLevel[i] = 0;
                 completionTimePerLevel[i] = 0f;
