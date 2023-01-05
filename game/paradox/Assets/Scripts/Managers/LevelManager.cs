@@ -82,6 +82,10 @@ public class LevelManager : MonoBehaviour
         }
         else
         {
+            if(_levelsFinished+1==32){
+                PlayLevel(_levelsFinished);
+                return;
+            }
             PlayLevel(_levelsFinished + 1);
         }
     }
