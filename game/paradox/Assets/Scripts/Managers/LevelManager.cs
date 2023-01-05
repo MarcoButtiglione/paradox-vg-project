@@ -237,6 +237,9 @@ public class LevelManager : MonoBehaviour
             //Debug.Log(stats.GetCompletionTime());
             SaveData();
         }
+        if(_currentLevel == 1){
+            firstTimePlaying = false;
+        }
 
     }
 
