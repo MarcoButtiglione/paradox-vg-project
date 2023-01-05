@@ -14,17 +14,7 @@ public class StoryboardScript : MonoBehaviour
         storyboards.transform.GetChild(0).gameObject.SetActive(true);
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+  
 
     public void Next()
     {
@@ -37,8 +27,9 @@ public class StoryboardScript : MonoBehaviour
         }
         else
         {
+            LevelManager.Instance.EndedStoryboard();
             //LOAD SCENE
-            LevelManager.Instance.PlayFirstLevel();
+            //LevelManager.Instance.PlayFirstLevel();
         }
     }
 

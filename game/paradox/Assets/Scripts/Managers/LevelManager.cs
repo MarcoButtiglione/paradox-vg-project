@@ -37,7 +37,7 @@ public class LevelManager : MonoBehaviour
         {
             Instance = this;
             LoadData();
-            numOfLevels = SceneManager.sceneCountInBuildSettings - 1;
+            numOfLevels = SceneManager.sceneCountInBuildSettings - 2;
             DontDestroyOnLoad(gameObject);
         }
         else
@@ -47,49 +47,25 @@ public class LevelManager : MonoBehaviour
 
         _currentLevel = SceneManager.GetActiveScene().buildIndex;
 
-        //Instantiate(startAnimation, startAnimation.transform.position, Quaternion.identity);
 
     }
 
 
     private void LoadScene(int level)
     {
-        /*
-        _target = 0;
-        _progressBar.fillAmount = 0;
-        */
-
-        //Instantiate(endAnimation, endAnimation.transform.position, Quaternion.identity);
         GameObject.Find("Door").GetComponent<Animator>().SetTrigger("Close");
         StartCoroutine("EndLevel", level);
-
-        //_loaderCanvas.SetActive(true);
-
-
-        /*do
-        {
-            //_target = scene.progress;
-        } while (scene.progress<0.9f);
-        */
-
-        //scene.allowSceneActivation = true;
-
-        //_loaderCanvas.SetActive(false);
-
     }
-
-    /*
-    private void Update()
-    {
-        _progressBar.fillAmount = Mathf.MoveTowards(_progressBar.fillAmount, _target, 3 * Time.deltaTime);
-    }
-    */
+    
+    
     public void PlayLevel(int level)
     {
-
-        _currentLevel = level % SceneManager.sceneCountInBuildSettings;
+        if (level >= SceneManager.sceneCountInBuildSettings)
+        {
+            return;
+        }
+        _currentLevel = level;
         LoadScene(_currentLevel);
-
     }
     public void PlayMainMenu()
     {
@@ -100,7 +76,8 @@ public class LevelManager : MonoBehaviour
     {
         if (firstTimePlaying)
         {
-            PlayLevel(1);
+            //OPEN STORYBOARD
+            PlayLevel(32);
         }
         else
         {
@@ -183,6 +160,7 @@ public class LevelManager : MonoBehaviour
             overallTimePerLevel = new float[numOfLevels];
             paradoxPerLevel = new int[numOfLevels];
             retryPerLevel = new int[numOfLevels];
+            _levelsFinished = -1;
             for (int i = 0; i < numOfLevels; i++)
             {
                 starsPerLevel[i] = 0;
@@ -262,7 +240,17 @@ public class LevelManager : MonoBehaviour
 
     }
 
-
+    public void EndedStoryboard()
+    {
+        if (firstTimePlaying)
+        {
+            PlayLevel(1);
+        }
+        else
+        {
+            PlayMainMenu();
+        }
+    }
 }
 
 

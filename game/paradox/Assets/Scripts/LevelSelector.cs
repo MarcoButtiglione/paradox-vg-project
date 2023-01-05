@@ -16,11 +16,11 @@ public class LevelSelector : MonoBehaviour
     private bool _isAdmin;
 
     private int[] _starsPerLevel;
+    private int _numberOfExtraLevels=2;
 
-    // Start is called before the first frame update
-    private void Awake()
+    private void Start()
     {
-        _totalLevels = SceneManager.sceneCountInBuildSettings;
+        _totalLevels = SceneManager.sceneCountInBuildSettings-_numberOfExtraLevels;
         _levelsFinished = LevelManager.Instance.getLevelsFinished();
         _starsPerLevel = LevelManager.Instance.GetStarsPerLevel();
 
@@ -35,7 +35,7 @@ public class LevelSelector : MonoBehaviour
             }
             else
             {
-                if (_levelsFinished + 1 >= sceneIndex)
+                if (_levelsFinished + 1 >= sceneIndex )
                 {
                     newButton.GetComponent<Button>().interactable = true;
                     newButton.transform.GetChild(_starsPerLevel[level-1]).gameObject.SetActive(true);
@@ -43,7 +43,6 @@ public class LevelSelector : MonoBehaviour
                 else
                 {
                     newButton.GetComponent<Button>().interactable = false;
-                
                 }
             }
             newButton.GetComponent<Button>().onClick.AddListener(() => LevelManager.Instance.PlayLevel(sceneIndex));
