@@ -18,13 +18,13 @@ public class MenuManager : MonoBehaviour
     private TMP_Text _paradoxText;
     private TMP_Text _retryText;
     private TMP_Text _overallTimeText;
-    private PlayerInputActions _actions;
+    private PlayerInputactions _actions;
 
 
     //public static bool isPaused; //it can be used in other scripts to stop key functioning.
     private void Awake()
     {
-        _actions = new PlayerInputActions();
+        _actions = new PlayerInputactions();
 
         _pauseMenu = GameObject.Find("Canvases").transform.GetChild(1).GetChild(0).gameObject;
         _statisticsMenuL=GameObject.Find("Door").transform.GetChild(0).GetChild(0).gameObject;

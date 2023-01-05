@@ -10,14 +10,14 @@ public class InputManager : MonoBehaviour
 {
     private bool holdingDown = false;
     public static event Action<DeviceUsed> OnChangedInputDevice;
-    private bool _isUsingGamepad;
+    private bool _isUsingGamepad=true;
     
-    private PlayerInputActions _actions;
+    private PlayerInputactions _actions;
     private bool _isActionPerfomed;
     
     private void Awake()
     {
-        _actions = new PlayerInputActions();
+        _actions = new PlayerInputactions();
     }
     private void OnEnable()
     {
