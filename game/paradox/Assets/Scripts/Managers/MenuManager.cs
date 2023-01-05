@@ -106,6 +106,16 @@ public class MenuManager : MonoBehaviour
             _statisticsMenuL.SetActive(true);
             _statisticsMenuR.SetActive(true);
         }
+        else if (state == GameState.StatisticsMenu)
+        {
+            //Clear
+            EventSystem.current.SetSelectedGameObject(null);
+            //Reassign
+            EventSystem.current.SetSelectedGameObject(_nextButton);
+            _pauseMenu.SetActive(false);
+            _statisticsMenuL.SetActive(true);
+            _statisticsMenuR.SetActive(true);
+        }
         else
         {
             _pauseMenu.SetActive(false);

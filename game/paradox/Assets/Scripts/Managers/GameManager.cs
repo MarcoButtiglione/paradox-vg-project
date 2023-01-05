@@ -98,8 +98,9 @@ public class GameManager : MonoBehaviour
                 case GameState.GameOverMenu:
                     break;
                 case GameState.LevelCompleted:
+                    Time.timeScale = 0f;
                     GameObject.Find("Door").GetComponent<Animator>().SetTrigger("Close");
-                    UpdateGameState(GameState.StatisticsMenu);
+                    StartCoroutine("WaitToCloseDoor");
                     break;
                 case GameState.StatisticsMenu:
                     Time.timeScale = 0f;
@@ -134,8 +135,9 @@ public class GameManager : MonoBehaviour
                 case GameState.GameOverMenu:
                     break;
                 case GameState.LevelCompleted:
+                    Time.timeScale = 0f;
                     GameObject.Find("Door").GetComponent<Animator>().SetTrigger("Close");
-                    UpdateGameState(GameState.StatisticsMenu);
+                    StartCoroutine("WaitToCloseDoor");
                     break;
                 case GameState.StatisticsMenu:
                     Time.timeScale = 0f;
@@ -177,6 +179,12 @@ public class GameManager : MonoBehaviour
         UpdateGameState(GameState.StartingYoungTurn);
         LevelManager.Instance.GetStats(this.GetComponent<Statistics>());
     }
+    IEnumerator WaitToCloseDoor()
+    {
+        yield return new WaitForSecondsRealtime(1f);
+        UpdateGameState(GameState.StatisticsMenu);
+    }
+    
     public bool IsPlayablePhase()
     {
         if (State is GameState.YoungPlayerTurn or GameState.SecondPart or GameState.ThirdPart or GameState.OldPlayerTurn)
