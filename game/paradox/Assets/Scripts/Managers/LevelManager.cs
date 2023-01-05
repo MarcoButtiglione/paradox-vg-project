@@ -36,8 +36,8 @@ public class LevelManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            LoadData();
             numOfLevels = SceneManager.sceneCountInBuildSettings - 2;
+            LoadData();
             DontDestroyOnLoad(gameObject);
         }
         else
