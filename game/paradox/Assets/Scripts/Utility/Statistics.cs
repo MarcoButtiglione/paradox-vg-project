@@ -84,6 +84,7 @@ public class Statistics : MonoBehaviour
             else { _numOfStars = 0; }
             //LevelManager.Instance.PlayNextLevel();
             Debug.Log(_counterRetry + " " + _counterParadoxRun + " " + timeSpanCompletion.ToString(@"mm\:ss\:ff") + " " + timeSpanOverall.ToString(@"mm\:ss\:ff") + " " + _numOfStars);
+            LevelManager.Instance.CollectData();
             _menuManager.setStatistics(_counterRetry: _counterRetry, _counterParadoxOverall: _counterParadoxOverall, _overallTime: timeSpanOverall, _numStars: _numOfStars);
         }
     }
