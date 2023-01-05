@@ -36,6 +36,7 @@ public class LeverControllerTutorial : MonoBehaviour
     {
         if (state == GameState.StartingYoungTurn)
         {
+            _firstTime = true;
             InitYoung();
         }
         if (state == GameState.StartingOldTurn)

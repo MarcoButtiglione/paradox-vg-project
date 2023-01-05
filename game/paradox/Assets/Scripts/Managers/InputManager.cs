@@ -14,6 +14,7 @@ public class InputManager : MonoBehaviour
     
     private PlayerInputactions _actions;
     private bool _isActionPerfomed;
+    private bool _isFirstAction=true;
     
     private void Awake()
     {
@@ -100,6 +101,19 @@ public class InputManager : MonoBehaviour
     private void AnyActionPerformed(InputAction.CallbackContext obj)
     {
         _isActionPerfomed = true;
+        if (_isFirstAction)
+        {
+            _isFirstAction = false;
+            if (obj.control.device is Keyboard)
+            {
+                SetKeyboard();
+            }
+            else
+            {
+                SetGamepad();
+            }
+            return;
+        }
         if (obj.control.device is Keyboard)
         {
             if (_isUsingGamepad)
