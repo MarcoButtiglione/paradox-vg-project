@@ -74,6 +74,7 @@ public class OldPlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (GameManager.Instance.State is not (GameState.OldPlayerTurn or GameState.SecondPart)) return;
         controller.Move(_horizontalMove * Time.fixedDeltaTime, false, _jump, _dash);
     }
     private void JumpPerformed(InputAction.CallbackContext context)
