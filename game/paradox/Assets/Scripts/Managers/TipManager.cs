@@ -13,7 +13,7 @@ public class TipManager : MonoBehaviour
         //It is subscribing to the event
         GameManager.OnGameStateChanged += GameManagerOnGameStateChanged;
         InputManager.OnChangedInputDevice += InputManagerOnChangedInputDevice;
-
+        gameObject.SetActive(false);
     }
     private void InputManagerOnChangedInputDevice(DeviceUsed obj)
     {
