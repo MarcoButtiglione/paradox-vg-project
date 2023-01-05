@@ -14,13 +14,13 @@ public class Interactable : MonoBehaviour
     //NOT USED NOW
     //[SerializeField] private KeyCode interactKey;
     [SerializeField] private UnityEvent interactAction;
-    private PlayerInputActions _actions;
+    private PlayerInputactions _actions;
     private bool _oldInteraction;
     private bool _youngInteraction;
     
     private void Awake()
     {
-        _actions = new PlayerInputActions();
+        _actions = new PlayerInputactions();
         
     }
 
