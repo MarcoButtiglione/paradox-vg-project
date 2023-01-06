@@ -43,7 +43,7 @@ public class DoorToMenuManager : MonoBehaviour
     }
     private IEnumerator Clicked()
     {
-        yield return new WaitForSecondsRealtime(0.5f);
+        yield return new WaitForSecondsRealtime(1f);
         _isWaiting = false;
     }
 }

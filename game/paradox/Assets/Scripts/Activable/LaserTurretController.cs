@@ -166,7 +166,7 @@ public class LaserTurretController : MonoBehaviour
 
     void Update()
     {
-        _laserHead.transform.position = _laserPosition;
+       
         if (_isActive)
         {
             //Animation
@@ -210,6 +210,7 @@ public class LaserTurretController : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        _laserHead.transform.position = _laserPosition;
         if (Vector2.Distance(_waypoints[_currentWaypointIndex].transform.position, _laserPosition) < .1f)
         {
             _currentWaypointIndex++;
