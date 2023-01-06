@@ -11,9 +11,9 @@ public class AudioManager : MonoBehaviour
 {
     public Sound[] sounds;
 
-    private float _masterSlider = 0.4624969f;
-    private float _effectSlider = 0.4624969f;
-    private float _themeSlider = 0.4624969f;
+    private float _masterSlider = 1f;
+    private float _effectSlider = 1f;
+    private float _themeSlider = 1f;
     private int _resolutionDropdownIndex = 2;
     private bool _isFullScreen = true;
 
@@ -182,21 +182,29 @@ public class AudioManager : MonoBehaviour
     {
         foreach (Sound s in sounds)
         {
-            if (s.name != "Theme")
+            if (s.name != "ThemeMenu"&&s.name != "ThemeStory"&&s.name != "ThemeEnd"&&s.name != "ThemeLab1"&&s.name != "ThemeLab2"&&s.name != "ThemeLab3")
             {
                 s.source.volume = s.volume * volume;
             }
         }
 
         _effectSlider = volume;
-        //Debug.Log("Master volume: " + volume);
     }
 
     public void SetThemeVolume(float volume)
     {
-        Sound s = Array.Find(sounds,sound=>sound.name == "Theme");
+        Sound s = Array.Find(sounds,sound=>sound.name == "ThemeMenu");
         s.source.volume = s.volume * volume;
-        //Debug.Log("Theme volume: " + volume);
+        s = Array.Find(sounds,sound=>sound.name == "ThemeStory");
+        s.source.volume = s.volume * volume;
+        s = Array.Find(sounds,sound=>sound.name == "ThemeEnd");
+        s.source.volume = s.volume * volume;
+        s = Array.Find(sounds,sound=>sound.name == "ThemeLab1");
+        s.source.volume = s.volume * volume;
+        s = Array.Find(sounds,sound=>sound.name == "ThemeLab2");
+        s.source.volume = s.volume * volume;
+        s = Array.Find(sounds,sound=>sound.name == "ThemeLab3");
+        s.source.volume = s.volume * volume;
         _themeSlider = volume;
     }
     public void SetMasterVolume(float volume)
