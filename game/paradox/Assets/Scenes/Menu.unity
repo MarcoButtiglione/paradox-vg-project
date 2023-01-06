@@ -454,7 +454,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelPrefab: {fileID: 8199276293450405560, guid: 7488bb54becdf8a43a22fe52061dc0b3, type: 3}
-  _isAdmin: 0
+  _isAdmin: 1
 --- !u!114 &121138529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7512,6 +7512,7 @@ GameObject:
   - component: {fileID: 2128410555}
   - component: {fileID: 2128410554}
   - component: {fileID: 2128410553}
+  - component: {fileID: 2128410556}
   m_Layer: 5
   m_Name: Scroll View
   m_TagString: Untagged
@@ -7610,6 +7611,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2128410551}
   m_CullTransparentMesh: 1
+--- !u!114 &2128410556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2128410551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87d6465341a4c9c488a0482f07d067f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scrollSpeed: 10
+  m_templateScrollRect: {fileID: 2128410553}
+  m_templateViewportTransform: {fileID: 191969192}
+  m_ContentRectTransform: {fileID: 121138526}
 --- !u!1001 &51588942950146425
 PrefabInstance:
   m_ObjectHideFlags: 0
