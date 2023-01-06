@@ -35,7 +35,7 @@ public class ButtonController : MonoBehaviour
     private void Awake()
     {
         _spriteRenderer=gameObject.GetComponent<SpriteRenderer>();
-        _canvas = gameObject.transform.GetChild(0).gameObject;
+        _canvas = gameObject.transform.GetChild(0).GetChild(0).gameObject;
         cooldownImage.fillAmount = 0;
         _canvas.transform.eulerAngles = Vector3.zero;
         //It is subscribing to the event
