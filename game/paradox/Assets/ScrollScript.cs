@@ -48,8 +48,8 @@ public class ScrollScript : MonoBehaviour
 
         float selectedPosition = (contentRectTransform.rect.height - selectedDifference.y);
         float currentScrollRectPosition = scrollRect.normalizedPosition.y * contentHeightDifference;
-        float above = currentScrollRectPosition - (m_SelectedRectTransform.rect.height / 2) + viewportRectTransform.rect.height;
-        float below = currentScrollRectPosition + (m_SelectedRectTransform.rect.height / 2);
+        float above = currentScrollRectPosition - (m_SelectedRectTransform.rect.height / 2) + viewportRectTransform.rect.height-400 ;
+        float below = currentScrollRectPosition + (m_SelectedRectTransform.rect.height / 2)-350;
 
         // Check if selected option is out of bounds.
         if (selectedPosition > above)
