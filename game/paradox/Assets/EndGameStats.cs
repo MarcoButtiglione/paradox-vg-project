@@ -32,8 +32,8 @@ public class EndGameStats : MonoBehaviour
             _totalParadox = l.GetParadoxPerLevel().Sum();
             _totalRetry = l.GetRetryPerLevel().Sum();
    
-            compTimeText.text = "Total completion time: " + _totalCompTime.ToString(@"mm\:ss\:ff");
-            totalOverallTimeText.text = "Total overall time: " + _totalOverallTime.ToString(@"mm\:ss\:ff");
+            compTimeText.text = "Total time for younger self: " + _totalCompTime.ToString(@"hh\:mm\:ss");
+            totalOverallTimeText.text = "Total overall time: " + _totalOverallTime.ToString(@"hh\:mm\:ss");
             totalParadoxText.text = "Total paradoxes: " + _totalParadox;
             totalRetryText.text = "Total retries: " + _totalRetry; 
         }

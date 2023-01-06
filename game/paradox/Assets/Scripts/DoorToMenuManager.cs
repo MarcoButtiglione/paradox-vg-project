@@ -18,6 +18,7 @@ public class DoorToMenuManager : MonoBehaviour
         if (!_isWaiting)
         {
             _isWaiting = true;
+            StartCoroutine("Clicked");
             _menuManager.GetComponent<MenuManager>().GoToMainMenu();
         }
         
@@ -27,6 +28,7 @@ public class DoorToMenuManager : MonoBehaviour
         if (!_isWaiting)
         {
             _isWaiting = true;
+            StartCoroutine("Clicked");
             _menuManager.GetComponent<MenuManager>().RestartDoor();
         }
     }
@@ -35,7 +37,13 @@ public class DoorToMenuManager : MonoBehaviour
         if (!_isWaiting)
         {
             _isWaiting = true;
+            StartCoroutine("Clicked");
             _menuManager.GetComponent<MenuManager>().NextLevelDoor();
         }
+    }
+    private IEnumerator Clicked()
+    {
+        yield return new WaitForSecondsRealtime(0.5f);
+        _isWaiting = false;
     }
 }

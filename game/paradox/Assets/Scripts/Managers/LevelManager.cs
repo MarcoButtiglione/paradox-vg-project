@@ -36,7 +36,7 @@ public class LevelManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            numOfLevels = SceneManager.sceneCountInBuildSettings - 2;
+            numOfLevels = SceneManager.sceneCountInBuildSettings - 3;
             LoadData();
             DontDestroyOnLoad(gameObject);
         }
@@ -190,15 +190,14 @@ public class LevelManager : MonoBehaviour
 
     public void ScanDebug()
     {
-        var i = 0;
-        while (completionTimePerLevel[i] != 0)
+        
+        for (int i = 0; i < numOfLevels; i++)
         {
             Debug.Log("Completion time for level " + i + " is :" + completionTimePerLevel[i]);
             Debug.Log("Num of stars earned in level " + i + " is :" + starsPerLevel[i]);
             Debug.Log("Num of paradox in level " + i + " is :" + paradoxPerLevel[i]);
             Debug.Log("Num of retrial in level " + i + " is :" + retryPerLevel[i]);
             Debug.Log("Overall time for level " + i + " is :" + overallTimePerLevel[i]);
-            i++;
         }
     }
 

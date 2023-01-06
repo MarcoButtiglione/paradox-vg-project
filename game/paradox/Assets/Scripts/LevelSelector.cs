@@ -16,7 +16,7 @@ public class LevelSelector : MonoBehaviour
     private bool _isAdmin;
 
     private int[] _starsPerLevel;
-    private int _numberOfExtraLevels=2;
+    private int _numberOfExtraLevels=3;
     private bool _isWaiting = false;
     [SerializeField] private LevelNamesParameters levelNames;
 
@@ -26,7 +26,7 @@ public class LevelSelector : MonoBehaviour
         _levelsFinished = LevelManager.Instance.getLevelsFinished();
         _starsPerLevel = LevelManager.Instance.GetStarsPerLevel();
 
-        for (int level = 1; level < _totalLevels; level++)//Hard coded build index start level
+        for (int level = 1; level <= _totalLevels; level++)//Hard coded build index start level
         {
             GameObject newButton = Instantiate(levelPrefab, this.transform, false);
             newButton.GetComponentInChildren<TMP_Text>().SetText((level-1).ToString());
