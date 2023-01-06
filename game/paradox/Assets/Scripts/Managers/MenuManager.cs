@@ -28,11 +28,11 @@ public class MenuManager : MonoBehaviour
         _actions = new PlayerInputactions();
 
         _pauseMenu = GameObject.Find("Canvases").transform.GetChild(1).GetChild(0).gameObject;
-        _statisticsMenuL=GameObject.Find("Door").transform.GetChild(0).GetChild(0).gameObject;
+        _statisticsMenuL = GameObject.Find("Door").transform.GetChild(0).GetChild(0).gameObject;
         _statisticsMenuR = GameObject.Find("Door").transform.GetChild(1).GetChild(0).gameObject;
 
-        _stars =_statisticsMenuL.transform.GetChild(1).gameObject;
-        _paradoxText =_statisticsMenuL.transform.GetChild(3).gameObject.GetComponent<TMP_Text>();
+        _stars = _statisticsMenuL.transform.GetChild(1).gameObject;
+        _paradoxText = _statisticsMenuL.transform.GetChild(3).gameObject.GetComponent<TMP_Text>();
         _retryText = _statisticsMenuL.transform.GetChild(4).gameObject.GetComponent<TMP_Text>();
         _overallTimeText = _statisticsMenuL.transform.GetChild(2).gameObject.GetComponent<TMP_Text>();
         _nextButton = _statisticsMenuR.transform.GetChild(1).GetChild(0).gameObject;
@@ -59,12 +59,18 @@ public class MenuManager : MonoBehaviour
 
     private void OldRestartPerformed(InputAction.CallbackContext obj)
     {
-        GameManager.Instance.UpdateGameState(GameState.StartingYoungTurn);
+        if (GameManager.Instance.IsPlayablePhase())
+        {
+            GameManager.Instance.UpdateGameState(GameState.StartingYoungTurn);
+        }
     }
 
     private void YoungRestartPerformed(InputAction.CallbackContext obj)
     {
-        GameManager.Instance.UpdateGameState(GameState.StartingYoungTurn);
+        if (GameManager.Instance.IsPlayablePhase())
+        {
+            GameManager.Instance.UpdateGameState(GameState.StartingYoungTurn);
+        }
     }
 
     private void PausePerformed(InputAction.CallbackContext obj)
@@ -97,7 +103,7 @@ public class MenuManager : MonoBehaviour
             EventSystem.current.SetSelectedGameObject(null);
             //Reassign
             EventSystem.current.SetSelectedGameObject(_resumeButton);
-            
+
             _pauseMenu.SetActive(true);
             _statisticsMenuL.SetActive(false);
             _statisticsMenuR.SetActive(false);
