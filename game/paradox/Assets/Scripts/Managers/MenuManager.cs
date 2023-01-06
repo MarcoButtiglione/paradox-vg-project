@@ -15,6 +15,7 @@ public class MenuManager : MonoBehaviour
     private GameObject _statisticsMenuL;
     private GameObject _nextButton;
     private GameObject _stars;
+    private GameObject _resumeButton;
     private TMP_Text _paradoxText;
     private TMP_Text _retryText;
     private TMP_Text _overallTimeText;
@@ -35,6 +36,7 @@ public class MenuManager : MonoBehaviour
         _retryText = _statisticsMenuL.transform.GetChild(4).gameObject.GetComponent<TMP_Text>();
         _overallTimeText = _statisticsMenuL.transform.GetChild(2).gameObject.GetComponent<TMP_Text>();
         _nextButton = _statisticsMenuR.transform.GetChild(1).GetChild(0).gameObject;
+        _resumeButton = _pauseMenu.transform.GetChild(1).GetChild(0).gameObject;
 
         //It is subscribing to the event
         GameManager.OnGameStateChanged += GameManagerOnGameStateChanged;
@@ -91,6 +93,11 @@ public class MenuManager : MonoBehaviour
     {
         if (state == GameState.PauseMenu)
         {
+            //Clear
+            EventSystem.current.SetSelectedGameObject(null);
+            //Reassign
+            EventSystem.current.SetSelectedGameObject(_resumeButton);
+            
             _pauseMenu.SetActive(true);
             _statisticsMenuL.SetActive(false);
             _statisticsMenuR.SetActive(false);
