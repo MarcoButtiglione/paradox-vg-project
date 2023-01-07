@@ -351,6 +351,17 @@ public partial class @PlayerInputactions : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""124ea427-18f1-4e3f-bd8a-9a7683330fe7"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Restart"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""247e7921-93e5-4814-a077-662d2b88b0bd"",
                     ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
