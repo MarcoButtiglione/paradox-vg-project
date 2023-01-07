@@ -72,26 +72,40 @@ public class PressurePlateController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.gameObject.CompareTag("Old"))
+        if (GameManager.Instance.IsPlayablePhase())
         {
-            SetActive();
-            _spriteRenderer.sprite = _spriteOn;
-            //Play the click sound-----
-            FindObjectOfType<AudioManager>().Play("Click");
-            //------------------------
+            if (col.gameObject.CompareTag("Young"))
+            {
+                //Play the error sound-----
+                FindObjectOfType<AudioManager>().Play("Error");
+                //------------------------
+            }
+            if (col.gameObject.CompareTag("Old"))
+            {
+                SetActive();
+                _spriteRenderer.sprite = _spriteOn;
+                //Play the click sound-----
+                FindObjectOfType<AudioManager>().Play("Click");
+                //------------------------
+            }
         }
+        
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Old"))
+        if (GameManager.Instance.IsPlayablePhase())
         {
-            SetInactive();
-            _spriteRenderer.sprite = _spriteOff;
-            //Play the click sound-----
-            FindObjectOfType<AudioManager>().Play("Click");
-            //------------------------
+            if (other.gameObject.CompareTag("Old"))
+            {
+                SetInactive();
+                _spriteRenderer.sprite = _spriteOff;
+                //Play the click sound-----
+                FindObjectOfType<AudioManager>().Play("Click");
+                //------------------------
+            }
         }
+        
     }
     
     private void SetActive()

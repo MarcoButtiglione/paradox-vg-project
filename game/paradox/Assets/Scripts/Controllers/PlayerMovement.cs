@@ -1,69 +1,117 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
     public CharacterController2D controller;
     private Animator _animator;
-    private float horizontalMove = 0f;
+    private float _horizontalMove;
     [SerializeField] private float runSpeed = 40f;
-    private bool jump = false;
-    private bool crouch = false;
-    private List<TypeOfInputs> inputs;
+    private bool _jump;
+    private bool _holdJump;
+
+    private bool _crouch;
+    private List<TypeOfInputs> _inputs;
+    private List<Vector3> _positionsYoungP;
+    private List<bool> _youngWasGrounded;
+    private static readonly int Speed = Animator.StringToHash("Speed");
+
+    private DynamicUIController _dynamicUIController;
+
+    private PlayerInputactions _actions;
+
+    private void Awake()
+    {
+        _actions = new PlayerInputactions();
+    }
     
 
-    void Start(){
-        inputs = new List<TypeOfInputs>();
+    private void Start(){
+        _dynamicUIController = GameObject.Find("Canvases").GetComponentInChildren<DynamicUIController>();
+        _inputs = new List<TypeOfInputs>();
         _animator = gameObject.GetComponent<Animator>();
+        _positionsYoungP = new List<Vector3>();
+        _youngWasGrounded = new List<bool>();
+    }
+
+    private void OnEnable()
+    {
+        _actions.YoungPlayer.Enable();
+        _actions.YoungPlayer.Jump.performed += JumpPerformed;
+        _actions.YoungPlayer.Jump.canceled += JumpCanceled;
+    }
+
+    private void OnDisable()
+    {
+        _actions.YoungPlayer.Disable();
+        _actions.YoungPlayer.Jump.performed -= JumpPerformed;
+        _actions.YoungPlayer.Jump.canceled -= JumpCanceled;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(GameManager.Instance.State == GameState.YoungPlayerTurn){
-        horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
-        _animator.SetFloat("Speed",Math.Abs(horizontalMove));
+        if (GameManager.Instance.State != GameState.YoungPlayerTurn) return;
+        
+        var x = _actions.YoungPlayer.Move.ReadValue<Vector2>().x;
+        _horizontalMove = x * runSpeed;
+        _animator.SetFloat(Speed,Math.Abs(_horizontalMove));
+        
+        /*
         if (Input.GetButtonDown("Jump"))
         {
-            jump = true;
+            _jump = true;
+            _holdJump = true;
         }
+        if (Input.GetButtonUp("Jump"))
+        {
+            _holdJump = false;
+        }
+        */
 
-        if (Input.GetButtonDown("Crouch"))
+        //UI TRIGGER UP DOWN
+        if (Math.Abs(_horizontalMove) > 0 || _jump)
         {
-            crouch = true;
+            _dynamicUIController.SetMoving(true);
         }
-        else if (Input.GetButtonUp("Crouch"))
+        else
         {
-            crouch = false;
+            _dynamicUIController.SetMoving(false);
         }
-        }
+        
     }
 
     void FixedUpdate()
     {
-        controller.Move(horizontalMove * Time.fixedDeltaTime, crouch, jump);
-        inputs.Insert(inputs.Count, new TypeOfInputs(horizontalMove * Time.fixedDeltaTime, crouch, jump));
-        jump = false;
+        if (GameManager.Instance.State != GameState.YoungPlayerTurn) return;
+        _positionsYoungP.Insert(_positionsYoungP.Count, transform.position);
+        _youngWasGrounded.Insert(_youngWasGrounded.Count,controller.GetGrounded());
+        controller.Move(_horizontalMove * Time.fixedDeltaTime, false, _jump,_holdJump);
+        _inputs.Insert(_inputs.Count, new TypeOfInputs(_horizontalMove * Time.fixedDeltaTime, _crouch, _jump,_holdJump)); 
+        _jump = false;
+    }
+    
+
+    public List<TypeOfInputs> GetListInputs(){
+        return _inputs;
     }
 
-    public float getHorizontal()
+    public List<Vector3> GetPosYoung(){
+        return _positionsYoungP;
+    }
+    public List<bool> GetGroundedYoung(){
+        return _youngWasGrounded;
+    }
+
+    private void JumpPerformed(InputAction.CallbackContext context)
     {
-        return horizontalMove * Time.fixedDeltaTime;
+        _jump = true; 
+        _holdJump = true;
     }
-
-    public bool getJump()
+    private void JumpCanceled(InputAction.CallbackContext context)
     {
-        return jump;
-    }
-
-    public bool getCrouch()
-    {
-        return crouch;
-    }
-
-    public List<TypeOfInputs> getListInputs(){
-        return inputs;
+        _holdJump = false;
     }
 }

@@ -18,6 +18,7 @@ public class LeverController : MonoBehaviour
     [SerializeField] private Sprite _spriteOn;
     
     private bool _isActive=false;
+    private GameState _state;
     
     //-------------------------------
     private void Awake()
@@ -32,6 +33,7 @@ public class LeverController : MonoBehaviour
     }
     private void GameManagerOnGameStateChanged(GameState state)
     {
+        _state = state;
         if (state == GameState.StartingYoungTurn)
         {
             InitYoung();
@@ -98,17 +100,28 @@ public class LeverController : MonoBehaviour
 
     public void TriggerLever()
     {
-        _isActive = !_isActive;
-        if (_isActive)
+        if (!GameManager.Instance.IsPlayablePhase()) return;
+        if (_state == GameState.YoungPlayerTurn)
         {
-            SetActive();
+            //Play the error sound-----
+            FindObjectOfType<AudioManager>().Play("Error");
+            //-------------------------
         }
         else
         {
-            SetInactive();
+            _isActive = !_isActive;
+            if (_isActive)
+            {
+                SetActive();
+            }
+            else
+            {
+                SetInactive();
+            }
+            //Play the click sound-----
+            FindObjectOfType<AudioManager>().Play("Click");
+            //-------------------------
         }
-        //Play the click sound-----
-        FindObjectOfType<AudioManager>().Play("Click");
-        //-------------------------
+
     }
 }

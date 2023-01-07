@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Unity.VectorGraphics;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ButtonController : MonoBehaviour
 {
@@ -21,12 +22,22 @@ public class ButtonController : MonoBehaviour
     [SerializeField] private Sprite _spriteOff;
     [SerializeField] private Sprite _spriteOn;
     private SpriteRenderer _spriteRenderer;
+    private GameState _state;
+    
+    [SerializeField] private Image cooldownImage;
+    private float _cooldownTime;
+    private bool _isActiveCooldown;
+
+    private GameObject _canvas;
 
 
     //-------------------------------
     private void Awake()
     {
         _spriteRenderer=gameObject.GetComponent<SpriteRenderer>();
+        _canvas = gameObject.transform.GetChild(0).GetChild(0).gameObject;
+        cooldownImage.fillAmount = 0;
+        _canvas.transform.eulerAngles = Vector3.zero;
         //It is subscribing to the event
         GameManager.OnGameStateChanged += GameManagerOnGameStateChanged;
     }
@@ -37,6 +48,7 @@ public class ButtonController : MonoBehaviour
     }
     private void GameManagerOnGameStateChanged(GameState state)
     {
+        _state = state;
         if (state == GameState.StartingYoungTurn)
         {
             InitYoung();
@@ -48,6 +60,7 @@ public class ButtonController : MonoBehaviour
     }
     private void InitYoung()
     {
+        _isActiveCooldown = false;
         StopAllCoroutines();
         if (_initYoungState)
         {
@@ -63,6 +76,7 @@ public class ButtonController : MonoBehaviour
     }
     private void InitOld()
     {
+        _isActiveCooldown = false;
         StopAllCoroutines();
         if (_initOldState)
         {
@@ -76,6 +90,18 @@ public class ButtonController : MonoBehaviour
         }
     }
     //-------------------------------
+    private void Update()
+    {
+        if (_isActiveCooldown)
+        {
+            _cooldownTime -= Time.deltaTime;
+            cooldownImage.fillAmount = _cooldownTime / _timer;
+        }
+        else
+        {
+            cooldownImage.fillAmount = 0;
+        }
+    }
 
     private void SetActive()
     {
@@ -104,25 +130,38 @@ public class ButtonController : MonoBehaviour
             }
         }
     }
+    
 
     
     public void TriggerButtom()
     {
-        StartCoroutine(TriggerButtomCor());
+        if (GameManager.Instance.IsPlayablePhase())
+        {
+            StartCoroutine(TriggerButtomCor());
+        }
     }
-    
     
     IEnumerator TriggerButtomCor()
     {
         if (!_isActive)
         {
-            SetActive();
-            //Play the click sound-----
-            FindObjectOfType<AudioManager>().Play("Click");
-            //------------------------
-            yield return new WaitForSeconds(_timer);
-            SetInactive();
+            if (_state == GameState.YoungPlayerTurn)
+            {
+                FindObjectOfType<AudioManager>().Play("Error");
+            }
+            else
+            {
+                _isActiveCooldown = true;
+                _cooldownTime = _timer;
+                SetActive();
+                //Play the click sound-----
+                FindObjectOfType<AudioManager>().Play("Click");
+                //------------------------
+                yield return new WaitForSeconds(_timer);
+                SetInactive();
+                _isActiveCooldown = false;
+
+            }
         }
-        
     }
 }

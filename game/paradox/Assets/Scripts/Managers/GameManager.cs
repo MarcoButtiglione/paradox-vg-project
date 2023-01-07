@@ -7,28 +7,23 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     public GameState State;
     public GameState PreviousGameState;
-    
+
 
     public static event Action<GameState> OnGameStateChanged;
 
-    private bool isTutorial;
-   
+    private bool _isTutorial;
+
 
     private void Awake()
     {
         Instance = this;
-        LevelManager l = LevelManager.Instance;
-        if (l)
-        {
-            isTutorial = l.IsTutorialLevel();
-        }
-        else
-        { isTutorial = false; }
+        var l = LevelManager.Instance;
+        _isTutorial = l && l.IsTutorialLevel();
     }
 
     private void Start()
     {
-        StartCoroutine("WaitToStart");
+        StartCoroutine(nameof(WaitToStart));
     }
 
     private void OnDestroy()
@@ -42,17 +37,35 @@ public class GameManager : MonoBehaviour
      */
     public void UpdateGameState(GameState newState)
     {
-        Debug.Log("Current State: " + newState + " ----- IsTutorial: " + isTutorial);
+        if (State == GameState.LevelCompleted)
+        {
+            if (newState!=GameState.StatisticsMenu)
+            {
+                return;
+            }
+        }
+        if (State == GameState.StatisticsMenu)
+        {
+            if (newState!=GameState.NextLevel)
+            {
+                return;
+            }
+        }
+        if (State == GameState.NextLevel)
+        {
+            return;
+        }
+        Debug.Log("Current State: " + newState + " ----- IsTutorial: " + _isTutorial);
 
         PreviousGameState = State;
         State = newState;
 
-        if (isTutorial)
+        if (_isTutorial)
         {
             switch (newState)
             {
                 case GameState.StartingYoungTurn:
-                        Time.timeScale = 0f;
+                    Time.timeScale = 0f;
                     break;
                 case GameState.YoungPlayerTurn:
                     Time.timeScale = 1f;
@@ -64,6 +77,7 @@ public class GameManager : MonoBehaviour
                     }
                     break;
                 case GameState.SecondPart:
+                    Time.timeScale = 1f;
                     break;
                 case GameState.StartingThirdPart:
                     GameObject.Find("DisappearingPlatform 0").GetComponent<ActivableController>().SwitchState();
@@ -72,7 +86,7 @@ public class GameManager : MonoBehaviour
                 case GameState.ThirdPart:
                     break;
                 case GameState.StartingOldTurn:
-                    Time.timeScale = 0f;
+                    //Time.timeScale = 0f;
                     break;
                 case GameState.OldPlayerTurn:
                     Time.timeScale = 1f;
@@ -84,9 +98,15 @@ public class GameManager : MonoBehaviour
                 case GameState.GameOverMenu:
                     break;
                 case GameState.LevelCompleted:
-                    UpdateGameState(GameState.NextLevel);
+                    Time.timeScale = 0f;
+                    GameObject.Find("Door").GetComponent<Animator>().SetTrigger("Close");
+                    StartCoroutine("WaitToCloseDoor");
+                    break;
+                case GameState.StatisticsMenu:
+                    Time.timeScale = 0f;
                     break;
                 case GameState.NextLevel:
+                    Time.timeScale = 0f;
                     LevelManager.Instance.PlayNextLevel();
                     break;
                 default:
@@ -98,17 +118,13 @@ public class GameManager : MonoBehaviour
             switch (newState)
             {
                 case GameState.StartingYoungTurn:
-                    
-                        Time.timeScale = 0f;
+
+                    Time.timeScale = 0f;
                     break;
                 case GameState.YoungPlayerTurn:
                     Time.timeScale = 1f;
                     break;
                 case GameState.StartingOldTurn:
-                    if (PreviousGameState != GameState.YoungPlayerTurn)
-                    {
-                        Time.timeScale = 0f;
-                    }
                     break;
                 case GameState.OldPlayerTurn:
                     Time.timeScale = 1f;
@@ -120,9 +136,15 @@ public class GameManager : MonoBehaviour
                 case GameState.GameOverMenu:
                     break;
                 case GameState.LevelCompleted:
-                    UpdateGameState(GameState.NextLevel);
+                    Time.timeScale = 0f;
+                    GameObject.Find("Door").GetComponent<Animator>().SetTrigger("Close");
+                    StartCoroutine("WaitToCloseDoor");
+                    break;
+                case GameState.StatisticsMenu:
+                    Time.timeScale = 0f;
                     break;
                 case GameState.NextLevel:
+                    Time.timeScale = 0f;
                     LevelManager.Instance.PlayNextLevel();
                     break;
                 default:
@@ -150,13 +172,30 @@ public class GameManager : MonoBehaviour
 
     public bool IsTutorial()
     {
-        return isTutorial;
+        return _isTutorial;
     }
 
-    IEnumerator WaitToStart(){
-    yield return new WaitForSecondsRealtime(0.1f);
-    UpdateGameState(GameState.StartingYoungTurn);
+    IEnumerator WaitToStart()
+    {
+        yield return new WaitForSecondsRealtime(0.1f);
+        UpdateGameState(GameState.StartingYoungTurn);
+        LevelManager.Instance.GetStats(this.GetComponent<Statistics>());
     }
+    IEnumerator WaitToCloseDoor()
+    {
+        yield return new WaitForSecondsRealtime(1f);
+        UpdateGameState(GameState.StatisticsMenu);
+    }
+    
+    public bool IsPlayablePhase()
+    {
+        if (State is GameState.YoungPlayerTurn or GameState.SecondPart or GameState.ThirdPart or GameState.OldPlayerTurn)
+        {
+            return true;
+        }
+        return false;
+    }
+
 
 
 }
@@ -170,17 +209,21 @@ public enum GameState
 
     StartingSecondPart,
     SecondPart,
-    ThirdPart,
+
     StartingThirdPart,
+    ThirdPart,
 
     StartingOldTurn,
     OldPlayerTurn,
+
     Paradox,
 
     PauseMenu,
     GameOverMenu,
     LevelCompleted,
+    StatisticsMenu,
     NextLevel
 }
+
 
 

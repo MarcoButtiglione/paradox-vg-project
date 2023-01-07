@@ -18,7 +18,7 @@ public class LeverControllerTutorial : MonoBehaviour
 
     [SerializeField] private GameObject questionMarks;
 
-    private bool _firstTime = true;
+    private bool _firstTime=true;
     private bool _isActive=false;
     
     //-------------------------------
@@ -36,10 +36,12 @@ public class LeverControllerTutorial : MonoBehaviour
     {
         if (state == GameState.StartingYoungTurn)
         {
+            _firstTime = true;
             InitYoung();
         }
         if (state == GameState.StartingOldTurn)
         {
+            _firstTime = true;
             InitOld();
         }
     }
@@ -105,13 +107,16 @@ public class LeverControllerTutorial : MonoBehaviour
     {
         if (GameManager.Instance.State == GameState.SecondPart)
         {
-            questionMarks.SetActive(true);
-            AudioManager a = FindObjectOfType<AudioManager>();
-            if (a)
-                a.Play("Click");
-
-            StartCoroutine(activatePlatform());
-
+            if (_firstTime)
+            {
+                _firstTime = false;
+                questionMarks.SetActive(true);
+                AudioManager a = FindObjectOfType<AudioManager>(); 
+                if (a) 
+                    a.Play("Click");
+                
+                StartCoroutine(activatePlatform());
+            }
         }
         else
         {
@@ -134,7 +139,6 @@ public class LeverControllerTutorial : MonoBehaviour
 
     IEnumerator activatePlatform()
     {
-        //TODO
         //Activate canvas in second part 
 
         _isActive = !_isActive;
@@ -148,28 +152,11 @@ public class LeverControllerTutorial : MonoBehaviour
         }
 
         yield return new WaitForSecondsRealtime(2.3f);
-        /*
 
-        _isActive = !_isActive;
-        if (_isActive)
-        {
-             SetActive();
-        }
-        else
-        {
-            SetInactive();
-        }
-        */ 
-        
         questionMarks.SetActive(false);
-
-        if (_firstTime)
-        {
-            _firstTime = false;
-            GameManager.Instance.UpdateGameState(GameState.StartingOldTurn);
-        }
         
-
+        GameManager.Instance.UpdateGameState(GameState.StartingOldTurn);
+        
     }
    
 }

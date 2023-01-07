@@ -10,11 +10,16 @@ public class TutorialCanvasController : MonoBehaviour
     [SerializeField] private GameObject _thirdPart;
     [SerializeField] private GameObject _forthPart;
     [SerializeField] private GameObject questionMarks;
+
+    [SerializeField] private GameObject[] keyboardTips;
+    [SerializeField] private GameObject[] gamepadTips;
+    
     //Event managment 
     private void Awake()
     {
         //It is subscribing to the event
         GameManager.OnGameStateChanged += GameManagerOnGameStateChanged;
+        InputManager.OnChangedInputDevice += InputManagerOnChangedInputDevice;
         
     }
 
@@ -25,11 +30,40 @@ public class TutorialCanvasController : MonoBehaviour
         _thirdPart.SetActive(false);
         _forthPart.SetActive(false);
     }
+    private void InputManagerOnChangedInputDevice(DeviceUsed obj)
+    {
+        switch (obj)
+        {
+            case DeviceUsed.Gamepad:
+                foreach (var o in keyboardTips)
+                {
+                    o.SetActive(false);
+                }
+                foreach (var o in gamepadTips)
+                {
+                    o.SetActive(true);
+                }
+               
+                break;
+            case DeviceUsed.Keyboard:
+                foreach (var o in keyboardTips)
+                {
+                    o.SetActive(true);
+                }
+                foreach (var o in gamepadTips)
+                {
+                    o.SetActive(false);
+                }
+                break;
+        }
+        
+    }
 
     private void OnDestroy()
     {
         //It is unsubscribing to the event
         GameManager.OnGameStateChanged -= GameManagerOnGameStateChanged;
+        InputManager.OnChangedInputDevice -= InputManagerOnChangedInputDevice;
     }
     private void GameManagerOnGameStateChanged(GameState state)
     {

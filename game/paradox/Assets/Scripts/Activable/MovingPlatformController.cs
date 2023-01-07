@@ -25,13 +25,15 @@ public class MovingPlatformController : MonoBehaviour
      [SerializeField] private Sprite _spriteStoppedIfInactive;
      private SpriteRenderer _spriteRenderer;
      private Collider2D _collider2D;
+     private Collider2D _colliderSticky;
      
      
      //-------------------------------
      private void Awake()
      { 
          _spriteRenderer=_platform.GetComponent<SpriteRenderer>();
-         _collider2D = _platform.GetComponent<Collider2D>();
+         _collider2D = _platform.GetComponents<Collider2D>()[0];
+         _colliderSticky = _platform.GetComponents<Collider2D>()[1];
 
          if (_function==MovingFunctioning.DisappearedIfInactive)
          {
@@ -144,12 +146,10 @@ public class MovingPlatformController : MonoBehaviour
               _platformPosition = Vector2.MoveTowards(_platformPosition,
                     _waypoints[_currentWaypointIndex].transform.position, Time.fixedDeltaTime * speed);
           }
+           _platform.transform.position = _platformPosition;
      }
 
-     private void Update()
-     {
-         _platform.transform.position = _platformPosition;
-     }
+     
 
      public void SwitchState()
      {
@@ -176,12 +176,14 @@ public class MovingPlatformController : MonoBehaviour
      {
          _spriteRenderer.sprite = _spriteOnDisappearedIfInactive;
          _collider2D.enabled = true;
+         _colliderSticky.enabled = true;
          _isActive = true;
      }
      private void SetInactive()
      {
          _spriteRenderer.sprite = _spriteOffDisappearedIfInactive;
          _collider2D.enabled = false;
+         _colliderSticky.enabled = false;
          _isActive = false;
      }
 }
