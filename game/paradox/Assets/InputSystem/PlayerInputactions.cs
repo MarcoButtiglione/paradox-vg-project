@@ -123,7 +123,7 @@ public partial class @PlayerInputactions : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""6f8b8a18-5fcd-489b-aa5f-c43011ff50a0"",
-                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
@@ -148,7 +148,18 @@ public partial class @PlayerInputactions : IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6dfb0b73-5035-4cdf-8077-a663d645da77"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -363,7 +374,7 @@ public partial class @PlayerInputactions : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""247e7921-93e5-4814-a077-662d2b88b0bd"",
-                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
@@ -386,6 +397,17 @@ public partial class @PlayerInputactions : IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""b2197fa7-4530-4c34-b65c-aa3c905f2911"",
                     ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f3a0e8d3-6ec2-4908-9f6a-8d982816d9f0"",
+                    ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
